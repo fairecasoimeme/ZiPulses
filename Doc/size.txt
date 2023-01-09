@@ -1,0 +1,975 @@
+12/21/20 18:21:49
+   text	   data	    bss	    dec	    hex	filename
+ 167312	   1584	  17616	 186512	  2d890	../../../Binaries/LightSensor_OM15081R2/LightSensor_OM15081R2.axf
+ retain   spare      kb           banks filename
+  15080    1304      16        -----567 ../../../Binaries/LightSensor_OM15081R2/LightSensor_OM15081R2.map
+12/21/20 18:23:53
+   text	   data	    bss	    dec	    hex	filename
+ 191776	   1744	  19984	 213504	  34200	../../../Binaries/LightSensor_NtagIcode_Ota_OM15081R2/LightSensor_NtagIcode_Ota_OM15081R2.axf
+ retain   spare      kb           banks filename
+  17480    7096      24        ----4567 ../../../Binaries/LightSensor_NtagIcode_Ota_OM15081R2/LightSensor_NtagIcode_Ota_OM15081R2.map
+12/21/20 18:25:21
+   text	   data	    bss	    dec	    hex	filename
+ 168920	   1688	  18160	 188768	  2e160	../../../Binaries/LTOSensor_OM15081R2/LTOSensor_OM15081R2.axf
+ retain   spare      kb           banks filename
+  15736     648      16        -----567 ../../../Binaries/LTOSensor_OM15081R2/LTOSensor_OM15081R2.map
+12/21/20 18:26:40
+   text	   data	    bss	    dec	    hex	filename
+ 193200	   1856	  20512	 215568	  34a10	../../../Binaries/LTOSensor_NtagIcode_Ota_OM15081R2/LTOSensor_NtagIcode_Ota_OM15081R2.axf
+ retain   spare      kb           banks filename
+  18120    6456      24        ----4567 ../../../Binaries/LTOSensor_NtagIcode_Ota_OM15081R2/LTOSensor_NtagIcode_Ota_OM15081R2.map
+12/21/20 18:27:51
+   text	   data	    bss	    dec	    hex	filename
+ 170244	   1596	  17600	 189440	  2e400	../../../Binaries/OccupancySensor_OM15082/OccupancySensor_OM15082.axf
+ retain   spare      kb           banks filename
+  15080    1304      16        -----567 ../../../Binaries/OccupancySensor_OM15082/OccupancySensor_OM15082.map
+12/21/20 18:29:06
+   text	   data	    bss	    dec	    hex	filename
+ 195580	   1748	  19968	 217296	  350d0	../../../Binaries/OccupancySensor_NtagIcode_Ota_OM15082/OccupancySensor_NtagIcode_Ota_OM15082.axf
+ retain   spare      kb           banks filename
+  17480    7096      24        ----4567 ../../../Binaries/OccupancySensor_NtagIcode_Ota_OM15082/OccupancySensor_NtagIcode_Ota_OM15082.map
+11/08/22 10:35:23
+   text	   data	    bss	    dec	    hex	filename
+ 172272	   1600	  18176	 192048	  2ee30	../../../Binaries/OccupancySensor_OM15082/OccupancySensor_OM15082.axf
+11/08/22 10:44:40
+   text	   data	    bss	    dec	    hex	filename
+ 172272	   1600	  18176	 192048	  2ee30	../../../Binaries/OccupancySensor_OM15082/OccupancySensor_OM15082.axf
+11/08/22 11:17:04
+   text	   data	    bss	    dec	    hex	filename
+ 172100	   1596	  18176	 191872	  2ed80	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 11:22:53
+   text	   data	    bss	    dec	    hex	filename
+ 172100	   1596	  18176	 191872	  2ed80	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 11:25:33
+   text	   data	    bss	    dec	    hex	filename
+ 172100	   1596	  18176	 191872	  2ed80	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 11:48:04
+   text	   data	    bss	    dec	    hex	filename
+ 172100	   1596	  18176	 191872	  2ed80	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 11:51:49
+   text	   data	    bss	    dec	    hex	filename
+ 172100	   1596	  18176	 191872	  2ed80	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:11:02
+   text	   data	    bss	    dec	    hex	filename
+ 172140	   1588	  18176	 191904	  2eda0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:14:46
+   text	   data	    bss	    dec	    hex	filename
+ 172152	   1592	  18176	 191920	  2edb0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:21:34
+   text	   data	    bss	    dec	    hex	filename
+ 172088	   1592	  18176	 191856	  2ed70	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:27:26
+   text	   data	    bss	    dec	    hex	filename
+ 171976	   1592	  18176	 191744	  2ed00	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:29:06
+   text	   data	    bss	    dec	    hex	filename
+ 173208	   1592	  18176	 192976	  2f1d0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:35:02
+   text	   data	    bss	    dec	    hex	filename
+ 173208	   1592	  18176	 192976	  2f1d0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 14:45:36
+   text	   data	    bss	    dec	    hex	filename
+ 173340	   1588	  18176	 193104	  2f250	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:01:41
+   text	   data	    bss	    dec	    hex	filename
+ 173532	   1588	  18176	 193296	  2f310	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:04:05
+   text	   data	    bss	    dec	    hex	filename
+ 173400	   1592	  18176	 193168	  2f290	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:04:38
+   text	   data	    bss	    dec	    hex	filename
+ 173272	   1592	  18176	 193040	  2f210	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:20:59
+   text	   data	    bss	    dec	    hex	filename
+ 173272	   1592	  18176	 193040	  2f210	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:38:21
+   text	   data	    bss	    dec	    hex	filename
+ 173732	   1596	  18188	 193516	  2f3ec	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:41:32
+   text	   data	    bss	    dec	    hex	filename
+ 173732	   1596	  18188	 193516	  2f3ec	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:50:25
+   text	   data	    bss	    dec	    hex	filename
+ 173988	   1596	  18172	 193756	  2f4dc	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:56:21
+   text	   data	    bss	    dec	    hex	filename
+ 173988	   1596	  18172	 193756	  2f4dc	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 15:59:03
+   text	   data	    bss	    dec	    hex	filename
+ 173988	   1596	  18172	 193756	  2f4dc	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:00:43
+   text	   data	    bss	    dec	    hex	filename
+ 173988	   1596	  18172	 193756	  2f4dc	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:01:35
+   text	   data	    bss	    dec	    hex	filename
+ 173988	   1596	  18172	 193756	  2f4dc	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:21:46
+   text	   data	    bss	    dec	    hex	filename
+ 174244	   1596	  18172	 194012	  2f5dc	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:30:09
+   text	   data	    bss	    dec	    hex	filename
+ 173664	   1600	  18176	 193440	  2f3a0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:33:10
+   text	   data	    bss	    dec	    hex	filename
+ 173664	   1600	  18176	 193440	  2f3a0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:33:31
+   text	   data	    bss	    dec	    hex	filename
+ 173664	   1600	  18176	 193440	  2f3a0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:34:46
+   text	   data	    bss	    dec	    hex	filename
+ 173600	   1600	  18176	 193376	  2f360	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:40:19
+   text	   data	    bss	    dec	    hex	filename
+ 173892	   1596	  18176	 193664	  2f480	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:45:38
+   text	   data	    bss	    dec	    hex	filename
+ 173700	   1596	  18176	 193472	  2f3c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 16:47:35
+   text	   data	    bss	    dec	    hex	filename
+ 173700	   1596	  18176	 193472	  2f3c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:05:41
+   text	   data	    bss	    dec	    hex	filename
+ 172752	   1600	  18176	 192528	  2f010	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:11:13
+   text	   data	    bss	    dec	    hex	filename
+ 173472	   1600	  18176	 193248	  2f2e0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:18:06
+   text	   data	    bss	    dec	    hex	filename
+ 173196	   1588	  18176	 192960	  2f1c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:20:14
+   text	   data	    bss	    dec	    hex	filename
+ 173196	   1588	  18176	 192960	  2f1c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:21:39
+   text	   data	    bss	    dec	    hex	filename
+ 173472	   1600	  18176	 193248	  2f2e0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:23:22
+   text	   data	    bss	    dec	    hex	filename
+ 173700	   1596	  18176	 193472	  2f3c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:24:30
+   text	   data	    bss	    dec	    hex	filename
+ 173700	   1596	  18176	 193472	  2f3c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:34:56
+   text	   data	    bss	    dec	    hex	filename
+ 173636	   1596	  18176	 193408	  2f380	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:40:53
+   text	   data	    bss	    dec	    hex	filename
+ 173420	   1588	  18176	 193184	  2f2a0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:43:09
+   text	   data	    bss	    dec	    hex	filename
+ 173636	   1596	  18176	 193408	  2f380	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 17:49:11
+   text	   data	    bss	    dec	    hex	filename
+ 173636	   1596	  18176	 193408	  2f380	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 19:10:01
+   text	   data	    bss	    dec	    hex	filename
+ 173636	   1596	  18176	 193408	  2f380	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 19:16:24
+   text	   data	    bss	    dec	    hex	filename
+ 173572	   1596	  18176	 193344	  2f340	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 19:18:17
+   text	   data	    bss	    dec	    hex	filename
+ 173636	   1596	  18176	 193408	  2f380	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 19:23:34
+   text	   data	    bss	    dec	    hex	filename
+ 173688	   1592	  18176	 193456	  2f3b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 19:43:45
+   text	   data	    bss	    dec	    hex	filename
+ 173688	   1592	  18176	 193456	  2f3b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/08/22 20:08:56
+   text	   data	    bss	    dec	    hex	filename
+ 173716	   1596	  18176	 193488	  2f3d0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 09:57:18
+   text	   data	    bss	    dec	    hex	filename
+ 173168	   1568	  18208	 192944	  2f1b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 10:00:48
+   text	   data	    bss	    dec	    hex	filename
+ 173232	   1568	  18208	 193008	  2f1f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 11:23:22
+   text	   data	    bss	    dec	    hex	filename
+ 173232	   1568	  18208	 193008	  2f1f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 11:25:37
+   text	   data	    bss	    dec	    hex	filename
+ 173232	   1568	  18208	 193008	  2f1f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 11:35:48
+   text	   data	    bss	    dec	    hex	filename
+ 173232	   1568	  18208	 193008	  2f1f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 11:44:14
+   text	   data	    bss	    dec	    hex	filename
+ 173144	   1560	  18208	 192912	  2f190	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 12:00:23
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 12:22:30
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 12:23:55
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/09/22 12:28:37
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 09:06:57
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 09:15:08
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 14:45:37
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:04:34
+   text	   data	    bss	    dec	    hex	filename
+ 172236	   1556	  18208	 192000	  2ee00	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:07:13
+   text	   data	    bss	    dec	    hex	filename
+ 172860	   1556	  18208	 192624	  2f070	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:08:45
+   text	   data	    bss	    dec	    hex	filename
+ 172860	   1556	  18208	 192624	  2f070	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:10:54
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:17:43
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:22:50
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:24:36
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:28:56
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:30:34
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:34:30
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:34:48
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:47:46
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:50:03
+   text	   data	    bss	    dec	    hex	filename
+ 172980	   1564	  18208	 192752	  2f0f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 15:58:00
+   text	   data	    bss	    dec	    hex	filename
+ 173036	   1556	  18208	 192800	  2f120	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 16:00:23
+   text	   data	    bss	    dec	    hex	filename
+ 173036	   1556	  18208	 192800	  2f120	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 16:03:21
+   text	   data	    bss	    dec	    hex	filename
+ 173036	   1556	  18208	 192800	  2f120	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 16:05:00
+   text	   data	    bss	    dec	    hex	filename
+ 173036	   1556	  18208	 192800	  2f120	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 16:17:02
+   text	   data	    bss	    dec	    hex	filename
+ 172948	   1564	  18208	 192720	  2f0d0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 16:32:49
+   text	   data	    bss	    dec	    hex	filename
+ 173104	   1568	  18208	 192880	  2f170	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 17:26:21
+   text	   data	    bss	    dec	    hex	filename
+ 173104	   1568	  18208	 192880	  2f170	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 17:32:53
+   text	   data	    bss	    dec	    hex	filename
+ 173040	   1568	  18208	 192816	  2f130	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 17:35:02
+   text	   data	    bss	    dec	    hex	filename
+ 173040	   1568	  18208	 192816	  2f130	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 17:37:42
+   text	   data	    bss	    dec	    hex	filename
+ 173040	   1568	  18208	 192816	  2f130	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 17:42:47
+   text	   data	    bss	    dec	    hex	filename
+ 173068	   1556	  18208	 192832	  2f140	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/10/22 17:44:31
+   text	   data	    bss	    dec	    hex	filename
+ 173068	   1556	  18208	 192832	  2f140	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 11:15:46
+   text	   data	    bss	    dec	    hex	filename
+ 173192	   1560	  18208	 192960	  2f1c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 11:16:21
+   text	   data	    bss	    dec	    hex	filename
+ 173192	   1560	  18208	 192960	  2f1c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 11:25:29
+   text	   data	    bss	    dec	    hex	filename
+ 172972	   1556	  18208	 192736	  2f0e0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 11:35:40
+   text	   data	    bss	    dec	    hex	filename
+ 173164	   1556	  18208	 192928	  2f1a0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 11:39:56
+   text	   data	    bss	    dec	    hex	filename
+ 173164	   1556	  18208	 192928	  2f1a0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 12:10:29
+   text	   data	    bss	    dec	    hex	filename
+ 173192	   1560	  18208	 192960	  2f1c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:30:51
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:37:12
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:43:30
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:44:12
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:46:06
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:49:44
+   text	   data	    bss	    dec	    hex	filename
+ 173320	   1560	  18208	 193088	  2f240	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:52:03
+   text	   data	    bss	    dec	    hex	filename
+ 173320	   1560	  18208	 193088	  2f240	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:53:27
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 15:58:45
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:02:39
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:06:26
+   text	   data	    bss	    dec	    hex	filename
+ 173356	   1556	  18208	 193120	  2f260	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:11:52
+   text	   data	    bss	    dec	    hex	filename
+ 173356	   1556	  18208	 193120	  2f260	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:14:26
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:16:57
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:18:12
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:20:19
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:23:56
+   text	   data	    bss	    dec	    hex	filename
+ 173356	   1556	  18208	 193120	  2f260	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:25:06
+   text	   data	    bss	    dec	    hex	filename
+ 173356	   1556	  18208	 193120	  2f260	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:32:58
+   text	   data	    bss	    dec	    hex	filename
+ 173356	   1556	  18208	 193120	  2f260	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:34:43
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:39:00
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:44:25
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:46:14
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:47:36
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 16:53:48
+   text	   data	    bss	    dec	    hex	filename
+ 173292	   1556	  18208	 193056	  2f220	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:02:37
+   text	   data	    bss	    dec	    hex	filename
+ 173192	   1560	  18208	 192960	  2f1c0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:04:29
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:14:25
+   text	   data	    bss	    dec	    hex	filename
+ 173256	   1560	  18208	 193024	  2f200	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:14:55
+   text	   data	    bss	    dec	    hex	filename
+ 173128	   1560	  18208	 192896	  2f180	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:17:18
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:21:07
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:22:51
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/11/22 17:23:45
+   text	   data	    bss	    dec	    hex	filename
+ 172996	   1564	  18208	 192768	  2f100	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+11/14/22 15:05:20
+   text	   data	    bss	    dec	    hex	filename
+ 186044	   1700	  19472	 207216	  32970	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/14/22 15:56:17
+   text	   data	    bss	    dec	    hex	filename
+ 186708	   1708	  19472	 207888	  32c10	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/14/22 15:58:16
+   text	   data	    bss	    dec	    hex	filename
+ 186708	   1708	  19472	 207888	  32c10	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/14/22 15:58:33
+   text	   data	    bss	    dec	    hex	filename
+ 186708	   1708	  19472	 207888	  32c10	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/14/22 16:00:31
+   text	   data	    bss	    dec	    hex	filename
+ 186708	   1708	  19472	 207888	  32c10	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 10:19:40
+   text	   data	    bss	    dec	    hex	filename
+ 186740	   1708	  19472	 207920	  32c30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 10:23:40
+   text	   data	    bss	    dec	    hex	filename
+ 186740	   1708	  19472	 207920	  32c30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 10:28:12
+   text	   data	    bss	    dec	    hex	filename
+ 192028	   1700	  19472	 213200	  340d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 10:31:43
+   text	   data	    bss	    dec	    hex	filename
+ 191908	   1708	  19472	 213088	  34060	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 10:32:45
+   text	   data	    bss	    dec	    hex	filename
+ 191908	   1708	  19472	 213088	  34060	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 10:35:03
+   text	   data	    bss	    dec	    hex	filename
+ 191908	   1708	  19472	 213088	  34060	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:19:56
+   text	   data	    bss	    dec	    hex	filename
+ 191908	   1708	  19472	 213088	  34060	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:26:22
+   text	   data	    bss	    dec	    hex	filename
+ 191992	   1704	  19488	 213184	  340c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:27:06
+   text	   data	    bss	    dec	    hex	filename
+ 192120	   1704	  19488	 213312	  34140	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:33:14
+   text	   data	    bss	    dec	    hex	filename
+ 192120	   1704	  19488	 213312	  34140	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:38:13
+   text	   data	    bss	    dec	    hex	filename
+ 192120	   1704	  19488	 213312	  34140	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:42:13
+   text	   data	    bss	    dec	    hex	filename
+ 192308	   1708	  19488	 213504	  34200	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:43:53
+   text	   data	    bss	    dec	    hex	filename
+ 192272	   1712	  19488	 213472	  341e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:52:14
+   text	   data	    bss	    dec	    hex	filename
+ 192272	   1712	  19472	 213456	  341d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 11:53:29
+   text	   data	    bss	    dec	    hex	filename
+ 192272	   1712	  19472	 213456	  341d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:11:54
+   text	   data	    bss	    dec	    hex	filename
+ 192272	   1712	  19472	 213456	  341d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:12:12
+   text	   data	    bss	    dec	    hex	filename
+ 192272	   1712	  19472	 213456	  341d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:13:29
+   text	   data	    bss	    dec	    hex	filename
+ 192272	   1712	  19472	 213456	  341d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:21:09
+   text	   data	    bss	    dec	    hex	filename
+ 191908	   1708	  19472	 213088	  34060	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:24:50
+   text	   data	    bss	    dec	    hex	filename
+ 191908	   1708	  19472	 213088	  34060	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:30:01
+   text	   data	    bss	    dec	    hex	filename
+ 192240	   1712	  19472	 213424	  341b0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:34:59
+   text	   data	    bss	    dec	    hex	filename
+ 192240	   1712	  19472	 213424	  341b0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:40:42
+   text	   data	    bss	    dec	    hex	filename
+ 192240	   1712	  19472	 213424	  341b0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:48:08
+   text	   data	    bss	    dec	    hex	filename
+ 192240	   1712	  19472	 213424	  341b0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 13:51:03
+   text	   data	    bss	    dec	    hex	filename
+ 192176	   1712	  19472	 213360	  34170	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:05:52
+   text	   data	    bss	    dec	    hex	filename
+ 192176	   1712	  19472	 213360	  34170	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:07:01
+   text	   data	    bss	    dec	    hex	filename
+ 192176	   1712	  19472	 213360	  34170	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:08:15
+   text	   data	    bss	    dec	    hex	filename
+ 192176	   1712	  19472	 213360	  34170	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:13:29
+   text	   data	    bss	    dec	    hex	filename
+ 192176	   1712	  19472	 213360	  34170	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:44:35
+   text	   data	    bss	    dec	    hex	filename
+ 193252	   1708	  19472	 214432	  345a0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:45:47
+   text	   data	    bss	    dec	    hex	filename
+ 193292	   1700	  19472	 214464	  345c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:47:22
+   text	   data	    bss	    dec	    hex	filename
+ 193280	   1712	  19472	 214464	  345c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:48:28
+   text	   data	    bss	    dec	    hex	filename
+ 193280	   1712	  19472	 214464	  345c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/15/22 14:49:49
+   text	   data	    bss	    dec	    hex	filename
+ 193280	   1712	  19472	 214464	  345c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 14:22:13
+   text	   data	    bss	    dec	    hex	filename
+ 193104	   1696	  19424	 214224	  344d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 14:32:43
+   text	   data	    bss	    dec	    hex	filename
+ 193608	   1720	  19424	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 14:54:30
+   text	   data	    bss	    dec	    hex	filename
+ 192900	   1724	  19600	 214224	  344d0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:12:26
+   text	   data	    bss	    dec	    hex	filename
+ 193036	   1716	  19616	 214368	  34560	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:16:46
+   text	   data	    bss	    dec	    hex	filename
+ 193036	   1716	  19616	 214368	  34560	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:34:48
+   text	   data	    bss	    dec	    hex	filename
+ 193420	   1716	  19616	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:39:42
+   text	   data	    bss	    dec	    hex	filename
+ 193420	   1716	  19616	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:44:14
+   text	   data	    bss	    dec	    hex	filename
+ 193420	   1716	  19616	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:47:42
+   text	   data	    bss	    dec	    hex	filename
+ 193420	   1716	  19616	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:49:40
+   text	   data	    bss	    dec	    hex	filename
+ 193420	   1716	  19616	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 18:51:26
+   text	   data	    bss	    dec	    hex	filename
+ 193420	   1716	  19616	 214752	  346e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+11/30/22 19:01:39
+   text	   data	    bss	    dec	    hex	filename
+ 193532	   1716	  19616	 214864	  34750	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 17:32:06
+   text	   data	    bss	    dec	    hex	filename
+ 193632	   1728	  19616	 214976	  347c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 17:35:36
+   text	   data	    bss	    dec	    hex	filename
+ 193792	   1728	  19616	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 17:37:48
+   text	   data	    bss	    dec	    hex	filename
+ 193792	   1728	  19616	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 17:41:18
+   text	   data	    bss	    dec	    hex	filename
+ 193776	   1728	  19616	 215120	  34850	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 17:44:37
+   text	   data	    bss	    dec	    hex	filename
+ 193796	   1724	  19616	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 17:47:02
+   text	   data	    bss	    dec	    hex	filename
+ 193796	   1724	  19616	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 18:01:51
+   text	   data	    bss	    dec	    hex	filename
+ 193820	   1716	  19616	 215152	  34870	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 18:08:18
+   text	   data	    bss	    dec	    hex	filename
+ 193820	   1716	  19616	 215152	  34870	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 18:16:21
+   text	   data	    bss	    dec	    hex	filename
+ 193812	   1724	  19616	 215152	  34870	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/01/22 18:28:21
+   text	   data	    bss	    dec	    hex	filename
+ 193604	   1724	  19616	 214944	  347a0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:05:53
+   text	   data	    bss	    dec	    hex	filename
+ 193612	   1716	  19616	 214944	  347a0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:31:05
+   text	   data	    bss	    dec	    hex	filename
+ 193704	   1720	  19616	 215040	  34800	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:34:33
+   text	   data	    bss	    dec	    hex	filename
+ 193704	   1720	  19616	 215040	  34800	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:36:35
+   text	   data	    bss	    dec	    hex	filename
+ 193752	   1720	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:38:52
+   text	   data	    bss	    dec	    hex	filename
+ 193752	   1720	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:42:21
+   text	   data	    bss	    dec	    hex	filename
+ 193752	   1720	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:47:09
+   text	   data	    bss	    dec	    hex	filename
+ 193752	   1720	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:51:46
+   text	   data	    bss	    dec	    hex	filename
+ 193752	   1720	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:52:15
+   text	   data	    bss	    dec	    hex	filename
+ 193752	   1720	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:58:30
+   text	   data	    bss	    dec	    hex	filename
+ 193748	   1724	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/02/22 15:58:52
+   text	   data	    bss	    dec	    hex	filename
+ 193748	   1724	  19664	 215136	  34860	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 11:31:33
+   text	   data	    bss	    dec	    hex	filename
+ 193584	   1728	  19664	 214976	  347c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 11:32:16
+   text	   data	    bss	    dec	    hex	filename
+ 193584	   1728	  19664	 214976	  347c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 11:45:52
+   text	   data	    bss	    dec	    hex	filename
+ 193584	   1760	  19632	 214976	  347c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 11:46:55
+   text	   data	    bss	    dec	    hex	filename
+ 193584	   1760	  19632	 214976	  347c0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 11:56:05
+   text	   data	    bss	    dec	    hex	filename
+ 193764	   1756	  19632	 215152	  34870	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:02:34
+   text	   data	    bss	    dec	    hex	filename
+ 193880	   1752	  19632	 215264	  348e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:06:13
+   text	   data	    bss	    dec	    hex	filename
+ 193880	   1752	  19632	 215264	  348e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:25:50
+   text	   data	    bss	    dec	    hex	filename
+ 193880	   1752	  19632	 215264	  348e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:33:14
+   text	   data	    bss	    dec	    hex	filename
+ 193880	   1752	  19632	 215264	  348e0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:40:42
+   text	   data	    bss	    dec	    hex	filename
+ 193880	   1784	  19632	 215296	  34900	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:44:32
+   text	   data	    bss	    dec	    hex	filename
+ 193880	   1784	  19632	 215296	  34900	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 12:47:48
+   text	   data	    bss	    dec	    hex	filename
+ 193944	   1784	  19744	 215472	  349b0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 13:05:32
+   text	   data	    bss	    dec	    hex	filename
+ 194008	   1784	  19744	 215536	  349f0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 13:06:51
+   text	   data	    bss	    dec	    hex	filename
+ 194008	   1784	  19744	 215536	  349f0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 13:09:12
+   text	   data	    bss	    dec	    hex	filename
+ 194008	   1784	  19744	 215536	  349f0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 14:38:44
+   text	   data	    bss	    dec	    hex	filename
+ 194056	   1784	  19744	 215584	  34a20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 14:42:33
+   text	   data	    bss	    dec	    hex	filename
+ 194060	   1780	  19744	 215584	  34a20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 15:03:58
+   text	   data	    bss	    dec	    hex	filename
+ 194104	   1784	  19744	 215632	  34a50	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 15:18:51
+   text	   data	    bss	    dec	    hex	filename
+ 194116	   1788	  19744	 215648	  34a60	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 15:22:24
+   text	   data	    bss	    dec	    hex	filename
+ 194140	   1780	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 15:27:41
+   text	   data	    bss	    dec	    hex	filename
+ 194128	   1792	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 15:59:30
+   text	   data	    bss	    dec	    hex	filename
+ 194072	   1784	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:03:44
+   text	   data	    bss	    dec	    hex	filename
+ 194072	   1784	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:05:32
+   text	   data	    bss	    dec	    hex	filename
+ 194072	   1784	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:07:39
+   text	   data	    bss	    dec	    hex	filename
+ 194072	   1784	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:19:39
+   text	   data	    bss	    dec	    hex	filename
+ 194064	   1792	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:32:11
+   text	   data	    bss	    dec	    hex	filename
+ 194064	   1792	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:33:17
+   text	   data	    bss	    dec	    hex	filename
+ 194064	   1792	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:34:23
+   text	   data	    bss	    dec	    hex	filename
+ 194064	   1792	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:35:27
+   text	   data	    bss	    dec	    hex	filename
+ 194064	   1792	  19744	 215600	  34a30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/09/22 16:41:29
+   text	   data	    bss	    dec	    hex	filename
+ 194128	   1792	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/10/22 14:40:24
+   text	   data	    bss	    dec	    hex	filename
+ 194128	   1792	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/10/22 16:08:35
+   text	   data	    bss	    dec	    hex	filename
+ 194128	   1792	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/10/22 16:11:22
+   text	   data	    bss	    dec	    hex	filename
+ 194128	   1792	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/11/22 15:35:54
+   text	   data	    bss	    dec	    hex	filename
+ 194128	   1792	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/12/22 15:03:59
+   text	   data	    bss	    dec	    hex	filename
+ 194176	   1792	  19744	 215712	  34aa0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/12/22 15:05:29
+   text	   data	    bss	    dec	    hex	filename
+ 194176	   1792	  19744	 215712	  34aa0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/13/22 14:11:34
+   text	   data	    bss	    dec	    hex	filename
+ 194112	   1792	  19744	 215648	  34a60	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:12:58
+   text	   data	    bss	    dec	    hex	filename
+ 194112	   1792	  19744	 215648	  34a60	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:13:36
+   text	   data	    bss	    dec	    hex	filename
+ 194112	   1792	  19744	 215648	  34a60	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:45:17
+   text	   data	    bss	    dec	    hex	filename
+ 194176	   1792	  19744	 215712	  34aa0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:47:46
+   text	   data	    bss	    dec	    hex	filename
+ 194176	   1792	  19744	 215712	  34aa0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:53:19
+   text	   data	    bss	    dec	    hex	filename
+ 194176	   1792	  19744	 215712	  34aa0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:56:31
+   text	   data	    bss	    dec	    hex	filename
+ 194176	   1792	  19744	 215712	  34aa0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 15:59:21
+   text	   data	    bss	    dec	    hex	filename
+ 194208	   1792	  19744	 215744	  34ac0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:00:50
+   text	   data	    bss	    dec	    hex	filename
+ 194208	   1792	  19744	 215744	  34ac0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:03:46
+   text	   data	    bss	    dec	    hex	filename
+ 194256	   1792	  19744	 215792	  34af0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:06:23
+   text	   data	    bss	    dec	    hex	filename
+ 194276	   1788	  19744	 215808	  34b00	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:10:15
+   text	   data	    bss	    dec	    hex	filename
+ 194260	   1788	  19744	 215792	  34af0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:10:34
+   text	   data	    bss	    dec	    hex	filename
+ 194208	   1792	  19744	 215744	  34ac0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:12:04
+   text	   data	    bss	    dec	    hex	filename
+ 194208	   1792	  19744	 215744	  34ac0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:15:50
+   text	   data	    bss	    dec	    hex	filename
+ 194208	   1792	  19744	 215744	  34ac0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:18:01
+   text	   data	    bss	    dec	    hex	filename
+ 194208	   1792	  19744	 215744	  34ac0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:18:48
+   text	   data	    bss	    dec	    hex	filename
+ 192280	   1784	  19728	 213792	  34320	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:21:42
+   text	   data	    bss	    dec	    hex	filename
+ 192652	   1780	  19728	 214160	  34490	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:28:24
+   text	   data	    bss	    dec	    hex	filename
+ 194116	   1788	  19744	 215648	  34a60	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:29:22
+   text	   data	    bss	    dec	    hex	filename
+ 194052	   1788	  19744	 215584	  34a20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:43:14
+   text	   data	    bss	    dec	    hex	filename
+ 194052	   1788	  19744	 215584	  34a20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/16/22 16:50:06
+   text	   data	    bss	    dec	    hex	filename
+ 194052	   1788	  19744	 215584	  34a20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/20/22 17:02:45
+   text	   data	    bss	    dec	    hex	filename
+ 194052	   1788	  19744	 215584	  34a20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/20/22 17:20:56
+   text	   data	    bss	    dec	    hex	filename
+ 194140	   1780	  19744	 215664	  34a70	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/20/22 17:31:49
+   text	   data	    bss	    dec	    hex	filename
+ 194220	   1796	  19744	 215760	  34ad0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/20/22 17:36:29
+   text	   data	    bss	    dec	    hex	filename
+ 194244	   1804	  19808	 215856	  34b30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/20/22 17:37:35
+   text	   data	    bss	    dec	    hex	filename
+ 194248	   1800	  19808	 215856	  34b30	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/21/22 15:25:23
+   text	   data	    bss	    dec	    hex	filename
+ 194428	   1796	  19808	 216032	  34be0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/21/22 15:28:17
+   text	   data	    bss	    dec	    hex	filename
+ 194428	   1796	  19808	 216032	  34be0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/21/22 15:29:21
+   text	   data	    bss	    dec	    hex	filename
+ 194364	   1796	  19808	 215968	  34ba0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/21/22 17:34:53
+   text	   data	    bss	    dec	    hex	filename
+ 194428	   1796	  19808	 216032	  34be0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/21/22 17:36:30
+   text	   data	    bss	    dec	    hex	filename
+ 194428	   1796	  19808	 216032	  34be0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 16:20:05
+   text	   data	    bss	    dec	    hex	filename
+ 192500	   1804	  19792	 214096	  34450	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 16:45:53
+   text	   data	    bss	    dec	    hex	filename
+ 194492	   1796	  19808	 216096	  34c20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 16:48:39
+   text	   data	    bss	    dec	    hex	filename
+ 192564	   1804	  19792	 214160	  34490	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 16:57:26
+   text	   data	    bss	    dec	    hex	filename
+ 192564	   1804	  19792	 214160	  34490	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:04:59
+   text	   data	    bss	    dec	    hex	filename
+ 192584	   1800	  19792	 214176	  344a0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:27:24
+   text	   data	    bss	    dec	    hex	filename
+ 194492	   1796	  19808	 216096	  34c20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:29:36
+   text	   data	    bss	    dec	    hex	filename
+ 194492	   1796	  19808	 216096	  34c20	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:34:45
+   text	   data	    bss	    dec	    hex	filename
+ 194528	   1808	  19808	 216144	  34c50	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:37:36
+   text	   data	    bss	    dec	    hex	filename
+ 194528	   1808	  19808	 216144	  34c50	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:39:35
+   text	   data	    bss	    dec	    hex	filename
+ 194528	   1808	  19808	 216144	  34c50	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:48:58
+   text	   data	    bss	    dec	    hex	filename
+ 194592	   1808	  19808	 216208	  34c90	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:49:51
+   text	   data	    bss	    dec	    hex	filename
+ 194592	   1808	  19808	 216208	  34c90	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:51:22
+   text	   data	    bss	    dec	    hex	filename
+ 194592	   1808	  19808	 216208	  34c90	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 17:52:41
+   text	   data	    bss	    dec	    hex	filename
+ 194592	   1808	  19808	 216208	  34c90	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 18:02:58
+   text	   data	    bss	    dec	    hex	filename
+ 194648	   1800	  19808	 216256	  34cc0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 18:04:34
+   text	   data	    bss	    dec	    hex	filename
+ 194648	   1800	  19808	 216256	  34cc0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 18:06:14
+   text	   data	    bss	    dec	    hex	filename
+ 194648	   1800	  19808	 216256	  34cc0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+12/27/22 18:14:13
+   text	   data	    bss	    dec	    hex	filename
+ 194648	   1800	  19808	 216256	  34cc0	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+01/05/23 16:33:10
+   text	   data	    bss	    dec	    hex	filename
+ 196344	   1800	  19808	 217952	  35360	../../../Binaries/PulsesSensor_Ota_OM15082/PulsesSensor_Ota_OM15082.axf
+01/05/23 16:34:45
+   text	   data	    bss	    dec	    hex	filename
+ 176320	   1664	  18480	 196464	  2ff70	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 16:42:16
+   text	   data	    bss	    dec	    hex	filename
+ 176320	   1664	  18480	 196464	  2ff70	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 17:15:43
+   text	   data	    bss	    dec	    hex	filename
+ 176320	   1664	  18480	 196464	  2ff70	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 17:30:24
+   text	   data	    bss	    dec	    hex	filename
+ 176384	   1664	  18480	 196528	  2ffb0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 17:39:06
+   text	   data	    bss	    dec	    hex	filename
+ 176384	   1664	  18480	 196528	  2ffb0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 17:43:46
+   text	   data	    bss	    dec	    hex	filename
+ 178104	   1656	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 17:57:02
+   text	   data	    bss	    dec	    hex	filename
+ 178032	   1664	  18560	 198256	  30670	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/05/23 18:24:18
+   text	   data	    bss	    dec	    hex	filename
+ 178096	   1664	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 14:05:06
+   text	   data	    bss	    dec	    hex	filename
+ 178096	   1664	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 14:08:52
+   text	   data	    bss	    dec	    hex	filename
+ 178104	   1656	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 14:11:31
+   text	   data	    bss	    dec	    hex	filename
+ 178096	   1664	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 14:34:48
+   text	   data	    bss	    dec	    hex	filename
+ 178032	   1664	  18560	 198256	  30670	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:05:28
+   text	   data	    bss	    dec	    hex	filename
+ 178160	   1664	  18560	 198384	  306f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:08:10
+   text	   data	    bss	    dec	    hex	filename
+ 178160	   1664	  18560	 198384	  306f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:24:58
+   text	   data	    bss	    dec	    hex	filename
+ 178096	   1664	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:28:21
+   text	   data	    bss	    dec	    hex	filename
+ 178096	   1664	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:32:42
+   text	   data	    bss	    dec	    hex	filename
+ 178160	   1664	  18560	 198384	  306f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:33:05
+   text	   data	    bss	    dec	    hex	filename
+ 178096	   1664	  18560	 198320	  306b0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:40:23
+   text	   data	    bss	    dec	    hex	filename
+ 178160	   1664	  18560	 198384	  306f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:41:56
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:48:03
+   text	   data	    bss	    dec	    hex	filename
+ 178160	   1664	  18560	 198384	  306f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:49:37
+   text	   data	    bss	    dec	    hex	filename
+ 178160	   1664	  18560	 198384	  306f0	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:55:19
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 15:59:13
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/06/23 16:06:42
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/09/23 17:22:51
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/09/23 17:23:46
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf
+01/09/23 17:32:54
+   text	   data	    bss	    dec	    hex	filename
+ 178224	   1664	  18560	 198448	  30730	../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.axf

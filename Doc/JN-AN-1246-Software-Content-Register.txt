@@ -1,0 +1,22 @@
+Release Name: JN-AN-1246 Zigbee 3.0 Sensors
+Release Version: v2003
+
+Locations shown are after application note has been installed into workspace
+
+JN-AN-1246 Zigbee 3.0      Author: NXP
+Sensors                    Name: JN-AN-1246 Zigbee 3.0 Sensors 
+                           Version: v2003
+                           Location: <workspace>/JN-AN-1246
+                           Description: Example Zigbee 3.0 sensor 
+                           applications
+                           License: Proprietary. See EULA LA_OPT_Base_License
+                           Format: source code, make files, documentation
+                           
+NFC Libraries              Author: NXP
+                           Name: NFC Libraries
+                           Version: v1017
+                           Location: <workspace>/JN-AN-1246/NFC
+                           Description: NFC libraries for NCI and NTAG access
+                           in JN51xx Application Notes
+                           License: Proprietary. See EULA LA_OPT_Base_License
+                           Format: libraries, header files
