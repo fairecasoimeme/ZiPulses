@@ -59,6 +59,26 @@ Jaune : Connecteur antenne externe
 
 ## Installation
 
+### Alimentation
+Comme vu plus haut, il existe 2 modes d'alimentation qui ne peuvent fonctionner en même temps.  
+
+#### Alimentation externe
+Par défaut, l'appareil est en mode alimentation externe. 
+Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **REG** (comme régulateur)  
+Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **GND**, les fils d'alimentation.  
+⚠️ **La tension aux bornes doit être comprise entre 5 et 12 VDC.**
+
+#### Alimentation sur pile
+
+Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme régulateur)  
+Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respectant la polarité. (+ en haut et - en bas)
+
+### Impulsions
+
+#### Compteur GAZPAR
+NC
+
+#### Compteur / débimètre eau (uniquement avec sortie impulsion de type ILS/ lamelles métallique)
 NC
 
 ## Voyant lumineux
@@ -89,8 +109,7 @@ Ensuite, il faut brancher le module USB TTL (CP2102 dans l'exemple) sur le **ZiP
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_update_legend.jpg" width="400"> 
 
 Une fois que les branchements sont OK, il suffit d'insérer sur votre ordinateur la clef USB en maintenant le bouton **Flash** puis relacher.
-
-
+L'utilisation d'une rallonge USB peut se révéler plus pratique pour faire la mise à jour.
 
 Enfin vous pouvez suivre les [instructions suivantes](https://zigate.fr/documentation/mise-a-jour-de-la-zigate-2/) (similaire à la mise à jour d'une ZiGate+ (V2))
 
