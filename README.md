@@ -1,15 +1,116 @@
-# ZiPulses
+# ZiPulses (DRAFT)
 Compteur d'impulsions communiquant en ZigBee 3.0.  
 Le ZiPulses est disponible en boutique :  
 [Boutique LiXee](https://lixee.fr/)
 
 ## Description
 
+L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour créer un index et le transmettre à un coordinateur Zigbee.  
+**ZiPulses** est un capteur Zigbee de type "ZED" (Zigbee End Device). Il ne peut donc pas router les informations des autres capteurs et nécessite des périodes d'endormissement afin de préserver sa consommation d'énergie.  
+  
+**ZiPulses** peut être alimenté de deux façons:  
+* avec une pile CR2450 (3V)
+* avec une alimentation externe de 5V à 12V
+
+### Fonctionnement
+
+#### Appairage
+
+##### Si le produit n'est associé à aucun réseau zigbee
+* ZiPulses se mettra en mode appairage dès la mise sous tension. (la Led clignote 3 sec)
+* ZiPulses se mettra en mode appairage à chaque appuie sur le bouton "Link". (la Led clignote 3 sec)
+
+##### Si le produit est déjà associé à un réseau zigbee
+* ZiPulses fera un "rejoin" à chaque mise sous tension.
+* Pour sortir d'un réseau, il faut rester appuyer sur le bouton "Link" pendant 10 sec. Il se remettra automatiquement en mode appairage. (la Led clignote 3 sec)
+
+#### Le capteur est appairé
+
+##### Juste après l'appairage ou Rejoin
+* Le capteur ZiPulses reste éveillé environ 10 secondes afin que le coordinateur zigbee puisse faire un bind sur les clusters : 0x0001, 0x0402, 0x0702 ou interroger le capteur
+
+##### ZiPulses n'est pas sollicité
+* Le capteur va se réveiller et s'endormir toutes les 60 secondes
+* Le capteur envoie toutes les 2 heures, la tension de batterie, la temperature et le dernier index
+
+##### ZiPulses reçoit des impulsions
+* Le capteur est reveillé. Il incrémente l'index et l'envoie au coordinateur
+
+⚠️ **Pour que des requêtes manuelles du coordinateur vers le ZiPulses soit prises en compte, il est indispensable d'appuyer sur le bouton "Link" (1 seule fois) juste après le lancement de la requête ZigBee (afin de le réveiller). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.**
+
+
 ## PCB
+
+Les PCB ci-dessous ne sont pas forcément contractuels. Ils peuvent légèrement être modifiés en fonction des évolutions mais les fonctions seront similaires
+
+### Face 1
+
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/face1_components.jpg" width="400">  
+  
+Magenta : MCU zigbee  
+Bleu : régulateur 3.3V  
+Jaune : Connecteur antenne externe
+
+### Face 2
+
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/face2_legend.jpg" width="400">  
+
 
 ## Installation
 
+### Alimentation
+Comme vu plus haut, il existe 2 modes d'alimentation qui ne peuvent fonctionner en même temps.  
+
+#### Alimentation externe
+Par défaut, l'appareil est en mode alimentation externe. 
+Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **REG** (comme régulateur)  
+Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **GND**, les fils d'alimentation.  
+⚠️ **La tension aux bornes doit être comprise entre 5 et 12 VDC.**
+
+#### Alimentation sur pile
+
+Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme Battery)  
+Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respectant la polarité. (+ en haut et - en bas)
+
+### Impulsions
+
+#### Compteur GAZPAR
+NC
+
+#### Compteur / débimètre eau (uniquement avec sortie impulsion de type ILS/ lamelles métallique)
+NC
+
 ## Voyant lumineux
+
+Voici les différentes possibilités :  
+
+### La LED bleue est éteinte 
+
+* Le capteur est endormi ou non sollicité
+
+### La LED bleue s'allume puis s'éteint 
+* le capteur a reçu une impulsion
+* le capteur est appairé et le bouton link a été actionné.
+
+### La LED bleue clignote 
+* le capteur n'est pas encore appairé
+
+### La LED bleue est allumé constamment
+* le bouton "Link" est appuyé sans être relaché
+* le capteur est planté et nécessite un reset
+
+## Mise à jour du Firmware (non OTA)
+
+Tout d'abord, il faut dévisser le boitier afin de sortir la carte électronique.
+Ensuite, il faut brancher le module USB TTL (CP2102 dans l'exemple) sur le **ZiPulses** comme sur la photo. 
+
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_update.jpg" width="400">  
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_update_legend.jpg" width="400"> 
+
+Une fois que les branchements sont OK, il suffit d'insérer sur votre ordinateur la clef USB en maintenant le bouton **Flash** puis relacher.
+L'utilisation d'une rallonge USB peut se révéler plus pratique pour faire la mise à jour.
+
+Enfin vous pouvez suivre les [instructions suivantes](https://zigate.fr/documentation/mise-a-jour-de-la-zigate-2/) (similaire à la mise à jour d'une ZiGate+ (V2))
 
 ## Clusters
 
@@ -22,7 +123,6 @@ Le ZiPulses est disponible en boutique :
 |0x0003|Identify|I||
 |0x0402|Temperature Measurement|I|Doit être "bind" pour recevoir les trames|
 |0x0702|Simple Metering|I|Doit être "bind" pour recevoir les trames|
-|0x0019|OTA|O|Not used yet|
 
 ### Basic Cluster (0x0000)
 
