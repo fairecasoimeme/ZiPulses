@@ -1,4 +1,4 @@
-# ZiPulses
+# ZiPulses (DRAFT)
 Compteur d'impulsions communiquant en ZigBee 3.0.  
 Le ZiPulses est disponible en boutique :  
 [Boutique LiXee](https://lixee.fr/)
