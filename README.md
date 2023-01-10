@@ -78,4 +78,12 @@ La valeur est en centième de degré.
 |13|kVar|
 |14 ... 127|Réservé|
 
+## Intégrations 
+
+### Jeedom
+### Home-asssitant
+### EEdomus
+
+## Changelog
+### Version 0001 (Initial version)
 
