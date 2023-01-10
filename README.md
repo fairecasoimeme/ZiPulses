@@ -18,10 +18,10 @@ Le ZiPulses est disponible en boutique :
 |Num (Hexa)|Name|I/O| Comment|
 |----------|----|---|--------|  
 |0x0000|Basic|I||
-|0x0001|PowerConfiguration|I||
+|0x0001|PowerConfiguration|I| Doit être "bind" pour recevoir les trames|
 |0x0003|Identify|I||
-|0x0402|Temperature Measurement|I||
-|0x0702|Simple Metering|I||
+|0x0402|Temperature Measurement|I|Doit être "bind" pour recevoir les trames|
+|0x0702|Simple Metering|I|Doit être "bind" pour recevoir les trames|
 |0x0019|OTA|O|Not used yet|
 
 ### Basic Cluster (0x0000)
