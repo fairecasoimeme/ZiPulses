@@ -5,12 +5,12 @@ Le ZiPulses est disponible en boutique :
 
 ## Description
 
-L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur à impulsions pour créer un index et le transmettre à un coordinateur Zigbee.  
-**ZiPulses** est un capteur Zigbee de type "ZED" (Zigbee End Device). Il ne peut donc pas router les informations des autres capteurs et nécessite des périodes d'endormissement afin de préserver la consommation d'énergie.  
+L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour créer un index et le transmettre à un coordinateur Zigbee.  
+**ZiPulses** est un capteur Zigbee de type "ZED" (Zigbee End Device). Il ne peut donc pas router les informations des autres capteurs et nécessite des périodes d'endormissement afin de préserver sa consommation d'énergie.  
   
 **ZiPulses** peut être alimenté de deux façons:  
 * avec une pile CR2450 (3V)
-* avec une alimentation 5V à 12V
+* avec une alimentation externe de 5V à 12V
 
 ### Fonctionnement
 
@@ -26,8 +26,8 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur à im
 
 #### Le capteur est appairé
 
-##### Juste après l'appairage
-* le coordinateur a environ 10 secondes pour faire un bind sur les clusters : 0x0001, 0x0402, 0x0702
+##### Juste après l'appairage ou Rejoin
+* Le capteur ZiPulses reste éveillé environ 10 secondes afin que le coordinateur zigbee puisse faire un bind sur les clusters : 0x0001, 0x0402, 0x0702 ou interroger le capteur
 
 ##### ZiPulses n'est pas sollicité
 * Le capteur va se réveiller et s'endormir toutes les 60 secondes
@@ -36,13 +36,12 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur à im
 ##### ZiPulses reçoit des impulsions
 * Le capteur est reveillé. Il incrémente l'index et l'envoie au coordinateur
 
-⚠️ **Pour que les requêtes du coordinateur au ZiPulses soit pris en compte, il est indispensable d'appuyer sur le bouton "Link" une fois juste après le lancement de la requête ZigBee (afin de le réveillé). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.
-Avec la même technique, il est aussi possible d'interroger tous les attributs manuellement**
+⚠️ **Pour que des requêtes manuelles du coordinateur vers le ZiPulses soit prises en compte, il est indispensable d'appuyer sur le bouton "Link" (1 seule fois) juste après le lancement de la requête ZigBee (afin de le réveiller). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.**
 
 
 ## PCB
 
-Les PCB ci-dessous ne sont pas forcément contractuel. Ils risquent de légèrement être modifié en fonction des évolutions mais les fonctions seront similaires
+Les PCB ci-dessous ne sont pas forcément contractuels. Ils peuvent légèrement être modifiés en fonction des évolutions mais les fonctions seront similaires
 
 ### Face 1
 
@@ -70,7 +69,7 @@ Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **
 
 #### Alimentation sur pile
 
-Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme régulateur)  
+Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme Battery)  
 Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respectant la polarité. (+ en haut et - en bas)
 
 ### Impulsions
