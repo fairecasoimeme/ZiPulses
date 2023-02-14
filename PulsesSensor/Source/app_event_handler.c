@@ -176,7 +176,7 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
 PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 {
     te_TransitionCode eTransitionCode=NUMBER_OF_TRANSITION_CODE;
-
+    u16WatchdogAttemptToSleep=0;
     switch(sButton.eType)
     {
 
