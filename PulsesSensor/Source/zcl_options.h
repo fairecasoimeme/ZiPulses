@@ -123,7 +123,7 @@
 #define   CLD_BAS_APP_VERSION         (1)
 #define   CLD_BAS_STACK_VERSION       (2)
 #define   CLD_BAS_HARDWARE_VERSION    (1)
-#define   CLD_BAS_MANUF_NAME_SIZE     (4)
+#define   CLD_BAS_MANUF_NAME_SIZE     (5)
 #define   CLD_BAS_MODEL_ID_SIZE       (8)
 #define   CLD_BAS_DATE_SIZE           (8)
 #define   CLD_BAS_POWER_SOURCE        E_CLD_BAS_PS_BATTERY
