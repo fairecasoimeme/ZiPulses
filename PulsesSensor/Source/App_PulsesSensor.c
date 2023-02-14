@@ -109,21 +109,16 @@ PUBLIC void vAPP_ZCL_DeviceSpecific_Init(void)
     /* Initialise the strings in Basic */
     memcpy(sSensor.sBasicServerCluster.au8ManufacturerName, "LiXee", CLD_BAS_MANUF_NAME_SIZE);
     memcpy(sSensor.sBasicServerCluster.au8ModelIdentifier, "ZiPulses", CLD_BAS_MODEL_ID_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8DateCode, "20221110", CLD_BAS_DATE_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8SWBuildID, "4000-0001", CLD_BAS_SW_BUILD_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8DateCode, "20230210", CLD_BAS_DATE_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8SWBuildID, "4000-0002", CLD_BAS_SW_BUILD_SIZE);
     memcpy(sSensor.sBasicServerCluster.au8ProductURL, "lixee.fr", CLD_BAS_URL_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8ProductCode, "0001", CLD_BAS_PCODE_SIZE);
-    sSensor.sBasicServerCluster.eGenericDeviceType = E_CLD_BAS_GENERIC_DEVICE_TYPE_MOTION_OR_LIGHT_SENSOR;
+    memcpy(sSensor.sBasicServerCluster.au8ProductCode, "0002", CLD_BAS_PCODE_SIZE);
+    //sSensor.sBasicServerCluster.eGenericDeviceType = E_CLD_BAS_GENERIC_DEVICE_TYPE_MOTION_OR_LIGHT_SENSOR;
+    sSensor.sSimpleMeteringServerCluster.eMeteringDeviceType = E_CLD_SM_MDT_ELECTRIC;
 
     /* Initialise the strings in Occupancy Cluster */
     //sSensor.sOccupancySensingServerCluster.eOccupancySensorType = E_CLD_OS_SENSORT_TYPE_PIR;
     //sSensor.sOccupancySensingServerCluster.u8Occupancy = 0;
-
-#ifdef PIR_TYPE_PWM
-    sSensor.sOccupancySensingServerCluster.u8PIRUnoccupiedToOccupiedThreshold = APP_OCCUPANCY_SENSOR_TRIGGER_THRESHOLD;
-    sSensor.sOccupancySensingServerCluster.u8PIRUnoccupiedToOccupiedDelay = APP_OCCUPANCY_SENSOR_UNOCCUPIED_TO_OCCUPIED_DELAY;
-#endif
-    //sSensor.sOccupancySensingServerCluster.u16PIROccupiedToUnoccupiedDelay = APP_OCCUPANCY_SENSOR_OCCUPIED_TO_UNOCCUPIED_DELAY ;
 
 }
 
