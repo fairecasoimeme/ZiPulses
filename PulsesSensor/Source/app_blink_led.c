@@ -141,6 +141,7 @@ PUBLIC void APP_vSetLED(uint8 u8Led, bool_t bOn)
 PUBLIC void vAPP_cbBlinkLED( void *pvParams)
 {
     DBG_vPrintf(TRACE_BLINK_LED, "\nAPP Blink LED: Task Started");
+    ZTIMER_eStop(u8TimerBlink);
     vToggleLED();
     ZTIMER_eStart(u8TimerBlink, u32BlinkTickTime);
 }
@@ -159,6 +160,7 @@ PUBLIC void vAPP_cbBlinkLED( void *pvParams)
 PUBLIC void vStartBlinkTimer(uint32 u32Ticks)
 {
     DBG_vPrintf(TRACE_BLINK_LED, "\nAPP Blink LED: Starting Blink Timer value = %d", u32Ticks);
+    ZTIMER_eStop(u8TimerBlink);
     u32BlinkTickTime = u32Ticks;
     ZTIMER_eStart(u8TimerBlink, u32Ticks);
 }
