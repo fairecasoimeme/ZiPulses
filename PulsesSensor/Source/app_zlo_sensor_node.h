@@ -78,6 +78,7 @@ extern tsDeviceDesc sDeviceDesc;
 extern tsDeviceCounter sDeviceCounter;
 extern bool_t bFlagReset;
 extern uint32_t u32countStart;
+extern uint16 u16WatchdogAttemptToSleep;
 /****************************************************************************/
 /****************************************************************************/
 /****************************************************************************/

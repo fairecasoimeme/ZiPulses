@@ -107,6 +107,9 @@ PUBLIC tsDeviceCounter        sDeviceCounter;
 PUBLIC bool_t bBDBJoinFailed = FALSE;
 PUBLIC bool_t bFlagReset = FALSE;
 PUBLIC uint32_t u32countStart=0;
+PUBLIC uint16 u16WatchdogAttemptToSleep=0;
+
+
 /****************************************************************************/
 /***        Local Variables                                               ***/
 /****************************************************************************/
@@ -250,8 +253,6 @@ PUBLIC void APP_vInitialiseNode(void)
     APP_vGetVoltageBattery();
     APP_vRadioTempUpdate(TRUE);
 
-
-
 	bFlagReset = TRUE;
 	u32countStart = u32WakeTimerSecondsToTicks(5, TRUE);
 	DBG_vPrintf(1, "\r\n ----------u32countStart : %d\r\n",u32countStart );
@@ -358,10 +359,10 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
         bBDBJoinFailed = FALSE;
         vHandleNetworkJoinAndRejoin();
         //test poll
-				u32countStart=100;
-				DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
-				APP_bPersistantPolling |= TRUE;
-				vStartPollTimer(POLL_TIME_FAST);
+		u32countStart=100;
+		DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
+		APP_bPersistantPolling |= TRUE;
+		vStartPollTimer(POLL_TIME_FAST);
 
         break;
 

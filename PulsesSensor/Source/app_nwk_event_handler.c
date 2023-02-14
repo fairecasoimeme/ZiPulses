@@ -97,8 +97,9 @@ PRIVATE uint32 u32PollTime = 0;
  ****************************************************************************/
 PUBLIC void vStartPollTimer(uint32 u32PollInterval)
 {
+	ZPS_eAplZdoPoll();
+	vStopPollTimerTask();
     u32PollTime = u32PollInterval;
-    ZPS_eAplZdoPoll();
     DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP Starting poll timer with interval %d", u32PollInterval);
     ZTIMER_eStart(u8TimerPoll, u32PollTime);
 }
@@ -133,9 +134,10 @@ PUBLIC void vStopPollTimerTask()
  ****************************************************************************/
 PUBLIC void APP_cbTimerPoll( void * pvParam)
 {
-    ZPS_eAplZdoPoll();
+ //   ZPS_eAplZdoPoll();
 //    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP Poll Handler: Poll Sent, new poll time %d", u32PollTime);
-    ZTIMER_eStart(u8TimerPoll, u32PollTime);
+  //  ZTIMER_eStart(u8TimerPoll, u32PollTime);
+	vStartPollTimer(u32PollTime);
 }
 
 /****************************************************************************
@@ -165,11 +167,13 @@ PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
         break;
     }
 
+    u16WatchdogAttemptToSleep=0;
     DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\n-------------u32countStart : %d\n",u32countStart);
 	if ((u32countStart==0) && (APP_bPersistantPolling))
 	{
 		APP_bPersistantPolling &= FALSE;
 		vStopPollTimerTask();
+
 	}else if (u32countStart>0){
 		u32countStart--;
 
