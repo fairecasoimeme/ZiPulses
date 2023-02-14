@@ -54,6 +54,7 @@
 PUBLIC uint32 u32GetWakeTimerCalibration(void);
 PUBLIC uint32 u32WakeTimerSecondsToTicks(uint32 u32Seconds, bool_t bCalibrate);
 PUBLIC void vStartWakeTimer(uint32 u32WakeTicks);
+PUBLIC void vStopWakeTimer();
 PUBLIC void vAPP_HandlePIRStateTransition(void);
 PUBLIC void vAppHandleStartup(void);
 PUBLIC void vAppHandleRunning(ZPS_tsAfEvent* psStackEvent);

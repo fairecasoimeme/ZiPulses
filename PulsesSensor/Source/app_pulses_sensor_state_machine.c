@@ -193,6 +193,13 @@ PUBLIC uint32 u32WakeTimerSecondsToTicks(uint32 u32Seconds, bool_t bCalibrate)
     return (u32Ticks);
 }
 
+
+PUBLIC void vStopWakeTimer()
+{
+	//Stop timer
+	WTIMER_StopTimer(WTIMER_TIMER0_ID);
+	WTIMER_ClearStatusFlags(WTIMER_TIMER0_ID);
+}
 /****************************************************************************
  *
  * NAME: vStartWakeTimer
