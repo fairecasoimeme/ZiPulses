@@ -479,14 +479,12 @@
       <InputClusters Cluster="PowerConfiguration" RxAPDU="PulsesSensor->apduZCL" Discoverable="true"/>
       <InputClusters Cluster="Groups" RxAPDU="PulsesSensor->apduZCL" Discoverable="false"/>
       <InputClusters Cluster="Identify" RxAPDU="PulsesSensor->apduZCL" Discoverable="true"/>
-      <InputClusters Cluster="OTA" RxAPDU="PulsesSensor->apduZCL" Discoverable="false"/>
       <InputClusters Cluster="TemperatureMeasurement" RxAPDU="PulsesSensor->apduZCL" Discoverable="true"/>
       <InputClusters Cluster="SimpleMetering" RxAPDU="PulsesSensor->apduZCL" Discoverable="true"/>
       <OutputClusters Cluster="Basic" TxAPDUs="PulsesSensor->apduZCL" Discoverable="false"/>
       <OutputClusters Cluster="Groups" TxAPDUs="PulsesSensor->apduZCL" Discoverable="true"/>
       <OutputClusters Cluster="Identify" TxAPDUs="PulsesSensor->apduZCL" Discoverable="true"/>
       <OutputClusters Cluster="SimpleMetering" TxAPDUs="PulsesSensor->apduZCL" Discoverable="true"/>
-      <OutputClusters Cluster="OTA" TxAPDUs="PulsesSensor->apduZCL" Discoverable="true"/>
     </Endpoints>
     <PDUConfiguration NumNPDUs="9" PDUMMutexName="mutexPDUM">
       <APDUs Id="PulsesSensor->apduZDP" Name="apduZDP" Size="100" Instances="5"/>
