@@ -138,7 +138,7 @@ PUBLIC void vAttemptToSleep(void)
 #endif
     /* Only enter here if the activity count is equal to the number of non sleep preventing timers (in other words, the activity count
      * will become zero when we stop them) */
-    DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: u16ActivityCount: %d - u8NumberOfNonSleepPreventingTimers : %d - u8NumberOfTimersTaskTimers : %d",u16ActivityCount,u8NumberOfNonSleepPreventingTimers(),u8NumberOfTimersTaskTimers());
+    DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: u16ActivityCount: %d - u8NumberOfNonSleepPreventingTimers : %d - u8NumberOfTimersTaskTimers : %d - WD : %d",u16ActivityCount,u8NumberOfNonSleepPreventingTimers(),u8NumberOfTimersTaskTimers(),u16WatchdogAttemptToSleep);
     /*if ((u16ActivityCount == u8NumberOfNonSleepPreventingTimers()) &&
         (0 == u8NumberOfTimersTaskTimers()))*/
     if ((u8NumberOfNonSleepPreventingTimers() <= 1) &&
@@ -146,7 +146,20 @@ PUBLIC void vAttemptToSleep(void)
     {
         /* Stop any background timers that are non sleep preventing*/
         vStopNonSleepPreventingTimers();
-        //vStopAllTimers();
+        u16WatchdogAttemptToSleep++;
+
+        if (u16WatchdogAttemptToSleep > 50)
+        {
+        	u16WatchdogAttemptToSleep=0;
+        	NVIC_SystemReset();
+        }
+
+        if (u16ActivityCount>2)
+        {
+        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u16ActivityCount > 3 : \r\n");
+        	PWRM_eFinishActivity();
+
+        }
 
         /* Check if Wake timer 0 is running.*/
         /*if (( (SYSCON->WKT_STAT&SYSCON_WKT_STAT_WKT0_RUNNING_MASK) == SYSCON_WKT_STAT_WKT0_RUNNING_MASK))
@@ -176,7 +189,7 @@ PUBLIC void vAttemptToSleep(void)
         #endif
             vScheduleSleep();
         }*/
-        DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: bDeepSleep FALSE");
+		DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: bDeepSleep FALSE");
 		bDeepSleep = FALSE;
 		uint32 u32WakeTicks;
 
@@ -185,6 +198,7 @@ PUBLIC void vAttemptToSleep(void)
 		DBG_vPrintf(TRUE,", -------------------------------------vScheduleSleep()------------------------------------------------");
 		u32WakeTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
 		vStartWakeTimer(u32WakeTicks);
+
 
 
     }
@@ -308,13 +322,13 @@ PRIVATE void vStopAllTimers()
  ****************************************************************************/
 PRIVATE void vStopNonSleepPreventingTimers()
 {
-    if (ZTIMER_eGetState(u8TimerTick) != E_ZTIMER_STATE_STOPPED)
+    if (ZTIMER_eGetState(u8TimerTick) == E_ZTIMER_STATE_RUNNING)
         	ZTIMER_eStop(u8TimerTick);
-    if (ZTIMER_eGetState(u8TimerPoll) != E_ZTIMER_STATE_STOPPED)
+    if (ZTIMER_eGetState(u8TimerPoll) == E_ZTIMER_STATE_RUNNING)
 			ZTIMER_eStop(u8TimerPoll);
-	if (ZTIMER_eGetState(u8TimerMinWake) != E_ZTIMER_STATE_STOPPED)
+	if (ZTIMER_eGetState(u8TimerMinWake) == E_ZTIMER_STATE_RUNNING)
 			ZTIMER_eStop(u8TimerMinWake);
-	if (ZTIMER_eGetState(u8TimerBlink) != E_ZTIMER_STATE_STOPPED)
+	if (ZTIMER_eGetState(u8TimerBlink) == E_ZTIMER_STATE_RUNNING)
 			ZTIMER_eStop(u8TimerBlink);
 
 }
@@ -414,14 +428,14 @@ PRIVATE void vWakeCallBack(void)
         vStopPollTimerTask();
     }
 #endif
-
+    u16WatchdogAttemptToSleep=0;
 
     /*Start the u8TimerTick to continue the ZCL tasks */
     vStartNonSleepPreventingTimers();
 
     /* Increment report */
     u16FlagReportTimer++;
-
+    DBG_vPrintf(1, "\r\n-----------u16FlagReportTimer : %d", u16FlagReportTimer);
     if (u16FlagReportTimer >= ZLO_MAX_REPORT_INTERVAL)
     {
     	u16FlagReportTimer=0;
@@ -429,7 +443,7 @@ PRIVATE void vWakeCallBack(void)
 		sAppEvent.eType = APP_E_EVENT_SEND_REPORT;
 		if(ZQ_bQueueSend(&APP_msgAppEvents, &sAppEvent) == FALSE)
 		{
-			DBG_vPrintf(1, "/r/nEVENT PERIODIC SEND ERROR : %d", sAppEvent.eType);
+			DBG_vPrintf(1, "\r\nEVENT PERIODIC SEND ERROR : %d", sAppEvent.eType);
 		}
     }
 
