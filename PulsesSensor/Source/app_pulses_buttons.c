@@ -405,11 +405,12 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         s_u8ButtonDebounce[i] <<= 1;
         s_u8ButtonDebounce[i] |= u8Button;
         u8AllReleased &= s_u8ButtonDebounce[i];
+        bDebouncing = TRUE;
 
         if (0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
         {
             s_u8ButtonState[i] = TRUE;
-
+            bDebouncing = FALSE;
             /*
              * button consistently depressed for 8 scan periods
              * so post message to application task to indicate
@@ -430,7 +431,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         else if (0xff == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
         {
             s_u8ButtonState[i] = FALSE;
-
+            bDebouncing = FALSE;
             /*
              * button consistently released for 8 scan periods
              * so post message to application task to indicate
@@ -461,6 +462,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         /*
          * all buttons high so set dio to interrupt on change
          */
+    	bDebouncing = FALSE;
         DBG_vPrintf(TRACE_APP_BUTTON, "ALL UP\r\n", i);
         GINT_EnableCallback(GINT0);
         /* Using internal NTAG FD on JN518x ? */
