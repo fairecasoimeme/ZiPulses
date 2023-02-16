@@ -40,10 +40,14 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 
 ## Boitier
 
+### Photos 
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_antenne_face.jpg" width="800" title="test">  
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_antenne.jpg" width="800">  
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_without_antenne.jpg" width="800">  
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_without_antenne_cache.jpg" width="800">  
+
+### Exemple de schema montage
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_schema.jpg" width="800">  
 
 ## PCB
 
