@@ -195,5 +195,15 @@ La valeur est en centième de degré.
 ### EEdomus
 
 ## Changelog
+
+### Version 0002
+
+* Add watchdog for software timer too long
+* Add stopwaketimer
+* Optimisze cleaning before sleep
+* Fix debouncing button
+* Fix manufacturer name length
+* Delete OTA Config
+
 ### Version 0001 (Initial version)
 
