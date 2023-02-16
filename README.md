@@ -36,8 +36,14 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 ##### ZiPulses reçoit des impulsions
 * Le capteur est reveillé. Il incrémente l'index et l'envoie au coordinateur
 
-⚠️ **Pour que des requêtes manuelles du coordinateur vers le ZiPulses soit prises en compte, il est indispensable d'appuyer sur le bouton "Link" (1 seule fois) juste après le lancement de la requête ZigBee (afin de le réveiller). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.**
+⚠️ **Pour que des requêtes manuelles du coordinateur vers le ZiPulses soit prises en compte, il est indispensable d'appuyer sur le bouton "Link" (1 seule fois) juste après le lancement de la requête ZigBee (afin de le réveiller). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.**  
 
+## Boitier
+
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_antenne_face.jpg" width="800" title="test">  
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_antenne.jpg" width="800">  
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_without_antenne.jpg" width="800">  
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_without_antenne_cache.jpg" width="800">  
 
 ## PCB
 
