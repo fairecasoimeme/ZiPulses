@@ -174,6 +174,7 @@ PUBLIC void APP_vInitialiseNode(void)
 
     sDeviceCounter.counter=0;
     sDeviceCounter.multiplier=1;
+    sDeviceCounter.divisor=1;
     sDeviceCounter.unitMeasure=0;
     PDM_eReadDataFromRecord(PDM_ID_APP_COUNTER,
                                 &sDeviceCounter,
@@ -181,7 +182,19 @@ PUBLIC void APP_vInitialiseNode(void)
                                 &u16ByteRead);
 	sSensor.sSimpleMeteringServerCluster.u48CurrentSummationDelivered = sDeviceCounter.counter;
 	sSensor.sSimpleMeteringServerCluster.u24Multiplier = sDeviceCounter.multiplier;
-	sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
+	sSensor.sSimpleMeteringServerCluster.u24Divisor = sDeviceCounter.divisor;
+	if (sDeviceCounter.multiplier>1)
+	{
+		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
+	}
+	if (sDeviceCounter.divisor>1)
+	{
+		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.counter / sDeviceCounter.divisor ;
+	}
+	if ((sDeviceCounter.divisor==1) && (sDeviceCounter.multiplier==1))
+	{
+		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.counter;
+	}
 	sSensor.sSimpleMeteringServerCluster.eUnitOfMeasure = sDeviceCounter.unitMeasure;
 
     APP_vRadioTempUpdate(TRUE);

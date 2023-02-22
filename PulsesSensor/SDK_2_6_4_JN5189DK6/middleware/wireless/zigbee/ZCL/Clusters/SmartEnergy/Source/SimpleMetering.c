@@ -325,7 +325,7 @@ const tsZCL_AttributeDefinition asCLD_SimpleMeteringClusterAttributeDefinitions[
 #endif
 
 #ifdef CLD_SM_ATTR_DIVISOR
-    ,{E_CLD_SM_ATTR_ID_DIVISOR,                              E_ZCL_AF_RD,    E_ZCL_UINT24,    (uint32)(&((tsCLD_SimpleMetering*)(0))->u24Divisor), 0}
+    ,{E_CLD_SM_ATTR_ID_DIVISOR,                              (E_ZCL_AF_RD|E_ZCL_AF_WR),    E_ZCL_UINT24,    (uint32)(&((tsCLD_SimpleMetering*)(0))->u24Divisor), 0}
 #endif
 
     ,{E_CLD_SM_ATTR_ID_SUMMATION_FORMATING,                  E_ZCL_AF_RD,     E_ZCL_BMAP8,    (uint32)(&((tsCLD_SimpleMetering*)(0))->u8SummationFormatting), 0}

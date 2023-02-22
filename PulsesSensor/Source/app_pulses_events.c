@@ -24,7 +24,18 @@ PUBLIC void vHandlePulseRisingEvent(void)
 {
 	sDeviceCounter.counter++;
 	DBG_vPrintf(1, "\r\nsDeviceCounter.multiplier :%d , sDeviceCounter.counter: %d", sDeviceCounter.multiplier,sDeviceCounter.counter);
-	sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
+	if (sDeviceCounter.multiplier>1)
+	{
+		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
+	}
+	if (sDeviceCounter.divisor>1)
+	{
+		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered =  sDeviceCounter.counter / sDeviceCounter.divisor;
+	}
+	if ((sDeviceCounter.divisor==1) && (sDeviceCounter.multiplier==1))
+	{
+		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.counter;
+	}
 	sSensor.sSimpleMeteringServerCluster.u48CurrentSummationDelivered = sDeviceCounter.counter;
 	DBG_vPrintf(1, "\r\nu48CurrentSummationDelivered : %d", sSensor.sSimpleMeteringServerCluster.u48CurrentSummationDelivered);
 

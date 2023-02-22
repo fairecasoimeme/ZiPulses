@@ -486,9 +486,20 @@ PRIVATE void APP_ZCL_cbEndpointCallback(tsZCL_CallBackEvent *psEvent)
 
 			//PB avec psEvent->psClusterInstance->psClusterDefinition->psAttributeDefinition->u16AttributeEnum. Du coup, on modifie les variables du cluster qui doivent être modifiés
 			sDeviceCounter.multiplier  = sSensor.sSimpleMeteringServerCluster.u24Multiplier;
+			sDeviceCounter.divisor  = sSensor.sSimpleMeteringServerCluster.u24Divisor;
 			sDeviceCounter.unitMeasure = sSensor.sSimpleMeteringServerCluster.eUnitOfMeasure;
-			sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
-
+			if (sDeviceCounter.multiplier>1)
+			{
+				sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
+			}
+			if (sDeviceCounter.divisor>1)
+			{
+				sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.counter / sDeviceCounter.divisor ;
+			}
+			if ((sDeviceCounter.divisor==1) && (sDeviceCounter.multiplier==1))
+			{
+				sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.counter;
+			}
 
 		}
 
