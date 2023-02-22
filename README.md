@@ -165,9 +165,10 @@ La valeur est en centième de degré.
 |attribut|Name|Right|Type|Value|Comment|
 |------|----------|------|------|------|------|
 |0x0000 | CurrentSummationDelivered|RO|Uint48| | Index principal (nombre d'impulsions enregistrés uniquement)|
-|0x0100 | CurrentTier1SummationDelivered|RO|Uint48| | Index calculé (nombre d'impulsions X coefficient multiplicateur)|
+|0x0100 | CurrentTier1SummationDelivered|RO|Uint48| | Index calculé (nombre d'impulsions X coefficient multiplicateur) ou (nombre d'impulsions / coefficient diviseur) en fonction des paramétrages|
 |0x0300 | unitOfMeasure|RW|Enum8| 0 (kWh) par defaut |Unité de mesure pour les impulsions. Pour choisir la bonne unité de measure cf [Tableau de mesures](#tableau-dunit%C3%A9-de-mesure)|
 |0x0301 | Multiplier|RW|Uint24| 1 par defaut | Coefficient multiplicateur pour les impulsions|
+|0x0302 | Divisor|RW|Uint24| 1 par defaut | Coefficient diviseur pour les impulsions|
 
 #### Tableau d'unité de mesure
 |value|Description|
@@ -195,6 +196,10 @@ La valeur est en centième de degré.
 ### EEdomus
 
 ## Changelog
+
+### Version 0003  
+
+* Add divisor coefficient to counter
 
 ### Version 0002
 
