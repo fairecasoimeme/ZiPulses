@@ -123,6 +123,7 @@ typedef struct
 	zuint48 counter;
     int8 powerFactor;
     zuint24 multiplier;
+    zuint24 divisor;
     zenum8 unitMeasure;
 }tsDeviceCounter;
 
