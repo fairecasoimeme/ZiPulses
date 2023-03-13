@@ -194,8 +194,14 @@ La valeur est en centième de degré.
 
 ## Intégrations 
 
-### Jeedom
+### Jeedom  
+
+Compatible avec le plugin zigbee.
+
 ### Home-asssitant
+
+Nativement compatible avec ZHA.
+
 ### EEdomus
 
 ## Changelog
