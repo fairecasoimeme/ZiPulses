@@ -85,10 +85,13 @@ Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respec
 ### Impulsions
 
 #### Compteur GAZPAR
-NC
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_gazpar.JPG" width="400">  
+
+⚠️ **Attention, le ZiPulses n'a pas le marquage ATEX. Pour des raisons de sécurité, il faut utiliser un connecteur JAE marqué compatible Gazpar. Il est aussi recommandé de placer le ZiPulses à l'extérieur du coffret où se trovue le compteur Gaz.**  
+
 
 #### Compteur / débimètre eau (uniquement avec sortie impulsion de type ILS/ lamelles métallique)
-NC
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_eau.JPG" width="400">  
 
 ## Voyant lumineux
 
