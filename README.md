@@ -3,6 +3,31 @@ Compteur d'impulsions communiquant en ZigBee 3.0.
 Le ZiPulses est disponible en boutique :  
 [Boutique LiXee](https://lixee.fr/)
 
+## Sommaire
+
+* [Description](#description)  
+* [Fonctionnement](#fonctionnement)
+   * [Appairage](#appairage)
+   * [le capteur est appairé](#le-capteur-est-appair%C3%A9)
+* [Boitier](#boitier)
+* [PCB](#pcb)
+* [Installation](#installation)
+   * [Alimentation](#alimentation)
+   * [Impulsions](#impulsions)
+* [Voyant lumineux](#voyant-lumineux)
+* [MAJ non OTA](#mise-%C3%A0-jour-du-firmware-non-ota)
+* [Clusters](#clusters)
+   * [Clusters list](#clusters-list)
+   * [Basic Cluster](#basic-cluster-0x0000)
+   * [PowerConfiguration Cluster](#powerconfiguration-cluster-0x0001)
+   * [TemperatureMeasurement Cluster](#temperature-measurement-0x0402)
+   * [SimpleMetering Cluster](#simple-metering-0x0702)
+   * [Tableau unité](#tableau-dunité-de-mesure)
+* [Intégrations](#intégrations)
+   * [Jeedom](#jeedom)
+   * [HomeAssistant](#home-assistant)
+* [Changelog](#changelog)
+
 ## Description
 
 L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour créer un index et le transmettre à un coordinateur Zigbee.  
