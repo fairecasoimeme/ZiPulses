@@ -225,7 +225,39 @@ Compatible avec le plugin zigbee.
 
 ### Home-asssitant
 
+#### ZHA
+
 Nativement compatible avec ZHA.
+
+⚠️ Pour changer les coefficients multiplicateurs / diviseurs et l'unité de mesure il faut suivre la procédure suivante :  
+
+1- Sélectionner l'appareil puis lancer l'outil de gestion de l'appareil.  
+![image](https://user-images.githubusercontent.com/22256438/229559210-a08427b8-e95a-4a68-96fc-da6452c1290b.png)  
+
+2- Sélectionner le cluster **"Metering"** et l'attribut correspondant à **"Multiplier"**, **"Divisor"** ou **"unit_of_measure"**  
+![image](https://user-images.githubusercontent.com/22256438/229560149-3be40328-a486-42f1-b38f-953c2d8d829f.png)
+
+3- Inscrire la valeur souhaitée et appuyer sur **"Ecrire l'attribut"**.  
+4- Enfin, Appuyer sur le bouton "Link" du ZiPulses pour réveiller l'appareil pour l'enregistrement.  
+
+#### Z2M
+
+Nativement compatible depuis la version [1.30.3-1](https://github.com/Koenkk/zigbee2mqtt/releases/tag/1.30.3)
+
+⚠️ Pour changer les coefficients multiplicateurs / diviseurs et l'unité de mesure il faut suivre la procédure suivante :  
+  
+1- Dans l'onglet **"Expose"**, sélectionner le bon coefficient et dans l'instant, appuyer sur le bouton "link" du ZiPulses.  
+2- Vérifier que le coefficient a bien été enregistré en changeant d'onglet ou en rafraichissant la page.  
+3- Si le coefficient a bien été validé, il faut aller dans l'ongle **"A propos"** puis cliquer sur le logo jaune de reconfiguration.  
+![image](https://user-images.githubusercontent.com/22256438/229558488-f8e09263-ede3-404c-b1c0-d7eb6d0d3bb4.png)
+
+4- Une fois validé, vous devez voir apparaître **"configuring"** en vert en haut à droite.  
+5- Il faut ensuite appuyer sur le bouton "Link" du ZiPulses et vous devriez voir **"successfully configured"**  
+![image](https://user-images.githubusercontent.com/22256438/229558046-7f50f0c5-f575-4f76-a7df-8d29b627130c.png)
+
+Si rien n'apparait, redémarrer zigbee2mqtt et refaire la procédure    
+  
+Normalement, le nouveau coefficient doit s'appliquer correctement.  
 
 ### EEdomus
 
