@@ -26,6 +26,7 @@ Le ZiPulses est disponible en boutique :
 * [Intégrations](#intégrations)
    * [Jeedom](#jeedom)
    * [HomeAssistant](#home-assistant)
+   * [Eedomus](#eedomus)
 * [Changelog](#changelog)
 
 ## Description
@@ -223,7 +224,7 @@ La valeur est en centième de degré.
 
 Compatible avec le plugin zigbee.
 
-### Home-asssitant
+### Home-assistant
 
 #### ZHA
 
@@ -260,6 +261,8 @@ Si rien n'apparait, redémarrer zigbee2mqtt et refaire la procédure
 Normalement, le nouveau coefficient doit s'appliquer correctement.  
 
 ### EEdomus
+
+En cours  
 
 ## Changelog
 
