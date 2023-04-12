@@ -324,7 +324,7 @@ void gint_callback(void)
         /* Run timer */
         //DBG_vPrintf(TRACE_APP_BUTTON, ";g");
         ZTIMER_eStop(u8TimerButtonScan);
-        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(10));
+        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(1));
     }
 }
 #endif
@@ -394,9 +394,10 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
      * DIO to interrupt on a falling edge.
      */
 
-    uint8 u8AllReleased = 0xff;
+    uint8 u8AllReleased = 0x1f;
     unsigned int i;
     uint32 u32DIOState = APP_u32GetSwitchIOState();
+    bDebouncing = TRUE;
 
     for (i = 0; i < APP_BUTTONS_NUM; i++)
     {
@@ -405,9 +406,11 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         s_u8ButtonDebounce[i] <<= 1;
         s_u8ButtonDebounce[i] |= u8Button;
         u8AllReleased &= s_u8ButtonDebounce[i];
-        bDebouncing = TRUE;
 
-        if (0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
+        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d Int=%d u32DIOState=%d Previous=%d state=%d\r\n",i, s_u8ButtonDebounce[i],u32DIOState,u32PreviousDioState, u8Button);
+
+        //if (0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
+        if ((u8Button == 0) && !s_u8ButtonState[i])
         {
             s_u8ButtonState[i] = TRUE;
             bDebouncing = FALSE;
@@ -420,15 +423,15 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
             sButtonEvent.eType = APP_E_EVENT_BUTTON_DOWN;
             sButtonEvent.uEvent.sButton.u8Button = i;
             u32TimeButton = OSA_TimeGetMsec();
-
-            DBG_vPrintf(TRACE_APP_BUTTON, "Button DN=%d\r\n", i);
+            u32PreviousDioState &= ~(1 << s_u8ButtonDIOLine[i]);
+            DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton DN=%d\r\n", i);
 
             if(ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent) == FALSE)
             {
                 DBG_vPrintf(TRACE_APP_BUTTON, "Button: Failed to post Event %d \r\n", sButtonEvent.eType);
             }
         }
-        else if (0xff == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
+        else if (0x1f == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
         {
             s_u8ButtonState[i] = FALSE;
             bDebouncing = FALSE;
@@ -457,7 +460,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         }
     }
 
-    if (0xff == u8AllReleased)
+    if (0x1f == u8AllReleased)
     {
         /*
          * all buttons high so set dio to interrupt on change
@@ -490,7 +493,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
          */
         //DBG_vPrintf(TRACE_APP_BUTTON, ";t");
         ZTIMER_eStop(u8TimerButtonScan);
-        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(10));
+        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(1));
     }
 #endif
 }
@@ -529,7 +532,7 @@ PUBLIC void vActionOnButtonActivationAfterDeepSleep(void)
     /* Initiate scanning */
     ZTIMER_teStatus eStatus;
     ZTIMER_eStop(u8TimerButtonScan);
-    eStatus = ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(10));
+    eStatus = ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(1));
     DBG_vPrintf(TRACE_APP_BUTTON, "\r\nBUTTON: ZTIMER_eStart()=%d", eStatus);
 }
 
