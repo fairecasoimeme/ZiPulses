@@ -266,6 +266,11 @@ En cours
 
 ## Changelog
 
+### Version 0004    
+
+* Change debounce (on pulses) management. Useful for some counters
+* Send report earlier (on press instead of release)
+
 ### Version 0003  
 
 * Add divisor coefficient to counter
