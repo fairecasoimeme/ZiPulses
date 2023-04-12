@@ -107,11 +107,11 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
 
     /* Fall through for the button presses as there will be a delayed action*/
     case SW0_BUTTON_PRESSED:
-
+    	vHandlePulseRisingEvent();
         break;
 
     case SW0_BUTTON_RELEASED:
-    	vHandlePulseRisingEvent();
+
         break;
 
     case SW1_PRESSED:
