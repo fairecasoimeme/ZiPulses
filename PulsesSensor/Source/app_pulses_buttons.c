@@ -304,7 +304,8 @@ void gint_callback(void)
     uint32 u32IOStatus = APP_u32GetSwitchIOState();
     DBG_vPrintf(TRACE_APP_BUTTON, "GINT Pin Interrupt event detected %x\r\n", u32IOStatus);
 
-// MJL not used in 6x/7x sensor    if (u32IOStatus != APP_BUTTONS_DIO_MASK)
+// MJL not used in 6x/7x sensor
+    if (u32IOStatus != APP_BUTTONS_DIO_MASK)
     {
         /* disable edge detection until scan complete */
         GINT_DisableCallback(GINT0);
@@ -324,7 +325,7 @@ void gint_callback(void)
         /* Run timer */
         //DBG_vPrintf(TRACE_APP_BUTTON, ";g");
         ZTIMER_eStop(u8TimerButtonScan);
-        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(1));
+        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
     }
 }
 #endif
@@ -410,6 +411,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d Int=%d u32DIOState=%d Previous=%d state=%d\r\n",i, s_u8ButtonDebounce[i],u32DIOState,u32PreviousDioState, u8Button);
 
         //if (0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
+        //if ((u8Button == 0) && !s_u8ButtonState[i])
         if ((u8Button == 0) && !s_u8ButtonState[i])
         {
             s_u8ButtonState[i] = TRUE;
@@ -430,6 +432,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
             {
                 DBG_vPrintf(TRACE_APP_BUTTON, "Button: Failed to post Event %d \r\n", sButtonEvent.eType);
             }
+
         }
         else if (0x1f == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
         {
@@ -465,6 +468,8 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         /*
          * all buttons high so set dio to interrupt on change
          */
+    	s_u8ButtonState[0] = FALSE;
+    	s_u8ButtonState[1] = FALSE;
     	bDebouncing = FALSE;
         DBG_vPrintf(TRACE_APP_BUTTON, "ALL UP\r\n", i);
         GINT_EnableCallback(GINT0);
@@ -485,6 +490,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         #endif
         //DBG_vPrintf(TRACE_APP_BUTTON, ":t");
         ZTIMER_eStop(u8TimerButtonScan);
+
     }
     else
     {
@@ -493,7 +499,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
          */
         //DBG_vPrintf(TRACE_APP_BUTTON, ";t");
         ZTIMER_eStop(u8TimerButtonScan);
-        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(1));
+        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
     }
 #endif
 }
@@ -532,7 +538,7 @@ PUBLIC void vActionOnButtonActivationAfterDeepSleep(void)
     /* Initiate scanning */
     ZTIMER_teStatus eStatus;
     ZTIMER_eStop(u8TimerButtonScan);
-    eStatus = ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(1));
+    eStatus = ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
     DBG_vPrintf(TRACE_APP_BUTTON, "\r\nBUTTON: ZTIMER_eStart()=%d", eStatus);
 }
 
