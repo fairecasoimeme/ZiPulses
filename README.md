@@ -109,6 +109,7 @@ Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-
 Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respectant la polarité. (+ en haut et - en bas)
 
 ### Impulsions
+Le ZiPulses est en mesure de détecter les impulsions (créneau bas) à partir de 20ms environ. (à partir de la V5.0)
 
 #### Compteur GAZPAR
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_gazpar.JPG" width="400">  
@@ -117,8 +118,13 @@ Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respec
 ⚠️ **Attention, le ZiPulses n'a pas le marquage ATEX. Pour des raisons de sécurité, il faut utiliser un connecteur JAE marqué compatible Gazpar. Il est aussi recommandé de placer le ZiPulses à l'extérieur du coffret où se trovue le compteur Gaz.**  
 
 
-#### Compteur / débimètre eau (uniquement avec sortie impulsion de type ILS/ lamelles métallique)
+#### Compteur / débimètre eau  
+
+##### Avec sortie impulsion de type ILS (lamelles métallique)
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_eau.JPG" width="400">  
+
+##### Avec sortie impulsion (Transistor ou Mosfet)
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_counter_mosfet.jpg" width="400">  
 
 ## Voyant lumineux
 
