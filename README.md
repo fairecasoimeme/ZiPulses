@@ -112,6 +112,7 @@ Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respec
 
 #### Compteur GAZPAR
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_gazpar.JPG" width="400">  
+<img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_gazpar_JAE.jpg" width="400">  
 
 ⚠️ **Attention, le ZiPulses n'a pas le marquage ATEX. Pour des raisons de sécurité, il faut utiliser un connecteur JAE marqué compatible Gazpar. Il est aussi recommandé de placer le ZiPulses à l'extérieur du coffret où se trovue le compteur Gaz.**  
 
