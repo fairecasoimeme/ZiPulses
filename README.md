@@ -266,6 +266,10 @@ En cours
 
 ## Changelog
 
+### Version 0005    
+
+* Fix debounce pulses to 20ms
+
 ### Version 0004    
 
 * Change debounce (on pulses) management. Useful for some counters
