@@ -112,7 +112,7 @@ Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respec
 
 Il y a une possibilité d'utiliser les plots de programmation pour alimenter le ZiPulses. Vous pouvez utiliser un autre support de pile branché sur le plot 3v3 et GND du port de programmation. Dans ce mode là, a position du switch REG/BAT n'a pas d'incidence.
 
-**Exemple de piles avec support :**  
+Exemple de piles avec support : 
 * Soit 2 piles LR6 AA en série (env 1500mAh) [support](https://www.lextronic.fr/boitier-coupleur-pour-2-piles-aaa-lr3-64605.html)   
 * Soit 2 piles LR14 en série (env 8000mAh)  [support](https://www.conrad.fr/fr/p/support-de-pile-2x-lr14-c-goobay-45834-raccordement-a-souder-l-x-l-x-h-62-x-56-x-23-mm-615668.html?refresh=true)  
 * Soit 2 piles LR20 en série (env 16000 mAh)  [support](https://fr.aliexpress.com/item/32235908591.html)  
@@ -120,7 +120,7 @@ Il y a une possibilité d'utiliser les plots de programmation pour alimenter le 
 Il y a surement d'autres techno/type de piles mais j'ai mis les plus usuelles / moins chères. Il faut juste respecter la tension de 3V à 3.6V **MAX**  
 Bien entendu, les capacités dépendent des marques, de l'environnement et du type d'utilisation. Il est conseillé de prendre 70-80% de la vraie valeur.  
 
-![1693322718749](https://github.com/fairecasoimeme/ZiPulses/assets/22256438/07c31ca3-568d-4eac-a330-a3a838c7d936)
+![1693322718749](https://github.com/fairecasoimeme/ZiPulses/assets/22256438/07c31ca3-568d-4eac-a330-a3a838c7d936)  
                                                                                        _Exemple de montage_
 
 Sachant que la pile CR2450 d'origine contient environ 500mAh, vous pouvez calculer (en fonction de vos utilisations) l'autonomie du ZiPulses avec vos nouvelles piles
