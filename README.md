@@ -25,6 +25,7 @@ Le ZiPulses est disponible en boutique :
    * [Tableau unité](#tableau-dunité-de-mesure)
 * [Intégrations](#intégrations)
    * [Jeedom](#jeedom)
+   * [Domoticz](#domoticz)
    * [HomeAssistant](#home-assistant)
    * [Eedomus](#eedomus)
 * [Changelog](#changelog)
