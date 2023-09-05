@@ -248,6 +248,12 @@ La valeur est en centième de degré.
 
 Compatible avec le plugin zigbee.
 
+### Domoticz  
+
+Compatible avec le plugin Zigbeefordomoticz en version 7.1.003 (et ultérieures)
+- Device de type compteur (permettant de choisir le type et donc l'unité, mais aussi l'offset, le diviseur,...)
+- Remonte également un device température et un device tension de la pile/alim externe, mis à jour toutes les deux heures (indiquera donc 0°C et 0V pendant les deux premières heures)
+
 ### Home-assistant
 
 #### ZHA
