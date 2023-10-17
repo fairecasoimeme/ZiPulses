@@ -96,7 +96,7 @@ PRIVATE void vStopNonSleepPreventingTimers(void);
 PRIVATE void vStartNonSleepPreventingTimers(void);
 PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void);
 
-PRIVATE uint16 u16FlagReportTimer=0;
+PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -146,6 +146,8 @@ PUBLIC void vAttemptToSleep(void)
     {
         /* Stop any background timers that are non sleep preventing*/
         vStopNonSleepPreventingTimers();
+        APP_vSetLED(LED1, 0);
+
         u16WatchdogAttemptToSleep++;
 
         if (u16WatchdogAttemptToSleep > 50)
@@ -189,6 +191,8 @@ PUBLIC void vAttemptToSleep(void)
         #endif
             vScheduleSleep();
         }*/
+
+
 		DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: bDeepSleep FALSE");
 		bDeepSleep = FALSE;
 		uint32 u32WakeTicks;
@@ -322,6 +326,10 @@ PRIVATE void vStopAllTimers()
  ****************************************************************************/
 PRIVATE void vStopNonSleepPreventingTimers()
 {
+	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerTick : %d State : %d\r\n",u8TimerTick,ZTIMER_eGetState(u8TimerTick));
+	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerPoll : %d State : %d\r\n",u8TimerPoll,ZTIMER_eGetState(u8TimerPoll));
+	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerMinWake : %d State : %d\r\n",u8TimerMinWake,ZTIMER_eGetState(u8TimerMinWake));
+	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerBlink : %d State : %d\r\n",u8TimerBlink,ZTIMER_eGetState(u8TimerBlink));
     if (ZTIMER_eGetState(u8TimerTick) == E_ZTIMER_STATE_RUNNING)
         	ZTIMER_eStop(u8TimerTick);
     if (ZTIMER_eGetState(u8TimerPoll) == E_ZTIMER_STATE_RUNNING)

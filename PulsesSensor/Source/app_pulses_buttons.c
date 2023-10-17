@@ -78,7 +78,9 @@ void gint_callback(void);
 void ntag_callback(ntag_field_detect_t fd, void *userData);
 #endif
 
-uint32 u32TimeButton;
+uint32 u32TimeButton0;
+uint32 u32TimeButton1;
+bool bImpulsionRelease=false;
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -395,6 +397,9 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
      * DIO to interrupt on a falling edge.
      */
 
+	 DBG_vPrintf(TRACE_APP_BUTTON, "\r\n ------------------ BUTTON ----------------------- \r\n");
+
+
     uint8 u8AllReleased = 0x1f;
     unsigned int i;
     uint32 u32DIOState = APP_u32GetSwitchIOState();
@@ -410,21 +415,21 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
 
         DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d Int=%d u32DIOState=%d Previous=%d state=%d\r\n",i, s_u8ButtonDebounce[i],u32DIOState,u32PreviousDioState, u8Button);
 
-        //if (0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
-        //if ((u8Button == 0) && !s_u8ButtonState[i])
         if ((u8Button == 0) && !s_u8ButtonState[i])
         {
+        	bImpulsionRelease=false;
             s_u8ButtonState[i] = TRUE;
             bDebouncing = FALSE;
-            /*
-             * button consistently depressed for 8 scan periods
-             * so post message to application task to indicate
-             * a button down event
-             */
+
+             // button consistently depressed for 8 scan periods
+             // so post message to application task to indicate
+             // a button down event
             APP_tsEvent sButtonEvent;
             sButtonEvent.eType = APP_E_EVENT_BUTTON_DOWN;
             sButtonEvent.uEvent.sButton.u8Button = i;
-            u32TimeButton = OSA_TimeGetMsec();
+            u32TimeButton1 = OSA_TimeGetMsec();
+            u32TimeButton0 = OSA_TimeGetMsec();
+
             u32PreviousDioState &= ~(1 << s_u8ButtonDIOLine[i]);
             DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton DN=%d\r\n", i);
 
@@ -433,20 +438,39 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
                 DBG_vPrintf(TRACE_APP_BUTTON, "Button: Failed to post Event %d \r\n", sButtonEvent.eType);
             }
 
+        }else if ((u8Button == 0) && (s_u8ButtonDebounce[0]==0))
+        {
+
+        	u32TimeButton0 = OSA_TimeGetMsec() - u32TimeButton0 ;
+        	if ((u32TimeButton0>5000))
+        	{
+        		bDebouncing = false;
+				DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION TROP LARGE ---------------------\r\n");
+				bImpulsionRelease = true;
+        	}
+
+        }else if  ((u8Button == 0) && (s_u8ButtonDebounce[0]>0))
+        {
+        	if( bImpulsionRelease)
+        	{
+        		DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION RELEASE ---------------------\r\n");
+        		s_u8ButtonDebounce[0] = 0x1f;
+        		s_u8ButtonState[0] = FALSE;
+        	}
         }
         else if (0x1f == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
         {
             s_u8ButtonState[i] = FALSE;
             bDebouncing = FALSE;
-            /*
-             * button consistently released for 8 scan periods
-             * so post message to application task to indicate
-             * a button up event
-             */
-            u32TimeButton = OSA_TimeGetMsec() - u32TimeButton ;
+            //
+            // button consistently released for 8 scan periods
+            // so post message to application task to indicate
+            // a button up event
+            //
+            u32TimeButton1 = OSA_TimeGetMsec() - u32TimeButton1 ;
 			APP_tsEvent sButtonEvent;
-			DBG_vPrintf(TRACE_APP_BUTTON, "\r\n----------------u32TimeButton: %d ---------------------\r\n", u32TimeButton);
-			if ((u32TimeButton<5000) || (i != 1))
+			DBG_vPrintf(TRACE_APP_BUTTON, "\r\n----------------u32TimeButton1: %d ---------------------\r\n", u32TimeButton1);
+			if ((u32TimeButton1<5000) || (i != 1))
 			{
 				sButtonEvent.eType = APP_E_EVENT_BUTTON_UP;
 			}else{
@@ -465,25 +489,26 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
 
     if (0x1f == u8AllReleased)
     {
-        /*
-         * all buttons high so set dio to interrupt on change
-         */
+
+        //all buttons high so set dio to interrupt on change
+    	bImpulsionRelease=false;
     	s_u8ButtonState[0] = FALSE;
     	s_u8ButtonState[1] = FALSE;
     	bDebouncing = FALSE;
         DBG_vPrintf(TRACE_APP_BUTTON, "ALL UP\r\n", i);
+       // IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 | IOCON_MODE_PULLUP | IOCON_DIGITAL_EN | IOCON_GPIO_MODE);
         GINT_EnableCallback(GINT0);
-        /* Using internal NTAG FD on JN518x ? */
+        // Using internal NTAG FD on JN518x ?
         #if ((defined APP_NTAG_NWK) && (APP_BUTTONS_NFC_FD != (0xff)))
         #if (APP_BUTTONS_NFC_FD ==  APP_INTERNAL_NTAG_FD_BIT)
         {
-            /* Enable interrupt callback */
+            // Enable interrupt callback
             ntag_config_t config;
-            /* Get default config */
+            // Get default config
             NTAG_GetDefaultConfig(&config);
-            /* Set callback function in config */
+            // Set callback function in config
             config.callback = ntag_callback;
-            /* Initialise ntag */
+            // Initialise ntag
             NTAG_Init(&config);
         }
         #endif
@@ -494,12 +519,21 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
     }
     else
     {
-        /*
-         * one or more buttons is still depressed so continue scanning
-         */
-        //DBG_vPrintf(TRACE_APP_BUTTON, ";t");
-        ZTIMER_eStop(u8TimerButtonScan);
-        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
+
+    	if (bImpulsionRelease)
+    	{
+    		bDebouncing = false;
+    		IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 |  IOCON_MODE_PULLDOWN | IOCON_DIGITAL_EN);
+    		ZTIMER_eStop(u8TimerButtonScan);
+
+    	}else{
+
+         //one or more buttons is still depressed so continue scanning
+
+			//DBG_vPrintf(TRACE_APP_BUTTON, ";t");
+    		ZTIMER_eStop(u8TimerButtonScan);
+			ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
+    	}
     }
 #endif
 }
