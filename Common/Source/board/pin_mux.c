@@ -69,8 +69,8 @@
 void BOARD_InitPins(void)
 {
     /* USART0 RX/TX pin */
-    IOCON_PinMuxSet(IOCON, 0, 8, IOCON_FUNC2 | IOCON_MODE_INACT | IOCON_DIGITAL_EN);
-    IOCON_PinMuxSet(IOCON, 0, 9, IOCON_FUNC2 | IOCON_MODE_INACT | IOCON_DIGITAL_EN);
+    //IOCON_PinMuxSet(IOCON, 0, 8, IOCON_FUNC2 | IOCON_MODE_INACT | IOCON_DIGITAL_EN);
+    //IOCON_PinMuxSet(IOCON, 0, 9, IOCON_FUNC2 | IOCON_MODE_INACT | IOCON_DIGITAL_EN);
 
     /* Debugger signals (SWCLK, SWDIO) - need to turn it OFF to reduce power consumption in power modes*/
     /*IOCON_PinMuxSet(IOCON, 0, 12, IOCON_FUNC2 | IOCON_MODE_INACT | IOCON_DIGITAL_EN);
@@ -84,13 +84,15 @@ void BOARD_InitPins(void)
     //IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 | IOCON_DIGITAL_EN | IOCON_GPIO_MODE | IOCON_MODE_PULLUP);
     //LED Gazpar
     IOCON_PinMuxSet(IOCON, 0, 10, IOCON_FUNC0 | IOCON_DIGITAL_EN | IOCON_GPIO_MODE | IOCON_MODE_PULLDOWN);
+    //impulsion
+    IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 | IOCON_DIGITAL_EN | IOCON_GPIO_MODE | IOCON_MODE_PULLUP);
 }
 
 void BOARD_SetPinsForPowerMode(void)
 {
     for ( int i=0; i<22; i++)
     {
-    	if (i !=10)
+    	if (i !=10 )
 		{
 			/* configure GPIOs to Input mode */
 			GPIO_PinInit(GPIO, 0, i, &((const gpio_pin_config_t){kGPIO_DigitalInput, 1}));
