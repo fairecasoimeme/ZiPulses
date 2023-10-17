@@ -206,6 +206,7 @@ Enfin vous pouvez suivre les [instructions suivantes](https://zigate.fr/document
 |attribut|Name|Right|Value|
 |------|----------|------|------|
 |0x0020 | BatteryVoltage|RO|| 
+|0x0021 | BatteryPercentageRemaining|RO| (From V6)| 
 
 ### Temperature Measurement (0x0402)
 
@@ -297,6 +298,15 @@ En cours
 
 ## Changelog
 
+### Version 0006
+
+* Add battery percentage remaining attribute / reporting (cluster : 0x0001 / attribute : 0x0021)
+* Fix consumption leak when led is ON in sleeping mode
+* Fix consumption leak when impulsion is locked (need to unsold hardware pullup)
+* Fix voltage accuracy
+* Fix temperature accuracy
+* Disable debug console
+  
 ### Version 0005    
 
 * Fix debounce pulses to 20ms
