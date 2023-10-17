@@ -457,11 +457,29 @@ PUBLIC void APP_vInitResources(void)
     #endif
 }
 
+PUBLIC void APP_vGetVoltagePourcentage()
+{
+	uint8_t voltage = sSensor.sPowerConfigServerCluster.u8BatteryVoltage;
+	uint8_t pourcentage = 0;
+	if (voltage>=32)
+	{
+		pourcentage=200;
+	}else if ((voltage>=22) && (voltage<32)){
+		pourcentage =(10 - (32 - voltage)) * 20;
+	}else{
+		pourcentage = 0;
+	}
+	DBG_vPrintf(1, "\r\n ----------Pourcentage : %d\r\n",pourcentage );
+	sSensor.sPowerConfigServerCluster.u8BatteryPercentageRemaining = pourcentage;
+
+
+}
+
 PUBLIC void APP_vGetVoltageBattery()
 {
 	uint16 voltage = Get_BattVolt();
 	DBG_vPrintf(1, "\r\n ----------VOLTAGE : %d\r\n",voltage );
-	sSensor.sPowerConfigServerCluster.u8BatteryVoltage = (voltage/ 100);
+	sSensor.sPowerConfigServerCluster.u8BatteryVoltage = (uint8_t)(voltage/ 100);
 
 
 }
@@ -511,10 +529,10 @@ PUBLIC void APP_vRadioTempUpdate(bool_t bLoadCalibration)
             /* Temp in half degree */
             int16 i16Temp2th = (int16)(i32Temp128th / 64);
             /* Debug */
-            DBG_vPrintf(TRACE_MAIN_RADIO, ", i32Temp128th = %d, i16Temp2th = %d, real temperature : %d", i32Temp128th, i16Temp2th, ((i32Temp128th*100)/128));
+            DBG_vPrintf(TRACE_MAIN_RADIO, ", i32Temp128th = %d, i16Temp2th = %d, real temperature : %d", i32Temp128th, i16Temp2th, ((i32Temp128th*100)/142));
             /* Pass to radio driver */
             vRadio_Temp_Update(i16Temp2th);
-            sSensor.sTemperatureMeasurementServerCluster.i16MeasuredValue=((i32Temp128th*100)/128);
+            sSensor.sTemperatureMeasurementServerCluster.i16MeasuredValue=((i32Temp128th*100)/142);
         }
     }
 #endif

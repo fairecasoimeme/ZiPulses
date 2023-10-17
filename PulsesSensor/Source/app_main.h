@@ -57,6 +57,7 @@ PUBLIC void APP_vInitResources(void);
 PUBLIC void APP_vSetUpHardware(uint8 u8Trace);
 PUBLIC void APP_vRadioTempUpdate(bool_t bLoadCalibration);
 PUBLIC void APP_vGetVoltageBattery();
+PUBLIC void APP_vGetVoltagePourcentage();
 PUBLIC void APP_vMainLoop(void);
 
 /****************************************************************************/

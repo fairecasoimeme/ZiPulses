@@ -66,7 +66,7 @@
 #define CLD_PWRCFG_ATTR_BATTERY_VOLTAGE
 
 /* Enable the optional Battery Percentatge Remaining*/
-//#define CLD_PWRCFG_ATTR_BATTERY_PERCENTAGE_REMAINING
+#define CLD_PWRCFG_ATTR_BATTERY_PERCENTAGE_REMAINING
 
 /* Enable the optional Battery Manufacturer attribute */
 //#define CLD_PWRCFG_ATTR_BATTERY_MANUFACTURER

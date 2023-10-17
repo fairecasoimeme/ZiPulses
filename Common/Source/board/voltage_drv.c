@@ -14,6 +14,19 @@
 // Comment the define if you want to use specific calibration values or want to debug
 #define LOAD_CAL_FROM_FLASH
 
+static void update_ctrl0_adc_register(ADC_Type *base, uint8_t mode, uint8_t tsamp)
+{
+    // read the GPADC_CTRL0 register and update settings
+    uint32_t read_reg = base->GPADC_CTRL0;
+
+    // clear the "TEST" and "TSAMP" fields
+    read_reg &= ~(ADC_GPADC_CTRL0_TEST_Msk | ADC_GPADC_CTRL0_GPADC_TSAMP_Msk);
+
+    read_reg |= ((tsamp << ADC_GPADC_CTRL0_GPADC_TSAMP_Pos) & ADC_GPADC_CTRL0_GPADC_TSAMP_Msk);
+    read_reg |= ((mode << ADC_GPADC_CTRL0_TEST_Pos) & ADC_GPADC_CTRL0_TEST_Msk);
+
+    base->GPADC_CTRL0 = read_reg;
+}
 
 void Config_ADC(uint32_t delay_value)
 {
@@ -26,14 +39,17 @@ void Config_ADC(uint32_t delay_value)
 	adcConfigStruct.resolution = kADC_Resolution12bit;
 	adcConfigStruct.sampleTimeNumber = 0U;
 
+	update_ctrl0_adc_register(ADC0, 0x0, 0x14);
+
 	ADC_Init(ADC0, &adcConfigStruct);
 
 	adcConvSeqConfigStruct.channelMask = (1U << ADC_Battery_SENSOR_CHANNEL);
-	adcConvSeqConfigStruct.triggerMask = 0U;
+	adcConvSeqConfigStruct.triggerMask = 2U;
 	adcConvSeqConfigStruct.triggerPolarity = kADC_TriggerPolarityPositiveEdge;
 	adcConvSeqConfigStruct.enableSingleStep = false;
-	adcConvSeqConfigStruct.enableSyncBypass = false;
-	adcConvSeqConfigStruct.interruptMode = kADC_InterruptForEachSequence;
+	adcConvSeqConfigStruct.enableSyncBypass = true;
+	adcConvSeqConfigStruct.interruptMode = kADC_InterruptForEachConversion;
+
 	ADC_SetConvSeqAConfig(ADC0, &adcConvSeqConfigStruct);
 
 	CLOCK_uDelay(delay_value);
@@ -46,25 +62,33 @@ void Config_ADC(uint32_t delay_value)
 uint16_t Get_BattVolt(void)
 {
 
-	Config_ADC(300);
+	Config_ADC(100);
 
 	adc_result_info_t adcResultInfoStruct;
 	uint32_t estimated_sum = 0;
 	uint16_t voltage = 0;
 
-	for (int i=0;i<8;i++)
+	for (int i=0;i<13;i++)
 	{
 		ADC_DoSoftwareTriggerConvSeqA(ADC0);
 
 		while (!ADC_GetChannelConversionResult(ADC0, ADC_Battery_SENSOR_CHANNEL, &adcResultInfoStruct))
 		{
 		}
-		estimated_sum += adcResultInfoStruct.result;
+
+		if (i>4)
+		{
+			PRINTF("adcResultInfoStruct.result = %d\r\n", adcResultInfoStruct.result);
+			estimated_sum += adcResultInfoStruct.result;
+		}
 	}
 	ADC_Deinit(ADC0);
-
+	PRINTF("estimated_sum = %d\r\n", estimated_sum);
 	voltage = (uint16_t)(estimated_sum / 8);
-	voltage = (voltage / 1.14);
+	PRINTF("voltage = %d\r\n", voltage);
+	voltage = (uint16_t)adcResultInfoStruct.result;
+	PRINTF("voltage = %d\r\n", voltage);
+
 
 	return(voltage);
 }
