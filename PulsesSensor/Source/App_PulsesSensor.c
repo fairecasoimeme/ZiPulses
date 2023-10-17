@@ -109,10 +109,10 @@ PUBLIC void vAPP_ZCL_DeviceSpecific_Init(void)
     /* Initialise the strings in Basic */
     memcpy(sSensor.sBasicServerCluster.au8ManufacturerName, "LiXee", CLD_BAS_MANUF_NAME_SIZE);
     memcpy(sSensor.sBasicServerCluster.au8ModelIdentifier, "ZiPulses", CLD_BAS_MODEL_ID_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8DateCode, "20230427", CLD_BAS_DATE_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8SWBuildID, "4000-0005", CLD_BAS_SW_BUILD_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8DateCode, "20231017", CLD_BAS_DATE_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8SWBuildID, "4000-0006", CLD_BAS_SW_BUILD_SIZE);
     memcpy(sSensor.sBasicServerCluster.au8ProductURL, "lixee.fr", CLD_BAS_URL_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8ProductCode, "0005", CLD_BAS_PCODE_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8ProductCode, "0006", CLD_BAS_PCODE_SIZE);
     //sSensor.sBasicServerCluster.eGenericDeviceType = E_CLD_BAS_GENERIC_DEVICE_TYPE_MOTION_OR_LIGHT_SENSOR;
     sSensor.sSimpleMeteringServerCluster.eMeteringDeviceType = E_CLD_SM_MDT_ELECTRIC;
 
