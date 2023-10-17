@@ -328,6 +328,16 @@ PUBLIC void vSendImmediateAllReport(void)
 													1,
 												   myPDUM_thAPduInstance);
         DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
+
+        //Batterie pourcent calcul
+        APP_vGetVoltagePourcentage();
+        eStatus = eZCL_ReportAttribute(&sDestinationAddress,
+													GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
+													E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING,
+													1,
+													1,
+												   myPDUM_thAPduInstance);
+		DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
 		/* Sent the report with all attributes ? */
 		if (E_ZCL_SUCCESS == eStatus)
 		{
