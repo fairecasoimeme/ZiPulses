@@ -104,6 +104,8 @@ Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-
 Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **GND**, les fils d'alimentation.  
 ⚠️ **La tension aux bornes doit être comprise entre 5 et 12 VDC.**
 
+⚠️  **A partir de la version 2 (v0.7 sur PCB), il est possible d'utiliser les bornes pour brancher des piles (pas de surconsommations lié au régulateur)**  
+
 #### Alimentation sur pile
 
 Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme Battery)  
@@ -125,6 +127,8 @@ Bien entendu, les capacités dépendent des marques, de l'environnement et du ty
                                                                                        _Exemple de montage_
 
 Sachant que la pile CR2450 d'origine contient environ 500mAh, vous pouvez calculer (en fonction de vos utilisations) l'autonomie du ZiPulses avec vos nouvelles piles
+
+⚠️  **Avec la version 2 (v0.7 sur PCB), il est désormais possible d'utiliser ces supports avec les bornes classiques VIN et GND de l'appareil**
 
 ### Impulsions
 Le ZiPulses est en mesure de détecter les impulsions (créneau bas) à partir de 20ms environ. (à partir de la V5.0)
