@@ -15,6 +15,7 @@
 
 PUBLIC void vHandlePulseRisingEvent(void);
 PUBLIC void vHandleButtonPressedEvent(void);
+PUBLIC bool vHandleButtonPressedEventRejoin(void);
 PUBLIC void vHandleWakeTimeoutEvent(void);
 PUBLIC void vHandleNewJoinEvent(void);
 

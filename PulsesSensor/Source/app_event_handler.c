@@ -108,6 +108,8 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
     /* Fall through for the button presses as there will be a delayed action*/
     case SW0_BUTTON_PRESSED:
     	vHandlePulseRisingEvent();
+    	vHandleButtonPressedEventRejoin();
+
         break;
 
     case SW0_BUTTON_RELEASED:
@@ -203,6 +205,7 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 
     case APP_E_EVENT_SEND_REPORT:
         DBG_vPrintf(TRACE_EVENT_HANDLER, "\r\nEVENT: vAppHandleAppEvent(SEND_REPORT)");
+        vHandleButtonPressedEventRejoin();
         vSendImmediateAllReport();
         break;
 

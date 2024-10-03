@@ -114,6 +114,8 @@ PUBLIC PWR_tsWakeTimerEvent sWake;
 PUBLIC pwrm_tsWakeTimerEvent sWake;
 #endif
 
+uint8_t u8NbFailedTransmit;
+
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
@@ -149,6 +151,14 @@ PUBLIC void vAttemptToSleep(void)
         APP_vSetLED(LED1, 0);
 
         u16WatchdogAttemptToSleep++;
+        int check = PWR_CheckIfDeviceCanGoToSleepExt();
+        DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWR_CheckIfDeviceCanGoToSleepExt : %d\r\n",check);
+
+        if (ZTIMER_eGetState(u8TimerButtonScan) != E_ZTIMER_STATE_RUNNING)
+        {
+        	PWR_AllowDeviceToSleep();
+    	}
+
 
         if (u16WatchdogAttemptToSleep > 50)
         {
@@ -159,7 +169,13 @@ PUBLIC void vAttemptToSleep(void)
         if (u16ActivityCount>2)
         {
         	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u16ActivityCount > 3 : \r\n");
-        	PWRM_eFinishActivity();
+
+        	/*PWR_teStatus result;
+        	result = PWR_eRemoveActivity(&sWake);
+        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);*/
+
+        	/*result = PWRM_eFinishActivity();
+        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);*/
 
         }
 
@@ -453,6 +469,12 @@ PRIVATE void vWakeCallBack(void)
 		{
 			DBG_vPrintf(1, "\r\nEVENT PERIODIC SEND ERROR : %d", sAppEvent.eType);
 		}
+    }
+
+    if (u8NbFailedTransmit>=5)
+    {
+    	DBG_vPrintf(1, "\r\nRESET after too many transmit failed\r\n");
+    	RESET_SystemReset();
     }
 
 

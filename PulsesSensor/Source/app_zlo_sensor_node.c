@@ -364,6 +364,8 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
                 DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
         		APP_bPersistantPolling |= TRUE;
         		vStartPollTimer(POLL_TIME_FAST);
+
+        //vSendImmediateAllReport();
         break;
 
     case BDB_EVENT_NWK_STEERING_SUCCESS:

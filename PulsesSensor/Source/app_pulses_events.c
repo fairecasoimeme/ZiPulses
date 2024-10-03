@@ -75,6 +75,32 @@ PUBLIC void vHandleButtonPressedEvent(void)
 	}
 }
 
+PUBLIC bool vHandleButtonPressedEventRejoin(void)
+{
+	if(bBDBJoinFailed)
+	{
+		vStartBlinkTimer(50);
+		if(APP_bNodeIsInRunningState())
+		{
+			// TODO kick BDB for rejoin
+			sBDB.sAttrib.bbdbNodeIsOnANetwork = TRUE;
+			BDB_vStart();
+		}
+		else
+		{
+			//Retrigger the network steering as sensor is not part of a network
+			vAppHandleStartup();
+		}
+		return false;
+	}
+	else
+	{
+		vStopBlinkTimer();
+		APP_vSetLED(LED1, 1);
+		return true;
+	}
+}
+
 PUBLIC void vHandleWakeTimeoutEvent(void)
 {
 	//APP_vGetVoltageBattery();

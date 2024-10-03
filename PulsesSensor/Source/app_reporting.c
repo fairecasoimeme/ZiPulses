@@ -71,11 +71,14 @@
 /***        Exported Variables                                            ***/
 /****************************************************************************/
 extern const uint8 u8MyEndpoint;
+extern uint8_t u8NbFailedTransmit;
 /****************************************************************************/
 /***        Local Variables                                               ***/
 /****************************************************************************/
 /*Just one reports for time being*/
 PRIVATE tsReports asSavedReports[PULSES_NUMBER_OF_REPORTS];
+
+
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
@@ -261,9 +264,11 @@ PUBLIC void vSendImmediateIndexReport(void)
 		if (E_ZCL_SUCCESS == eStatus)
 		{
 			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
+			u8NbFailedTransmit=0;
 		}
 		else
 		{
+			u8NbFailedTransmit++;
 			DBG_vPrintf(TRACE_REPORT, ", FAILED");
 			/* free buffer for failed send */
 			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
@@ -312,13 +317,16 @@ PUBLIC void vSendImmediateAllReport(void)
         /* Sent the report with all attributes ? */
         if (E_ZCL_SUCCESS == eStatus)
         {
+        	u8NbFailedTransmit = 0;
             DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
         }
         else
         {
+        	u8NbFailedTransmit++;
             DBG_vPrintf(TRACE_REPORT, ", FAILED");
             /* free buffer for failed send */
             PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
+
         }
         APP_vGetVoltageBattery();
         eStatus = eZCL_ReportAttribute(&sDestinationAddress,
@@ -341,10 +349,12 @@ PUBLIC void vSendImmediateAllReport(void)
 		/* Sent the report with all attributes ? */
 		if (E_ZCL_SUCCESS == eStatus)
 		{
+			u8NbFailedTransmit = 0;
 			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
 		}
 		else
 		{
+			u8NbFailedTransmit++;
 			DBG_vPrintf(TRACE_REPORT, ", FAILED");
 			/* free buffer for failed send */
 			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
@@ -361,10 +371,12 @@ PUBLIC void vSendImmediateAllReport(void)
 		/* Sent the report with all attributes ? */
 		if (E_ZCL_SUCCESS == eStatus)
 		{
+			u8NbFailedTransmit = 0;
 			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
 		}
 		else
 		{
+			u8NbFailedTransmit++;
 			DBG_vPrintf(TRACE_REPORT, ", FAILED");
 			/* free buffer for failed send */
 			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
