@@ -302,6 +302,12 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ## Changelog
 
+### Version 0007
+
+* Fix Rejoin failure issue 
+* Fix sleep process
+* Increase max simultaneaous ack. Less packet resending 
+
 ### Version 0006
 
 * Add battery percentage remaining attribute / reporting (cluster : 0x0001 / attribute : 0x0021)
