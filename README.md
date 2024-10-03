@@ -298,7 +298,7 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ### EEdomus
 
-En cours  
+[Documentation](https://doc.eedomus.com/view/ZiPulses)
 
 ## Changelog
 
