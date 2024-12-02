@@ -108,7 +108,6 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
     /* Fall through for the button presses as there will be a delayed action*/
     case SW0_BUTTON_PRESSED:
     	vHandlePulseRisingEvent();
-    	vHandleButtonPressedEventRejoin();
 
         break;
 
@@ -117,23 +116,25 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
         break;
 
     case SW1_PRESSED:
-    	vHandleButtonPressedEvent();
+    	if (vHandleButtonPressedEvent(true))
+    	{
+    		vSendImmediateAllReport();
+    	}
         break;
 
     case SW1_RELEASED:
     	//Get_BattVolt();
-    	// APP_vRadioTempUpdate(FALSE);
     	 APP_vGetVoltageBattery();
     	 APP_vRadioTempUpdate(TRUE);
-        //vHandleRisingEdgeEvent();
+
         break;
 
     case SW2_PRESSED:
-        //vStartPersistantPolling();
+
         break;
 
     case SW3_PRESSED:
-        //vStopPersistantPolling();
+
         break;
 
 #if (defined APP_NTAG_ICODE)
@@ -146,11 +147,11 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
 #endif
 
     case SW4_PRESSED:
-        //vEventStartFindAndBind();
+
         break;
 
     case SW4_RELEASED:
-        //vEventStopFindAndBind();
+
         break;
     case SW2_RELEASED:
     case SW3_RELEASED:
@@ -205,12 +206,14 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 
     case APP_E_EVENT_SEND_REPORT:
         DBG_vPrintf(TRACE_EVENT_HANDLER, "\r\nEVENT: vAppHandleAppEvent(SEND_REPORT)");
-        vHandleButtonPressedEventRejoin();
+
         vSendImmediateAllReport();
+
         break;
 
     case APP_E_EVENT_PERIODIC_REPORT:
         DBG_vPrintf(TRACE_EVENT_HANDLER, "\r\nEVENT: vAppHandleAppEvent(PERIODIC_REPORT)");
+        vSendImmediateIndexReport();
         break;
 
     case APP_E_EVENT_LEAVE_AND_RESET:
