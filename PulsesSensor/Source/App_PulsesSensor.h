@@ -42,6 +42,7 @@
 #include "base_device.h"
 #include "zcl_options.h"
 #include "app_reporting.h"
+#include "app_common.h"
 /****************************************************************************/
 /***        Macro definition                                              ***/
 /****************************************************************************/
@@ -72,6 +73,7 @@
 /****************************************************************************/
 extern tsZHA_BaseDevice sSensor;
 extern tsReports asDefaultReports[ZCL_NUMBER_OF_REPORTS];
+
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
@@ -82,6 +84,11 @@ PUBLIC void vAPP_ZCL_DeviceSpecific_UpdateIdentify(void);
 PUBLIC void vAPP_ZCL_DeviceSpecific_SetIdentifyTime(uint16 u16Time);
 PUBLIC void vAPP_ZCL_DeviceSpecific_IdentifyOff(void);
 PUBLIC uint8 app_u8GetDeviceEndpoint( void);
+
+PUBLIC void APP_pulsesAction(void);
+
+
+
 
 /****************************************************************************/
 /***        END OF FILE                                                   ***/

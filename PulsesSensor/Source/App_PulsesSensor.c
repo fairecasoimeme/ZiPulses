@@ -44,6 +44,11 @@
 #include "app.h"
 #include <string.h>
 
+#include "app_common.h"
+#include "app_zlo_sensor_node.h"
+#include "app_pulses_events.h"
+#include "PDM_IDs.h"
+
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
@@ -54,6 +59,7 @@
 const uint8 u8MyEndpoint = PULSESSENSOR_SENSOR_ENDPOINT;
 //PUBLIC tsZLO_OccupancySensorDevice sSensor;
 PUBLIC tsZHA_BaseDevice sSensor;
+PUBLIC bool bPulsesAction;
 
 /* define the default reports */
 /* lpsw8571: Disables all automatic reporting by the ZCL - the application handles this
@@ -109,10 +115,10 @@ PUBLIC void vAPP_ZCL_DeviceSpecific_Init(void)
     /* Initialise the strings in Basic */
     memcpy(sSensor.sBasicServerCluster.au8ManufacturerName, "LiXee", CLD_BAS_MANUF_NAME_SIZE);
     memcpy(sSensor.sBasicServerCluster.au8ModelIdentifier, "ZiPulses", CLD_BAS_MODEL_ID_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8DateCode, "20241003", CLD_BAS_DATE_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8SWBuildID, "4000-0007", CLD_BAS_SW_BUILD_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8DateCode, "20241202", CLD_BAS_DATE_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8SWBuildID, "4000-0008", CLD_BAS_SW_BUILD_SIZE);
     memcpy(sSensor.sBasicServerCluster.au8ProductURL, "lixee.fr", CLD_BAS_URL_SIZE);
-    memcpy(sSensor.sBasicServerCluster.au8ProductCode, "0007", CLD_BAS_PCODE_SIZE);
+    memcpy(sSensor.sBasicServerCluster.au8ProductCode, "0008", CLD_BAS_PCODE_SIZE);
     //sSensor.sBasicServerCluster.eGenericDeviceType = E_CLD_BAS_GENERIC_DEVICE_TYPE_MOTION_OR_LIGHT_SENSOR;
     sSensor.sSimpleMeteringServerCluster.eMeteringDeviceType = E_CLD_SM_MDT_ELECTRIC;
 
@@ -188,6 +194,22 @@ PUBLIC void vAPP_ZCL_DeviceSpecific_IdentifyOff(void)
 PUBLIC uint8 app_u8GetDeviceEndpoint( void)
 {
     return PULSESSENSOR_SENSOR_ENDPOINT;
+}
+
+
+PUBLIC void APP_pulsesAction(void)
+{
+	if (bPulsesAction)
+	{
+		PDM_eSaveRecordData(PDM_ID_APP_COUNTER,&sDeviceCounter,sizeof(tsDeviceCounter));
+
+		//if (vHandleButtonPressedEventRejoin(false))
+		//{
+		//	vSendImmediateIndexReport();
+		//}
+		bPulsesAction=false;
+	}
+
 }
 /****************************************************************************/
 /***        END OF FILE                                                   ***/

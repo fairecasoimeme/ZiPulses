@@ -308,6 +308,9 @@ void main_task (uint32_t parameter)
         DBG_vPrintf(TRACE_APP, "ZLO\n\r");
         APP_taskSensor();
 
+        DBG_vPrintf(TRACE_APP,"Action\r\n");
+        APP_pulsesAction();
+
 #ifdef WATCHDOG_ALLOWED
         /* Re-load the watch-dog timer. Execution must return through the idle
          * task before the CPU is suspended by the power manager. This ensures
