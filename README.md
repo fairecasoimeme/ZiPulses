@@ -59,9 +59,15 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 ##### ZiPulses n'est pas sollicité
 * Le capteur va se réveiller et s'endormir toutes les 60 secondes
 * Le capteur envoie toutes les 2 heures, la tension de batterie, la temperature et le dernier index
+* (A partir de v8.0) le capteur envoie la tension de batterie, la temperature et le dernier index toutes les minutes uniquement s'il y a eu des impulsions.
 
 ##### ZiPulses reçoit des impulsions
-* Le capteur est reveillé. Il incrémente l'index et l'envoie au coordinateur
+* (avant la v8.0) Le capteur est reveillé. Il incrémente l'index, sauvegarde en mémoire et l'envoie au coordinateur
+* (à partir de la v8.0) Le capteur est reveillé. Il incrémente l'index et sauvegarde en mémoire.
+
+##### Appuie sur le bouton
+* (avant la v8.0) le capteur est réveillé et retente une connexion si déconnecté
+* (à partir de la v8.0) le capteur est réveillé, tente une connexion si déconnecté et envoie les infos du capteur si connecté.
 
 ⚠️ **Pour que des requêtes manuelles du coordinateur vers le ZiPulses soit prises en compte, il est indispensable d'appuyer sur le bouton "Link" (1 seule fois) juste après le lancement de la requête ZigBee (afin de le réveiller). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.**  
 
@@ -132,6 +138,8 @@ Sachant que la pile CR2450 d'origine contient environ 500mAh, vous pouvez calcul
 
 ### Impulsions
 Le ZiPulses est en mesure de détecter les impulsions (créneau bas) à partir de 20ms environ. (à partir de la V5.0)
+Le ZiPulses est en mesure de détecter les impulsions à partir de 20ms jusqu'à 500 ms environ. La fréquence des impulsions détectable doit être supérieure à 500ms (à partir de la V8.0)
+
 
 #### Compteur GAZPAR
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_compteur_gazpar.JPG" width="400">  
@@ -301,6 +309,18 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 [Documentation](https://doc.eedomus.com/view/ZiPulses)
 
 ## Changelog
+
+### Version 0008
+
+* Fix Pulses detection
+  * detect pulses between 30ms and 500ms
+  * detect pulses every 500ms
+* change send packet delay to save energy
+  * Send packets every 60 sec if new pulses exists.
+  * don't send packet every pulses anymore
+* Send datas when button is pressed (only if paired)
+* Send datas on main task
+* Enhance rejoin procedure
 
 ### Version 0007
 
