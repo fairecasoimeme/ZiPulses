@@ -60,6 +60,7 @@
 #include "app_zlo_sensor_node.h"
 #include "App_PulsesSensor.h"
 #include "app_pulses_buttons.h"
+#include "app_pulses_events.h"
 #include "app_blink_led.h"
 #include "app_nwk_event_handler.h"
 
@@ -97,6 +98,7 @@ PRIVATE void vStartNonSleepPreventingTimers(void);
 PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void);
 
 PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
+PRIVATE uint32 u32OldCounter=0;
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -157,6 +159,7 @@ PUBLIC void vAttemptToSleep(void)
         if (ZTIMER_eGetState(u8TimerButtonScan) != E_ZTIMER_STATE_RUNNING)
         {
         	PWR_AllowDeviceToSleep();
+
     	}
 
 
@@ -169,12 +172,11 @@ PUBLIC void vAttemptToSleep(void)
         if (u16ActivityCount>2)
         {
         	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u16ActivityCount > 3 : \r\n");
-
         	/*PWR_teStatus result;
         	result = PWR_eRemoveActivity(&sWake);
-        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);*/
+        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);
 
-        	/*result = PWRM_eFinishActivity();
+        	result = PWRM_eFinishActivity();
         	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);*/
 
         }
@@ -346,13 +348,13 @@ PRIVATE void vStopNonSleepPreventingTimers()
 	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerPoll : %d State : %d\r\n",u8TimerPoll,ZTIMER_eGetState(u8TimerPoll));
 	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerMinWake : %d State : %d\r\n",u8TimerMinWake,ZTIMER_eGetState(u8TimerMinWake));
 	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u8TimerBlink : %d State : %d\r\n",u8TimerBlink,ZTIMER_eGetState(u8TimerBlink));
-    if (ZTIMER_eGetState(u8TimerTick) == E_ZTIMER_STATE_RUNNING)
+    if (ZTIMER_eGetState(u8TimerTick) != E_ZTIMER_STATE_STOPPED)
         	ZTIMER_eStop(u8TimerTick);
-    if (ZTIMER_eGetState(u8TimerPoll) == E_ZTIMER_STATE_RUNNING)
+    if (ZTIMER_eGetState(u8TimerPoll) != E_ZTIMER_STATE_STOPPED)
 			ZTIMER_eStop(u8TimerPoll);
-	if (ZTIMER_eGetState(u8TimerMinWake) == E_ZTIMER_STATE_RUNNING)
+	if (ZTIMER_eGetState(u8TimerMinWake) != E_ZTIMER_STATE_STOPPED)
 			ZTIMER_eStop(u8TimerMinWake);
-	if (ZTIMER_eGetState(u8TimerBlink) == E_ZTIMER_STATE_RUNNING)
+	if (ZTIMER_eGetState(u8TimerBlink) != E_ZTIMER_STATE_STOPPED)
 			ZTIMER_eStop(u8TimerBlink);
 
 }
@@ -387,22 +389,27 @@ PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void)
     if (ZTIMER_eGetState(u8TimerTick) == E_ZTIMER_STATE_RUNNING)
     {
         u8NumberOfRunningTimers++;
+        DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nu8NumberOfNonSleepPreventingTimers: u8TimerTick");
     }
     if (ZTIMER_eGetState(u8TimerMinWake) == E_ZTIMER_STATE_RUNNING)
 	{
 		u8NumberOfRunningTimers++;
+		DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nu8NumberOfNonSleepPreventingTimers: u8TimerMinWake");
 	}
     if (ZTIMER_eGetState(u8TimerBlink) == E_ZTIMER_STATE_RUNNING)
 	{
 		u8NumberOfRunningTimers++;
+		DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nu8NumberOfNonSleepPreventingTimers: u8TimerBlink");
 	}
     if (ZTIMER_eGetState(u8TimerPoll) == E_ZTIMER_STATE_RUNNING)
 	{
 		u8NumberOfRunningTimers++;
+		DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nu8NumberOfNonSleepPreventingTimers: u8TimerPoll");
 	}
     if (ZTIMER_eGetState(u8TimerButtonScan) == E_ZTIMER_STATE_RUNNING)
    	{
    		u8NumberOfRunningTimers++;
+   		DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nu8NumberOfNonSleepPreventingTimers: u8TimerButtonScan");
    	}
 
     return u8NumberOfRunningTimers;
@@ -459,6 +466,7 @@ PRIVATE void vWakeCallBack(void)
 
     /* Increment report */
     u16FlagReportTimer++;
+
     DBG_vPrintf(1, "\r\n-----------u16FlagReportTimer : %d", u16FlagReportTimer);
     if (u16FlagReportTimer >= ZLO_MAX_REPORT_INTERVAL)
     {
@@ -469,13 +477,29 @@ PRIVATE void vWakeCallBack(void)
 		{
 			DBG_vPrintf(1, "\r\nEVENT PERIODIC SEND ERROR : %d", sAppEvent.eType);
 		}
+    }else{
+		if (u32OldCounter != sDeviceCounter.counter)
+		{
+			DBG_vPrintf(1, "\r\n******************************send pulses *******************************************\r\n");
+			u32OldCounter = sDeviceCounter.counter;
+
+			APP_tsEvent sAppEvent;
+			sAppEvent.eType = APP_E_EVENT_PERIODIC_REPORT;
+			if(ZQ_bQueueSend(&APP_msgAppEvents, &sAppEvent) == FALSE)
+			{
+				DBG_vPrintf(1, "\r\nEVENT PERIODIC SEND ERROR : %d", sAppEvent.eType);
+			}
+		}
     }
+
 
     if (u8NbFailedTransmit>=5)
     {
     	DBG_vPrintf(1, "\r\nRESET after too many transmit failed\r\n");
-    	RESET_SystemReset();
+    	vHandleButtonPressedEventRejoin(true);
+
     }
+
 
 
 }
