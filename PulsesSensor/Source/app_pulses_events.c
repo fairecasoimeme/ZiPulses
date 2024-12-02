@@ -19,11 +19,14 @@
 #include "voltage_drv.h"
 #include "PDM_IDs.h"
 
+extern bool bPulsesAction;
+
 
 PUBLIC void vHandlePulseRisingEvent(void)
 {
+	bPulsesAction = true;
 	sDeviceCounter.counter++;
-	DBG_vPrintf(1, "\r\nsDeviceCounter.multiplier :%d , sDeviceCounter.counter: %d", sDeviceCounter.multiplier,sDeviceCounter.counter);
+	DBG_vPrintf(1, "\r\n********************************************************************************sDeviceCounter.multiplier :%d , sDeviceCounter.counter: %d //////////////////// \r\n", sDeviceCounter.multiplier,sDeviceCounter.counter);
 	if (sDeviceCounter.multiplier>1)
 	{
 		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.multiplier * sDeviceCounter.counter;
@@ -37,25 +40,52 @@ PUBLIC void vHandlePulseRisingEvent(void)
 		sSensor.sSimpleMeteringServerCluster.u48CurrentTier1SummationDelivered = sDeviceCounter.counter;
 	}
 	sSensor.sSimpleMeteringServerCluster.u48CurrentSummationDelivered = sDeviceCounter.counter;
-	DBG_vPrintf(1, "\r\nu48CurrentSummationDelivered : %d", sSensor.sSimpleMeteringServerCluster.u48CurrentSummationDelivered);
+	DBG_vPrintf(1, "\r\n********************************************************************************u48CurrentSummationDelivered : %d ////////////////////\r\n", sSensor.sSimpleMeteringServerCluster.u48CurrentSummationDelivered);
 
-	PDM_eSaveRecordData(PDM_ID_APP_COUNTER,&sDeviceCounter,sizeof(tsDeviceCounter));
+	//PDM_eSaveRecordData(PDM_ID_APP_COUNTER,&sDeviceCounter,sizeof(tsDeviceCounter));
 
 	//APP_vGetVoltageBattery();
 
 	APP_vSetLED(LED1, 1);
 
-	vSendImmediateIndexReport();
+	//vSendImmediateIndexReport();
 
 
 	//WTIMER_StopTimer(WTIMER_TIMER0_ID);
 }
 
-PUBLIC void vHandleButtonPressedEvent(void)
+
+PUBLIC bool vHandleButtonPressedEventRejoin(bool ledON)
 {
-	if(bBDBJoinFailed)
+	DBG_vPrintf(1, "\r\n vHandleButtonPressedEventRejoin()\r\n");
+
+	/*if(APP_bNodeIsInRunningState())
+	{
+		// TODO kick BDB for rejoin
+		sBDB.sAttrib.bbdbNodeIsOnANetwork = TRUE;
+		BDB_vStart();
+		vStopBlinkTimer();
+		APP_vSetLED(LED1, 1);
+		return true;
+	}
+	else
 	{
 		vStartBlinkTimer(50);
+		//Retrigger the network steering as sensor is not part of a network
+		vAppHandleStartup();
+		ZTIMER_eStop(u8TimerPoll);
+		return false;
+	}*/
+	vStopBlinkTimer();
+	APP_vSetLED(LED1, 1);
+	BDB_vStart();
+
+	/*if(bBDBJoinFailed)
+	{
+		if (ledON)
+		{
+			vStartBlinkTimer(50);
+		}
 		if(APP_bNodeIsInRunningState())
 		{
 			// TODO kick BDB for rejoin
@@ -67,19 +97,27 @@ PUBLIC void vHandleButtonPressedEvent(void)
 			//Retrigger the network steering as sensor is not part of a network
 			vAppHandleStartup();
 		}
+		return false;
 	}
 	else
 	{
 		vStopBlinkTimer();
 		APP_vSetLED(LED1, 1);
-	}
+		return true;
+	}*/
+
 }
 
-PUBLIC bool vHandleButtonPressedEventRejoin(void)
+PUBLIC bool vHandleButtonPressedEvent(bool ledON)
 {
+	DBG_vPrintf(1, "\r\n vHandleButtonPressedEvent()\r\n");
+
 	if(bBDBJoinFailed)
 	{
-		vStartBlinkTimer(50);
+		if (ledON)
+		{
+			vStartBlinkTimer(50);
+		}
 		if(APP_bNodeIsInRunningState())
 		{
 			// TODO kick BDB for rejoin
@@ -99,6 +137,7 @@ PUBLIC bool vHandleButtonPressedEventRejoin(void)
 		APP_vSetLED(LED1, 1);
 		return true;
 	}
+
 }
 
 PUBLIC void vHandleWakeTimeoutEvent(void)

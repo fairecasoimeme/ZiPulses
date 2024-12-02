@@ -1,0 +1,2 @@
+ retain   spare      kb           banks filename
+  16696    7880      24        ----4567 ../../../Binaries/PulsesSensor_OM15082/PulsesSensor_OM15082.map

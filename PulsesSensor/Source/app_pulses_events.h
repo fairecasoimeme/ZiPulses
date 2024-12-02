@@ -14,8 +14,8 @@
 #include <jendefs.h>
 
 PUBLIC void vHandlePulseRisingEvent(void);
-PUBLIC void vHandleButtonPressedEvent(void);
-PUBLIC bool vHandleButtonPressedEventRejoin(void);
+PUBLIC bool vHandleButtonPressedEventRejoin(bool ledON);
+PUBLIC bool vHandleButtonPressedEvent(bool ledON);
 PUBLIC void vHandleWakeTimeoutEvent(void);
 PUBLIC void vHandleNewJoinEvent(void);
 

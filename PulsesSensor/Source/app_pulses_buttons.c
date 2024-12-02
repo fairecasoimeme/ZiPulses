@@ -81,6 +81,7 @@ void ntag_callback(ntag_field_detect_t fd, void *userData);
 uint32 u32TimeButton0;
 uint32 u32TimeButton1;
 bool bImpulsionRelease=false;
+uint8 u8LoopButton0=0;
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -396,24 +397,34 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
      * This avoids a race condition between finishing a scan and re-enabling the
      * DIO to interrupt on a falling edge.
      */
-
+//GINT_EnableCallback(GINT0);
+//GINT_DisableCallback(GINT0);
 	 DBG_vPrintf(TRACE_APP_BUTTON, "\r\n ------------------ BUTTON ----------------------- \r\n");
 
 
-    uint8 u8AllReleased = 0x1f;
+
+    uint8 u8AllReleased = 0x03;
     unsigned int i;
     uint32 u32DIOState = APP_u32GetSwitchIOState();
+
     bDebouncing = TRUE;
 
     for (i = 0; i < APP_BUTTONS_NUM; i++)
     {
         uint8 u8Button = (uint8) ((u32DIOState >> s_u8ButtonDIOLine[i]) & 1);
-
         s_u8ButtonDebounce[i] <<= 1;
         s_u8ButtonDebounce[i] |= u8Button;
         u8AllReleased &= s_u8ButtonDebounce[i];
 
-        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d Int=%d u32DIOState=%d Previous=%d state=%d\r\n",i, s_u8ButtonDebounce[i],u32DIOState,u32PreviousDioState, u8Button);
+        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d Int=%d u32DIOState=%d Previous=%d state=%d Release=%d \r\n",i, s_u8ButtonDebounce[i],u32DIOState,u32PreviousDioState, u8Button,s_u8ButtonState[i]);
+
+        if ((i==0) && (u8Button==0))
+        {
+
+        	u8LoopButton0++;
+        }
+
+
 
         if ((u8Button == 0) && !s_u8ButtonState[i])
         {
@@ -429,6 +440,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
             sButtonEvent.uEvent.sButton.u8Button = i;
             u32TimeButton1 = OSA_TimeGetMsec();
             u32TimeButton0 = OSA_TimeGetMsec();
+            u8LoopButton0=0;
 
             u32PreviousDioState &= ~(1 << s_u8ButtonDIOLine[i]);
             DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton DN=%d\r\n", i);
@@ -441,24 +453,31 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         }else if ((u8Button == 0) && (s_u8ButtonDebounce[0]==0))
         {
 
-        	u32TimeButton0 = OSA_TimeGetMsec() - u32TimeButton0 ;
-        	if ((u32TimeButton0>5000))
+        	//u32TimeButton0 = OSA_TimeGetMsec() - u32TimeButton0 ;
+        	if ((u8LoopButton0>20))
         	{
+        		//u32TimeButton0 = OSA_TimeGetMsec();
         		bDebouncing = false;
-				DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION TROP LARGE ---------------------\r\n");
+				DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION TROP LARGE : %d---------------------\r\n",u8LoopButton0);
+				u8LoopButton0=0;
 				bImpulsionRelease = true;
         	}
 
-        }else if  ((u8Button == 0) && (s_u8ButtonDebounce[0]>0))
+        //}else if  ((u8Button == 0) && (s_u8ButtonDebounce[0]>03 ))
+        //}else if  ((s_u8ButtonDebounce[0] & 0x01) == true )
+        }
+        else if  ((u8Button == 0) && (s_u8ButtonDebounce[0]>1))
         {
         	if( bImpulsionRelease)
         	{
+        		//bDebouncing = false;
         		DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION RELEASE ---------------------\r\n");
-        		s_u8ButtonDebounce[0] = 0x1f;
+        		s_u8ButtonDebounce[0] = 0x03;
         		s_u8ButtonState[0] = FALSE;
         	}
+        	//s_u8ButtonState[0] = FALSE;
         }
-        else if (0x1f == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
+        else if (0x03 == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
         {
             s_u8ButtonState[i] = FALSE;
             bDebouncing = FALSE;
@@ -487,7 +506,7 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
         }
     }
 
-    if (0x1f == u8AllReleased)
+    if (0x03 == u8AllReleased)
     {
 
         //all buttons high so set dio to interrupt on change
@@ -523,18 +542,22 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
     	if (bImpulsionRelease)
     	{
     		bDebouncing = false;
-    		IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 |  IOCON_MODE_PULLDOWN | IOCON_DIGITAL_EN);
+    		IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 |  IOCON_MODE_PULLUP | IOCON_DIGITAL_EN);
     		ZTIMER_eStop(u8TimerButtonScan);
+
 
     	}else{
 
-         //one or more buttons is still depressed so continue scanning
+    		//one or more buttons is still depressed so continue scanning
 
 			//DBG_vPrintf(TRACE_APP_BUTTON, ";t");
     		ZTIMER_eStop(u8TimerButtonScan);
-			ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
+    		ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(2));
     	}
     }
+//ZTIMER_eStop(u8TimerButtonScan);
+//ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
+//GINT_EnableCallback(GINT0);
 #endif
 }
 
