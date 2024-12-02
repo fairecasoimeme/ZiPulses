@@ -365,7 +365,7 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
         		APP_bPersistantPolling |= TRUE;
         		vStartPollTimer(POLL_TIME_FAST);
 
-        //vSendImmediateAllReport();
+
         break;
 
     case BDB_EVENT_NWK_STEERING_SUCCESS:
