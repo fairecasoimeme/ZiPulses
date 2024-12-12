@@ -186,7 +186,19 @@ Ensuite, il faut brancher le module USB TTL (CP2102 dans l'exemple) sur le **ZiP
 Une fois que les branchements sont OK, il suffit d'insérer sur votre ordinateur la clef USB en maintenant le bouton **Flash** puis relacher.
 L'utilisation d'une rallonge USB peut se révéler plus pratique pour faire la mise à jour.
 
-Enfin vous pouvez suivre les [instructions suivantes](https://zigate.fr/documentation/mise-a-jour-de-la-zigate-2/) (similaire à la mise à jour d'une ZiGate+ (V2))
+**Sous Windows**  
+* Télécharger et installer (si nécessaire) les pilotes du module USB TTL [ici](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads)
+* Télécharger et installer [l'outil de flashage](https://github.com/fairecasoimeme/ZiGatev2/raw/master/Tools/JN-SW-4407-DK6-Flash-Programmer.zip).
+* Télécharger le firmware souhaité : (https://github.com/fairecasoimeme/ZiPulses/releases)
+* Ouvrir une console
+* Aller dans le répertoire de l'outil de flash
+* Lancer la commande suivante :
+  
+Sans remise à zéro (Conserve les appareils déjà appairés):  
+`DK6Programmer -s COMXX -P 500000 -Y -p <NOM_DU_FIRMWARE.bin>`  
+
+Avec remise à zéro (Efface toutes les données (appairages compris)):  
+`DK6Programmer -s COMXX -P 500000 -e FLASH -Y -p <NOM_DU_FIRMWARE.bin>`  
 
 ## Clusters
 
