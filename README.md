@@ -200,6 +200,25 @@ Sans remise à zéro (Conserve les appareils déjà appairés):
 Avec remise à zéro (Efface toutes les données (appairages compris)):  
 `DK6Programmer -s COMXX -P 500000 -e FLASH -Y -p <NOM_DU_FIRMWARE.bin>`  
 
+**Sous Linux x86_64**
+* Télécharger et extraire [l'outil de flashage](https://zigate.fr/wp-content/uploads/2021/05/x86_64.tar) :
+  ```
+  wget https://zigate.fr/wp-content/uploads/2021/05/x86_64.tar
+  tar -xvf x86_64.tar
+  ```
+* Installer les dépendances de l'outil de flashage :
+  ```
+  sudo apt-get update
+  sudo apt-get install libncurses5 libusb-1.0-0 libftdi1 libudev1
+  ```
+* Télécharger le firmware souhaité : (https://github.com/fairecasoimeme/ZiPulses/releases)
+* Lancer une des commandes suivantes (on suppose que le module USB TTL est /dev/ttyUSB0) :
+
+  Sans remise à zéro (Conserve les appareils déjà appairés) :  
+  `DK6Programmer -s /dev/ttyUSB0 -P 115200 -Y -p <NOM_DU_FIRMWARE.bin>`  
+  Avec remise à zéro (Efface toutes les données (appairages compris)) :  
+  `DK6Programmer -s /dev/ttyUSB0 -P 115200 -e FLASH -Y -p <NOM_DU_FIRMWARE.bin>`  
+
 ## Clusters
 
 ### Clusters List
