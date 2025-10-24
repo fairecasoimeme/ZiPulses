@@ -291,7 +291,7 @@ PUBLIC void vSendImmediateAllReport(void)
     tsZCL_Address sDestinationAddress;
     teZCL_Status eStatus;
 
-    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateReport()");
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateAllReport()");
 
     /* get buffer to write the response in*/
     myPDUM_thAPduInstance = hZCL_AllocateAPduInstance();
@@ -305,7 +305,7 @@ PUBLIC void vSendImmediateAllReport(void)
     {
         /* Set the address mode to send to all bound device and don't wait for an ACK*/
         sDestinationAddress.eAddressMode = E_ZCL_AM_BOUND_NON_BLOCKING_NO_ACK; //MJL: was E_ZCL_AM_BOUND_NO_ACK;
-
+        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: SE_CLUSTER_ID_SIMPLE_METERING");
         /* Attempt to send */
     	eStatus = eZCL_ReportAttribute(&sDestinationAddress,
     	        									SE_CLUSTER_ID_SIMPLE_METERING,
@@ -329,6 +329,7 @@ PUBLIC void vSendImmediateAllReport(void)
 
         }
         APP_vGetVoltageBattery();
+        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: GENERAL_CLUSTER_ID_POWER_CONFIGURATION");
         eStatus = eZCL_ReportAttribute(&sDestinationAddress,
         											GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
 													E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE,
@@ -336,9 +337,21 @@ PUBLIC void vSendImmediateAllReport(void)
 													1,
 												   myPDUM_thAPduInstance);
         DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
-
+        if (E_ZCL_SUCCESS == eStatus)
+		{
+			u8NbFailedTransmit = 0;
+			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
+		}
+		else
+		{
+			u8NbFailedTransmit++;
+			DBG_vPrintf(TRACE_REPORT, ", FAILED");
+			/* free buffer for failed send */
+			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
+		}
         //Batterie pourcent calcul
         APP_vGetVoltagePourcentage();
+        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING");
         eStatus = eZCL_ReportAttribute(&sDestinationAddress,
 													GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
 													E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING,
@@ -361,6 +374,7 @@ PUBLIC void vSendImmediateAllReport(void)
 		}
 
 		APP_vRadioTempUpdate(TRUE);
+		 DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT");
 		eStatus = eZCL_ReportAttribute(&sDestinationAddress,
 				 	 	 	 	 	 	 	 MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT,
 											 E_CLD_TEMPMEAS_ATTR_ID_MEASURED_VALUE,
