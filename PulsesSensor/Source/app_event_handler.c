@@ -118,8 +118,9 @@ PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
     case SW1_PRESSED:
     	if (vHandleButtonPressedEvent(true))
     	{
-    		vSendImmediateAllReport();
+    		vSendImmediateIndexReport();
     	}
+
         break;
 
     case SW1_RELEASED:
@@ -224,7 +225,7 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 				APP_vFactoryResetRecords();
 				MICRO_DISABLE_INTERRUPTS();
 				RESET_SystemReset();
-			}
+			 }
 		}
 		else
 		{
