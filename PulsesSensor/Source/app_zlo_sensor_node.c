@@ -360,10 +360,10 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
         bBDBJoinFailed = FALSE;
         vHandleNetworkJoinEndDevice();
         //test poll
-        		u32countStart=100;
-                DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
-        		APP_bPersistantPolling |= TRUE;
-        		vStartPollTimer(POLL_TIME_FAST);
+		u32countStart=100;
+		DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
+		APP_bPersistantPolling |= TRUE;
+		vStartPollTimer(POLL_TIME_FAST);
 
 
         break;
