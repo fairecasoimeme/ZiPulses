@@ -186,7 +186,7 @@ PUBLIC void vAppMain(void)
     if (FALSE == APP_bNtagPdmLoad())
 #endif
     {
-        DBG_vPrintf(TRACE_START, "\r\nSTART: vAppMain() -> BDB_vStart()");
+        DBG_vPrintf(TRACE_START, "\r\nSTART: vAppMain() -> BDB_vStart() : RUNNING : %d",sDeviceDesc.eNodeState);
         BDB_vStart();
         if (FALSE == APP_bNodeIsInRunningState()) BDB_eNsStartNwkSteering();
     }
