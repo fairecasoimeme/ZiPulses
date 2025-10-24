@@ -80,6 +80,11 @@
 /***        Local Variables                                               ***/
 /****************************************************************************/
 PRIVATE uint32 u32PollTime = 0;
+PRIVATE uint8 u8RejoinAttempts = 0;
+PRIVATE uint32 u32RejoinBackoffTime = 10; // Par ex. 10 secondes
+#define APP_MAX_REJOIN_ATTEMPTS 5
+#define APP_REJOIN_BACKOFF_INITIAL 10000  // 10 secondes en ms
+#define APP_REJOIN_BACKOFF_MAX 300000     // 5 minutes max
 
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -152,34 +157,125 @@ PUBLIC void APP_cbTimerPoll( void * pvParam)
  * void
  *
  ****************************************************************************/
+PRIVATE uint8 u8ConsecutivePollCount = 0;
+#define MAX_CONSECUTIVE_POLLS 5
+
 PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
 {
-    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Poll Response");
-    switch ( psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status)
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Poll Response (status=%d)",
+                psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status);
+
+    switch (psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status)
     {
     case MAC_ENUM_SUCCESS:
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: SUCCESS");
+
+        /* SUCCESS : données reçues */
+        u8ConsecutivePollCount = 0;
+
+        /* Si c'est un poll persistant (pairing), re-poll */
+        if (u32countStart > 0 || APP_bPersistantPolling)
+        {
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent mode, re-polling");
+            ZPS_eAplZdoPoll();
+        }
+        else
+        {
+            /* Sinon (poll de rapport), arrêter */
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Normal mode, stopping");
+            vStopPollTimerTask();
+        }
+        break;
+
     case MAC_ENUM_NO_ACK:
-        ZPS_eAplZdoPoll();
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: NO_ACK");
+
+        u8ConsecutivePollCount++;
+
+        /* Re-poll avec limite */
+        if (u8ConsecutivePollCount < MAX_CONSECUTIVE_POLLS)
+        {
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Retrying (%d/%d)",
+                       u8ConsecutivePollCount, MAX_CONSECUTIVE_POLLS);
+            ZPS_eAplZdoPoll();
+        }
+        else
+        {
+            DBG_vPrintf(TRUE, "\r\nPoll: Max retries reached, stopping");
+            u8ConsecutivePollCount = 0;
+            vStopPollTimerTask();
+        }
         break;
 
     case MAC_ENUM_NO_DATA:
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: NO_DATA");
+
+        /* NO_DATA : pas de données en attente */
+        u8ConsecutivePollCount = 0;
+
+        /* Si mode persistant (pairing), continuer à poller */
+        if (u32countStart > 0 || APP_bPersistantPolling)
+        {
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent mode, continuing");
+            ZPS_eAplZdoPoll();
+        }
+        else
+        {
+            /* Sinon arrêter */
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Normal mode, stopping");
+            vStopPollTimerTask();
+        }
+        break;
+
     default:
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Other status %d",
+                   psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status);
+        u8ConsecutivePollCount = 0;
+        vStopPollTimerTask();
         break;
     }
 
-    u16WatchdogAttemptToSleep=0;
-    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\n-------------u32countStart : %d\n",u32countStart);
-	if ((u32countStart==0) && (APP_bPersistantPolling))
-	{
-		APP_bPersistantPolling &= FALSE;
-		vStopPollTimerTask();
+    u16WatchdogAttemptToSleep = 0;
 
-	}else if (u32countStart>0){
-		u32countStart--;
+    /* Gestion du compteur de pairing */
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nu32countStart: %d, APP_bPersistantPolling: %d",
+               u32countStart, APP_bPersistantPolling);
 
-	}
+    if ((u32countStart == 0) && (APP_bPersistantPolling))
+    {
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Pairing complete, stopping persistent polling");
+        APP_bPersistantPolling = FALSE;
+        vStopPollTimerTask();
+    }
+    else if (u32countStart > 0)
+    {
+        u32countStart--;
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Pairing countdown: %d remaining", u32countStart);
+    }
+}
 
+/****************************************************************************
+ *
+ * NAME: APP_cbTimerRejoin
+ *
+ * DESCRIPTION:
+ * Callback du timer de rejoin pour relancer une tentative
+ *
+ ****************************************************************************/
+PUBLIC void APP_cbTimerRejoin(void *pvParam)
+{
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nRetrying rejoin...");
 
+    /* Arrêter le polling pendant la tentative de rejoin */
+    vStopPollTimerTask();
+
+    /* Tenter un rejoin */
+    if (ZPS_eAplZdoRejoinNetwork(FALSE) != ZPS_E_SUCCESS)
+    {
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nRejoin attempt failed");
+        /* Si l'appel échoue immédiatement, programmer une nouvelle tentative */
+        vHandleFailedRejoin();
+    }
 }
 
 /****************************************************************************
@@ -196,11 +292,33 @@ PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
  ****************************************************************************/
 PUBLIC void vHandleFailedToJoin(void)
 {
-    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin");
+    //DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin");
     /* In case Find And Bind or Keep alive in progress stop it and make sure we go to sleep */
-    vEventStopFindAndBind();
+    /*vEventStopFindAndBind();
     APP_bPersistantPolling &= FALSE;
-    bBDBJoinFailed = TRUE;
+    bBDBJoinFailed = TRUE;*/
+	//vEventStopFindAndBind();
+	APP_bPersistantPolling &= FALSE;
+	bBDBJoinFailed = TRUE;
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin - Attempt %d/%d",
+    	                u8RejoinAttempts + 1, APP_MAX_REJOIN_ATTEMPTS);
+	if (u8RejoinAttempts < APP_MAX_REJOIN_ATTEMPTS)
+	{
+
+		/* Programmer une nouvelle tentative avec backoff exponentiel */
+		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nScheduling rejoin in %d ms", u32RejoinBackoffTime);
+		u8RejoinAttempts++;
+		BDB_eNsStartNwkSteering();
+
+	}
+	else
+	{
+		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nMax rejoin attempts reached - going to reset");
+		/* Après trop d'échecs, retour aux paramètres d'usine */
+		RESET_SystemReset();
+	}
+
+
 }
 
 /****************************************************************************
@@ -216,9 +334,43 @@ PUBLIC void vHandleFailedToJoin(void)
  ****************************************************************************/
 PUBLIC void vHandleFailedRejoin(void)
 {
-    /* Start Blink Timer to avoid sleeping */
-    if(ZTIMER_eGetState(u8TimerBlink) != E_ZTIMER_STATE_RUNNING)
-        vStartBlinkTimer(APP_JOINING_BLINK_TIME);
+	/* Start Blink Timer to avoid sleeping */
+	/*if(ZTIMER_eGetState(u8TimerBlink) != E_ZTIMER_STATE_RUNNING)
+		vStartBlinkTimer(APP_JOINING_BLINK_TIME);*/
+	APP_bPersistantPolling &= FALSE;
+	bBDBJoinFailed = TRUE;
+	DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin - Attempt %d/%d",
+						u8RejoinAttempts + 1, APP_MAX_REJOIN_ATTEMPTS);
+	if (u8RejoinAttempts < APP_MAX_REJOIN_ATTEMPTS)
+	{
+
+		/* Programmer une nouvelle tentative avec backoff exponentiel */
+		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nScheduling rejoin in %d ms", u32RejoinBackoffTime);
+		u8RejoinAttempts++;
+		BDB_eNsStartNwkSteering();
+
+	}
+	else
+	{
+		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nMax rejoin attempts reached - going to reset");
+		/* Après trop d'échecs, retour aux paramètres d'usine */
+		RESET_SystemReset();
+	}
+}
+
+/****************************************************************************
+ *
+ * NAME: vResetRejoinAttempts
+ *
+ * DESCRIPTION:
+ * Réinitialiser les compteurs en cas de succès
+ *
+ ****************************************************************************/
+PUBLIC void vResetRejoinAttempts(void)
+{
+    u8RejoinAttempts = 0;
+    u32RejoinBackoffTime = APP_REJOIN_BACKOFF_INITIAL;
+
 }
 
 /****************************************************************************
@@ -238,6 +390,9 @@ PUBLIC void vHandleNetworkJoinEndDevice(void)
     DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Network Join End Device");
 
     ZPS_eAplAibSetApsUseExtendedPanId( ZPS_u64NwkNibGetEpid(ZPS_pvAplZdoGetNwkHandle()) );
+
+    /* Réinitialiser les compteurs de rejoin en cas de succès */
+    vResetRejoinAttempts();
 
     /* Don't turn the timers off if we're in persistent polling mode */
     if(APP_bPersistantPolling != TRUE)

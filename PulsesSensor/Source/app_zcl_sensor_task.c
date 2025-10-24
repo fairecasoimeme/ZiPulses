@@ -89,6 +89,7 @@
 /****************************************************************************/
 /***        Local Function Prototypes                                     ***/
 /****************************************************************************/
+PUBLIC bool_t bPreventTickTimerRestart = FALSE;
 
 PRIVATE void APP_ZCL_cbGeneralCallback(tsZCL_CallBackEvent *psEvent);
 PRIVATE void APP_ZCL_cbEndpointCallback(tsZCL_CallBackEvent *psEvent);
@@ -100,6 +101,7 @@ PRIVATE void APP_ZCL_OTASetUpgradeTime(tsZCL_CallBackEvent *psCallBackEvent);
 /***        Exported Variables                                            ***/
 /****************************************************************************/
 extern tsDeviceDesc sDeviceDesc;
+
 /****************************************************************************/
 /***        Local Variables                                               ***/
 /****************************************************************************/
@@ -176,7 +178,21 @@ PUBLIC void APP_cbTimerZclTick( void *pvParam)
      */
 	DBG_vPrintf(TRACE_SENSOR_TASK, "\r\n---------APP_cbTimerZclTick-----------\r\n");
     vAPP_ZCL_Tick();
-    ZTIMER_eStart(u8TimerTick, ZCL_TICK_TIME);
+
+    /* PROTECTION : Ne redémarrer le timer QUE si on n'essaie pas de dormir */
+	if (!bPreventTickTimerRestart)
+	{
+		if (ZTIMER_eGetState(u8TimerTick) != E_ZTIMER_STATE_RUNNING)
+		{
+			ZTIMER_eStart(u8TimerTick, ZCL_TICK_TIME);
+			DBG_vPrintf(TRACE_SENSOR_TASK, "\r\nTIMER: u8TimerTick restarted (allowed)");
+		}
+	}
+	else
+	{
+		DBG_vPrintf(TRUE, "\r\nTIMER: u8TimerTick restart BLOCKED (sleep in progress)");
+	}
+
 
     #if 1
     {

@@ -61,6 +61,8 @@ PUBLIC void APP_cbTimerPoll( void * pvParam);
 PUBLIC void vStopPollTimerTask();
 PUBLIC void vHandleFailedToJoin(void);
 PUBLIC void vStartPollTimer(uint32 u32PollInterval);
+
+PUBLIC void APP_cbTimerRejoin( void *pvParams);
 /****************************************************************************/
 /***        Exported Variables                                            ***/
 /****************************************************************************/
