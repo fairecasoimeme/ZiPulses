@@ -36,7 +36,7 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 **ZiPulses** est un capteur Zigbee de type "ZED" (Zigbee End Device). Il ne peut donc pas router les informations des autres capteurs et nécessite des périodes d'endormissement afin de préserver sa consommation d'énergie.  
   
 **ZiPulses** peut être alimenté de deux façons:  
-* avec une pile CR2450 (3V)
+* avec une pile CR2450 (3V) pour les modèles de ZiPulses < HW v2.0 (<2026)/ avec une pile CR2477 (3V) pour les modèles à partir de HW v3.0 (2026)
 * avec une alimentation externe de 5V à 12V
 
 ### Fonctionnement
@@ -44,26 +44,27 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 #### Appairage
 
 ##### Si le produit n'est associé à aucun réseau zigbee
-* ZiPulses se mettra en mode appairage dès la mise sous tension. (la Led clignote 3 sec)
-* ZiPulses se mettra en mode appairage à chaque appuie sur le bouton "Link". (la Led clignote 3 sec)
+* ZiPulses se mettra en mode appairage dès la mise sous tension. (la Led clignote rapidement)
+* ZiPulses se mettra en mode appairage à chaque appuie sur le bouton "Link". (la Led clignote rapidement)
 
 ##### Si le produit est déjà associé à un réseau zigbee
 * ZiPulses fera un "rejoin" à chaque mise sous tension.
-* Pour sortir d'un réseau, il faut rester appuyer sur le bouton "Link" pendant 10 sec. Il se remettra automatiquement en mode appairage. (la Led clignote 3 sec)
+* Pour sortir d'un réseau, il faut rester appuyer sur le bouton "Link" pendant 10 sec. Il se remettra automatiquement en mode appairage. (la Led rapidement)
 
 #### Le capteur est appairé
 
 ##### Juste après l'appairage ou Rejoin
 * Le capteur ZiPulses reste éveillé environ 10 secondes afin que le coordinateur zigbee puisse faire un bind sur les clusters : 0x0001, 0x0402, 0x0702 ou interroger le capteur
+⚠️ **Il est recommandé d'appuyer régulièrement sur le bouton (pendant 2 secondes toutes les secondes) lors de l'appairage**
 
 ##### ZiPulses n'est pas sollicité
 * Le capteur va se réveiller et s'endormir toutes les 60 secondes
 * Le capteur envoie toutes les 2 heures, la tension de batterie, la temperature et le dernier index
-* (A partir de v8.0) le capteur envoie la tension de batterie, la temperature et le dernier index toutes les minutes uniquement s'il y a eu des impulsions.
+* (A partir du firmware v8.0) le capteur envoie la tension de batterie, la temperature et le dernier index toutes les minutes uniquement s'il y a eu des impulsions.
 
 ##### ZiPulses reçoit des impulsions
-* (avant la v8.0) Le capteur est reveillé. Il incrémente l'index, sauvegarde en mémoire et l'envoie au coordinateur
-* (à partir de la v8.0) Le capteur est reveillé. Il incrémente l'index et sauvegarde en mémoire.
+* (avant le firmware v8.0) Le capteur est reveillé. Il incrémente l'index, sauvegarde en mémoire et l'envoie au coordinateur
+* (à partir du firmware v8.0) Le capteur est reveillé. Il incrémente l'index et sauvegarde en mémoire.
 
 ##### Appuie sur le bouton
 * (avant la v8.0) le capteur est réveillé et retente une connexion si déconnecté
@@ -78,6 +79,7 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_antenne.jpg" width="800">  
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_without_antenne.jpg" width="800">  
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_without_antenne_cache.jpg" width="800">  
+
 
 ### Exemple de schema montage
 <img src="https://github.com/fairecasoimeme/ZiPulses/blob/master/Doc/photos/ZiPulses_schema.jpg" width="800">  
