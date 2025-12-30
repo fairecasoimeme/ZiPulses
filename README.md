@@ -36,7 +36,7 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 **ZiPulses** est un capteur Zigbee de type "ZED" (Zigbee End Device). Il ne peut donc pas router les informations des autres capteurs et nécessite des périodes d'endormissement afin de préserver sa consommation d'énergie.  
   
 **ZiPulses** peut être alimenté de deux façons:  
-* avec une pile CR2450 (3V) pour les modèles de ZiPulses < HW v2.0 (<2026)/ avec une pile CR2477 (3V) pour les modèles à partir de HW v3.0 (2026)
+* avec une pile CR2450 (3V - 500mAh) pour les modèles de ZiPulses < HW v2.0 (<2026)/ avec une pile CR2477 (3V - 1000mAh) pour les modèles à partir de HW v3.0 (2026)
 * avec une alimentation externe de 5V à 12V
 
 ### Fonctionnement
@@ -67,8 +67,8 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 * (à partir du firmware v8.0) Le capteur est reveillé. Il incrémente l'index et sauvegarde en mémoire.
 
 ##### Appuie sur le bouton
-* (avant la v8.0) le capteur est réveillé et retente une connexion si déconnecté
-* (à partir de la v8.0) le capteur est réveillé, tente une connexion si déconnecté et envoie les infos du capteur si connecté.
+* (avant le firmware v8.0) le capteur est réveillé et retente une connexion si déconnecté
+* (à partir du firmware v8.0) le capteur est réveillé, tente une connexion si déconnecté et envoie les infos du capteur si connecté.
 
 ⚠️ **Pour que des requêtes manuelles du coordinateur vers le ZiPulses soit prises en compte, il est indispensable d'appuyer sur le bouton "Link" (1 seule fois) juste après le lancement de la requête ZigBee (afin de le réveiller). Cette technique est notamment indispensable pour modifier le coefficient multiplicateur de l'index et/ou l'unité de mesure par exemple.**  
 
@@ -112,7 +112,7 @@ Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-
 Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **GND**, les fils d'alimentation.  
 ⚠️ **La tension aux bornes doit être comprise entre 5 et 12 VDC.**
 
-⚠️  **A partir de la version 2 (v0.7 sur PCB), il est possible d'utiliser les bornes pour brancher des piles (pas de surconsommations lié au régulateur)**  
+⚠️  **A partir de la version HW v2.0 (v0.7 sur PCB), il est possible d'utiliser les bornes pour brancher des piles (pas de surconsommations lié au régulateur)**  
 
 #### Alimentation sur pile
 
@@ -139,8 +139,8 @@ Sachant que la pile CR2450 d'origine contient environ 500mAh, vous pouvez calcul
 ⚠️  **Avec la version 2 (v0.7 sur PCB), il est désormais possible d'utiliser ces supports avec les bornes classiques VIN et GND de l'appareil**
 
 ### Impulsions
-Le ZiPulses est en mesure de détecter les impulsions (créneau bas) à partir de 20ms environ. (à partir de la V5.0)
-Le ZiPulses est en mesure de détecter les impulsions à partir de 20ms jusqu'à 500 ms environ. La fréquence des impulsions détectable doit être supérieure à 500ms (à partir de la V8.0)
+Le ZiPulses est en mesure de détecter les impulsions (créneau bas) à partir de 20ms environ. (à partir du firmware V5.0)
+Le ZiPulses est en mesure de détecter les impulsions à partir de 20ms jusqu'à 500 ms environ. La fréquence des impulsions détectable doit être supérieure à 500ms (à partir du firmware V8.0)
 
 
 #### Compteur GAZPAR
