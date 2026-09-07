@@ -117,7 +117,7 @@ Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **
 #### Alimentation sur pile
 
 Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme Battery)  
-Ensuite, il faut introduire une pile de type CR2450 dans l'emplacement en respectant la polarité. (+ en haut et - en bas)
+Ensuite, il faut introduire une pile de type (CR2450 ou CR2477 selon version) dans l'emplacement en respectant la polarité. (+ en haut et - en bas)
 
 #### Alimentation externe (custom) - pour la V0.5
 
