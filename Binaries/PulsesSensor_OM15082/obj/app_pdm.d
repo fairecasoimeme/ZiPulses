@@ -97,7 +97,8 @@
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Include/bdb_api.h \
  ../../../PulsesSensor/Source/bdb_options.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZdpExtraction.h \
- ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZpsBeaconHandler.h
+ ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZpsBeaconHandler.h \
+ ../../../Common/Source/app_common.h
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common/jendefs.h:
 
@@ -296,3 +297,5 @@ c:\nxp\mcuxpressoide_11.2.0_4120\ide\tools\arm-none-eabi\include\sys\string.h:
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZdpExtraction.h:
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZpsBeaconHandler.h:
+
+../../../Common/Source/app_common.h:

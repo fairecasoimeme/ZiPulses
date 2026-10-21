@@ -129,6 +129,7 @@
  ../../../PulsesSensor/Source/app_zcl_sensor_task.h \
  ../../../PulsesSensor/Source/app_zlo_sensor_node.h \
  ../../../PulsesSensor/Source/app_pulses_buttons.h \
+ ../../../PulsesSensor/Source/app_pulses_events.h \
  ../../../PulsesSensor/Source/app_blink_led.h \
  ../../../PulsesSensor/Source/app_nwk_event_handler.h \
  ../../../PulsesSensor/Source/app_pulses_sensor_state_machine.h \
@@ -391,6 +392,8 @@ c:\nxp\mcuxpressoide_11.2.0_4120\ide\tools\arm-none-eabi\include\alloca.h:
 ../../../PulsesSensor/Source/app_zlo_sensor_node.h:
 
 ../../../PulsesSensor/Source/app_pulses_buttons.h:
+
+../../../PulsesSensor/Source/app_pulses_events.h:
 
 ../../../PulsesSensor/Source/app_blink_led.h:
 

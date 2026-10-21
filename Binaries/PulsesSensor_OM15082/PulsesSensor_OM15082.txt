@@ -20,31 +20,31 @@ SECTIONS -----------------------------------------------------------------------
    336 SECTION: Flash640 | ACTIVE_288KB | .headerA 
     24 SECTION: Flash640 | ACTIVE_288KB | .headerB 
     24 SECTION: Flash640 | ACTIVE_288KB | .filler 
-179424 SECTION: Flash640 | ACTIVE_288KB | .text 
+181432 SECTION: Flash640 | ACTIVE_288KB | .text 
      8 SECTION: Flash640 | ACTIVE_288KB | .ARM.exidx 
   1024 SECTION: RAM0 | BANK0_16KB | !bootloader 
   2556 SECTION: RAM0 | BANK0_16KB | .bss_discard 
   1024 SECTION: RAM0 | BANK0_16KB | .boot_resume_stack 
    760 SECTION: RAM0 | BANK4_8KB | .heap 
   1600 SECTION: RAM0 | BANK5_8KB | .data 
- 14304 SECTION: RAM0 | BANK5_8KB | .bss 
+ 14320 SECTION: RAM0 | BANK5_8KB | .bss 
     32 SECTION: RAM0 | BANK7_4KB | !warmstart 
 FILES --------------------------------------------------------------------------
    412 FILE: Flash640 | ACTIVE_288KB | .text | startup_JN5189.o 
-  1188 FILE: Flash640 | ACTIVE_288KB | .text | app_main.o 
+  1124 FILE: Flash640 | ACTIVE_288KB | .text | app_main.o 
    148 FILE: Flash640 | ACTIVE_288KB | .text | port_JN518x.o 
     40 FILE: Flash640 | ACTIVE_288KB | .text | pdum_gen.o 
    356 FILE: Flash640 | ACTIVE_288KB | .text | zps_gen.o 
-   792 FILE: Flash640 | ACTIVE_288KB | .text | app_reporting.o 
-   616 FILE: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o 
-   200 FILE: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o 
+   864 FILE: Flash640 | ACTIVE_288KB | .text | app_reporting.o 
+   624 FILE: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o 
+   180 FILE: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o 
   1236 FILE: Flash640 | ACTIVE_288KB | .text | app_zlo_sensor_node.o 
-  1056 FILE: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o 
+  1096 FILE: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o 
    920 FILE: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o 
    268 FILE: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o 
-   952 FILE: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o 
-   488 FILE: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o 
-   320 FILE: Flash640 | ACTIVE_288KB | .text | app_event_handler.o 
+  1504 FILE: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o 
+   828 FILE: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o 
+   284 FILE: Flash640 | ACTIVE_288KB | .text | app_event_handler.o 
     32 FILE: Flash640 | ACTIVE_288KB | .text | board_utility.o 
    256 FILE: Flash640 | ACTIVE_288KB | .text | app_pulses_events.o 
     20 FILE: Flash640 | ACTIVE_288KB | .text | app_zcl_tick_handler.o 
@@ -53,12 +53,12 @@ FILES --------------------------------------------------------------------------
     48 FILE: Flash640 | ACTIVE_288KB | .text | fsl_gpio.o 
    244 FILE: Flash640 | ACTIVE_288KB | .text | fsl_gint.o 
    256 FILE: Flash640 | ACTIVE_288KB | .text | hardware_init.o 
-    72 FILE: Flash640 | ACTIVE_288KB | .text | pin_mux.o 
+    80 FILE: Flash640 | ACTIVE_288KB | .text | pin_mux.o 
    992 FILE: Flash640 | ACTIVE_288KB | .text | temp_sensor_drv.o 
    208 FILE: Flash640 | ACTIVE_288KB | .text | voltage_drv.o 
    508 FILE: Flash640 | ACTIVE_288KB | .text | fsl_adc.o 
    156 FILE: Flash640 | ACTIVE_288KB | .text | ZQueue.o 
-   444 FILE: Flash640 | ACTIVE_288KB | .text | ZTimer.o 
+   484 FILE: Flash640 | ACTIVE_288KB | .text | ZTimer.o 
      8 FILE: Flash640 | ACTIVE_288KB | .text | app_zps_link_keys.o 
    448 FILE: Flash640 | ACTIVE_288KB | .text | appZdpExtraction.o 
    292 FILE: Flash640 | ACTIVE_288KB | .text | appZpsBeaconHandler.o 
@@ -94,7 +94,7 @@ FILES --------------------------------------------------------------------------
      2 FILE: Flash640 | ACTIVE_288KB | .text | Panic.o 
    228 FILE: Flash640 | ACTIVE_288KB | .text | fsl_dma.o 
     32 FILE: Flash640 | ACTIVE_288KB | .text | MicroInt_arm_sdk2.o 
-  1832 FILE: Flash640 | ACTIVE_288KB | .text | PWR.o 
+  1784 FILE: Flash640 | ACTIVE_288KB | .text | PWR.o 
     28 FILE: Flash640 | ACTIVE_288KB | .text | PWR_setjmp.o 
    692 FILE: Flash640 | ACTIVE_288KB | .text | PWRLib.o 
     12 FILE: Flash640 | ACTIVE_288KB | .text | GPIO_Adapter.o 
@@ -295,18 +295,18 @@ FILES --------------------------------------------------------------------------
    160 FILE: Flash640 | ACTIVE_288KB | .text | lib_a-memset.o 
    224 FILE: Flash640 | ACTIVE_288KB | .text | lib_a-strlen.o 
     16 FILE: Flash640 | ACTIVE_288KB | .text | linker 
-   548 FILE: Flash640 | ACTIVE_288KB | .text | app_main.o 
+   472 FILE: Flash640 | ACTIVE_288KB | .text | app_main.o 
    948 FILE: Flash640 | ACTIVE_288KB | .text | zps_gen.o 
-   550 FILE: Flash640 | ACTIVE_288KB | .text | app_reporting.o 
-   726 FILE: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o 
+   804 FILE: Flash640 | ACTIVE_288KB | .text | app_reporting.o 
+   741 FILE: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o 
     44 FILE: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o 
   1872 FILE: Flash640 | ACTIVE_288KB | .text | app_zlo_sensor_node.o 
-  1166 FILE: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o 
+  1264 FILE: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o 
    698 FILE: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o 
    150 FILE: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o 
-  1225 FILE: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o 
-   376 FILE: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o 
-   281 FILE: Flash640 | ACTIVE_288KB | .text | app_event_handler.o 
+  1635 FILE: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o 
+   821 FILE: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o 
+   247 FILE: Flash640 | ACTIVE_288KB | .text | app_event_handler.o 
     12 FILE: Flash640 | ACTIVE_288KB | .text | board_utility.o 
    376 FILE: Flash640 | ACTIVE_288KB | .text | app_pulses_events.o 
    206 FILE: Flash640 | ACTIVE_288KB | .text | fsl_debug_console.o 
@@ -409,6 +409,7 @@ FILES --------------------------------------------------------------------------
      8 FILE: RAM0 | BANK5_8KB | .data | app_pulses_buttons.o 
      4 FILE: RAM0 | BANK5_8KB | .data | app_pulses_sensor_state_machine.o 
      4 FILE: RAM0 | BANK5_8KB | .data | app_sleep_handler.o 
+     4 FILE: RAM0 | BANK5_8KB | .data | app_nwk_event_handler.o 
      4 FILE: RAM0 | BANK5_8KB | .data | temp_sensor_drv.o 
     32 FILE: RAM0 | BANK5_8KB | .data | app_zps_link_keys.o 
      4 FILE: RAM0 | BANK5_8KB | .data | system_JN5189.o 
@@ -445,18 +446,18 @@ FILES --------------------------------------------------------------------------
      4 FILE: RAM0 | BANK5_8KB | .data | zps_nwk_join.o 
      4 FILE: RAM0 | BANK5_8KB | .data | SW_RNG.c.obj 
      4 FILE: RAM0 | BANK5_8KB | .data | Mini_Association.o 
-    96 FILE: RAM0 | BANK5_8KB | .data | radio.o 
+    92 FILE: RAM0 | BANK5_8KB | .data | radio.o 
    204 FILE: RAM0 | BANK5_8KB | .bss | app_main.o 
   2116 FILE: RAM0 | BANK5_8KB | .bss | pdum_gen.o 
   4584 FILE: RAM0 | BANK5_8KB | .bss | zps_gen.o 
     64 FILE: RAM0 | BANK5_8KB | .bss | app_reporting.o 
      1 FILE: RAM0 | BANK5_8KB | .bss | app_start_sensor.o 
    919 FILE: RAM0 | BANK5_8KB | .bss | App_PulsesSensor.o 
-    44 FILE: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o 
-     4 FILE: RAM0 | BANK5_8KB | .bss | app_zcl_sensor_task.o 
+    41 FILE: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o 
+     7 FILE: RAM0 | BANK5_8KB | .bss | app_zcl_sensor_task.o 
     16 FILE: RAM0 | BANK5_8KB | .bss | app_pulses_buttons.o 
-    24 FILE: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o 
-     4 FILE: RAM0 | BANK5_8KB | .bss | app_nwk_event_handler.o 
+    28 FILE: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o 
+     8 FILE: RAM0 | BANK5_8KB | .bss | app_nwk_event_handler.o 
      4 FILE: RAM0 | BANK5_8KB | .bss | app_zcl_tick_handler.o 
      8 FILE: RAM0 | BANK5_8KB | .bss | app_blink_led.o 
     32 FILE: RAM0 | BANK5_8KB | .bss | fsl_debug_console.o 
@@ -533,12 +534,12 @@ FILES --------------------------------------------------------------------------
      4 FILE: RAM0 | BANK5_8KB | .bss | Mini_Running.o 
      4 FILE: RAM0 | BANK5_8KB | .bss | Mini_Doze.o 
    488 FILE: RAM0 | BANK5_8KB | .bss | radio.o 
-     4 FILE: RAM0 | BANK5_8KB | .bss | zps_nwk_nib.o 
+    12 FILE: RAM0 | BANK5_8KB | .bss | zps_nwk_nib.o 
 SYMBOLS ------------------------------------------------------------------------
     32 SYMBOL: Flash640 | ACTIVE_288KB | .text | startup_JN5189.o | .after_vectors.reset 
    380 SYMBOL: Flash640 | ACTIVE_288KB | .text | startup_JN5189.o | .after_vectors 
    152 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .text.System_IRQHandler 
-   180 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .text.main_task 
+   116 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .text.main_task 
    216 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .text.APP_vSetUpHardware 
    244 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .text.APP_vInitResources 
     60 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .text.APP_vGetVoltagePourcentage 
@@ -571,17 +572,16 @@ SYMBOLS ------------------------------------------------------------------------
    132 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .text.vLoadDefaultConfigForReportable 
     88 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .text.vSaveReportableRecord 
    120 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .text.vSendImmediateIndexReport 
-   272 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .text.vSendImmediateAllReport 
+   344 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .text.vSendImmediateAllReport 
     12 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.vfExtendedStatusCallBack 
    212 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.PreSleep 
     76 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.Wakeup 
-   232 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.vAppMain 
+   240 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.vAppMain 
     28 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.vAppRegisterPWRCallbacks 
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .text.hardware_init 
     16 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .text.eApp_ZLO_RegisterEndpoint 
    112 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .text.vAPP_ZCL_DeviceSpecific_Init 
     20 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .text.vAPP_ZCL_DeviceSpecific_UpdateIdentify 
-    20 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .text.vAPP_ZCL_DeviceSpecific_IdentifyOff 
     32 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .text.APP_pulsesAction 
    548 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zlo_sensor_node.o | .text.APP_vBdbCallback 
     52 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zlo_sensor_node.o | .text.APP_taskSensor 
@@ -594,7 +594,7 @@ SYMBOLS ------------------------------------------------------------------------
     92 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .text.APP_ZCL_vInitialise 
     24 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .text.APP_ZCL_vEventHandler 
     32 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .text.vAPP_ZCL_Tick 
-   180 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .text.APP_cbTimerZclTick 
+   220 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .text.APP_cbTimerZclTick 
     68 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o | .text.gint_callback 
    556 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o | .text.APP_cbTimerButtonScan 
    192 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o | .text.APP_bButtonInitialise 
@@ -607,23 +607,23 @@ SYMBOLS ------------------------------------------------------------------------
     52 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o | .text.u32WakeTimerSecondsToTicks 
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o | .text.vStartWakeTimer 
     40 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o | .text.WAKE_UP_TIMER0_IRQHandler 
-   160 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.u8NumberOfNonSleepPreventingTimers 
-    88 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.u8NumberOfTimersTaskTimers 
-   204 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.vWakeCallBack 
-   500 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.vAttemptToSleep 
+    36 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.vStartNonSleepPreventingTimers 
+   216 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.vWakeCallBack 
+    92 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.vScheduleSleep 
+  1160 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .text.vAttemptToSleep 
     40 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vStopPollTimerTask 
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vStartPollTimer 
     12 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.APP_cbTimerPoll 
-    88 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandlePollResponse 
-    40 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleFailedToJoin 
-    32 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleFailedRejoin 
-    68 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleNetworkJoinEndDevice 
+   272 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandlePollResponse 
+   100 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleFailedToJoin 
+   100 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleFailedRejoin 
+    24 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vResetRejoinAttempts 
+    72 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleNetworkJoinEndDevice 
     52 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleNetworkLeave 
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleNetworkJoinAndRejoin 
     44 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .text.vHandleNetworkLeaveConfirm 
     76 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .text.vDioEventHandler 
    208 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .text.vAppHandleAppEvent 
-    36 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .text.vEventStopFindAndBind 
      8 SYMBOL: Flash640 | ACTIVE_288KB | .text | board_utility.o | .text.BOARD_GetClock32MCapacitanceCharacteristics 
     24 SYMBOL: Flash640 | ACTIVE_288KB | .text | board_utility.o | .text.BOARD_CpuClockUpdate32MhzFro 
    140 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_events.o | .text.vHandlePulseRisingEvent 
@@ -652,7 +652,7 @@ SYMBOLS ------------------------------------------------------------------------
     36 SYMBOL: Flash640 | ACTIVE_288KB | .text | fsl_gint.o | .text.GINT0_DriverIRQHandler 
    168 SYMBOL: Flash640 | ACTIVE_288KB | .text | hardware_init.o | .text.BOARD_InitClocks 
     88 SYMBOL: Flash640 | ACTIVE_288KB | .text | hardware_init.o | .text.BOARD_InitHardware 
-    16 SYMBOL: Flash640 | ACTIVE_288KB | .text | pin_mux.o | .text.BOARD_InitPins 
+    24 SYMBOL: Flash640 | ACTIVE_288KB | .text | pin_mux.o | .text.BOARD_InitPins 
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | pin_mux.o | .text.BOARD_SetPinsForPowerMode 
     76 SYMBOL: Flash640 | ACTIVE_288KB | .text | temp_sensor_drv.o | .text.compute_estimated_sum 
     52 SYMBOL: Flash640 | ACTIVE_288KB | .text | temp_sensor_drv.o | .text.flashConfig_ExtractGpAdcTrimValues 
@@ -681,6 +681,7 @@ SYMBOLS ------------------------------------------------------------------------
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | ZTimer.o | .text.ZTIMER_eOpen 
     84 SYMBOL: Flash640 | ACTIVE_288KB | .text | ZTimer.o | .text.ZTIMER_eStart 
     76 SYMBOL: Flash640 | ACTIVE_288KB | .text | ZTimer.o | .text.ZTIMER_eStop 
+    40 SYMBOL: Flash640 | ACTIVE_288KB | .text | ZTimer.o | .text.ZTIMER_vStopAllTimers 
     16 SYMBOL: Flash640 | ACTIVE_288KB | .text | ZTimer.o | .text.ZTIMER_eGetState 
      8 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zps_link_keys.o | .text.ZPS_pau8GetBdbDistributedLinkKey 
    132 SYMBOL: Flash640 | ACTIVE_288KB | .text | appZdpExtraction.o | .text.zps_bAplZdpUnpackNwkAddressResponse.part.0 
@@ -886,7 +887,6 @@ SYMBOLS ------------------------------------------------------------------------
    208 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_Init 
    196 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_CheckSocTimers 
     44 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_CheckIfDeviceCanGoToSleep 
-    48 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_CheckIfDeviceCanGoToSleepExt 
     56 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_EnterPowerDown 
     36 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_EnterLowPower 
     12 SYMBOL: Flash640 | ACTIVE_288KB | .text | PWR.o | .text.PWR_RegisterLowPowerEnterCallback 
@@ -2033,7 +2033,6 @@ SYMBOLS ------------------------------------------------------------------------
    224 SYMBOL: Flash640 | ACTIVE_288KB | .text | lib_a-strlen.o | .text 
     16 SYMBOL: Flash640 | ACTIVE_288KB | .text | linker | .text.__stub 
     78 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .rodata.System_IRQHandler.str1.1 
-    76 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .rodata.main_task.str1.1 
     73 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .rodata.APP_vSetUpHardware.str1.1 
     32 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .rodata.APP_vGetVoltagePourcentage.str1.1 
     28 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_main.o | .rodata.APP_vGetVoltageBattery.str1.1 
@@ -2055,9 +2054,10 @@ SYMBOLS ------------------------------------------------------------------------
    119 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .rodata.vLoadDefaultConfigForReportable.str1.1 
    114 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .rodata.vSaveReportableRecord.str1.1 
    167 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .rodata.vSendImmediateIndexReport.str1.1 
+   254 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_reporting.o | .rodata.vSendImmediateAllReport.str1.1 
     27 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .rodata.vfExtendedStatusCallBack.str1.1 
    304 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .rodata.PreSleep.str1.1 
-   395 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .rodata.vAppMain.str1.1 
+   410 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_start_sensor.o | .rodata.vAppMain.str1.1 
     43 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .rodata.vAPP_ZCL_DeviceSpecific_Init.str1.1 
      1 SYMBOL: Flash640 | ACTIVE_288KB | .text | App_PulsesSensor.o | .rodata.u8MyEndpoint 
   1184 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zlo_sensor_node.o | .rodata.APP_vBdbCallback.str1.1 
@@ -2069,7 +2069,7 @@ SYMBOLS ------------------------------------------------------------------------
    197 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .rodata.APP_ZCL_cbGeneralCallback.str1.1 
    715 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .rodata.APP_ZCL_cbEndpointCallback.str1.1 
    105 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .rodata.APP_ZCL_vInitialise.str1.1 
-   149 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .rodata.APP_cbTimerZclTick.str1.1 
+   247 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_zcl_sensor_task.o | .rodata.APP_cbTimerZclTick.str1.1 
     39 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o | .rodata.gint_callback.str1.1 
    413 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o | .rodata.APP_cbTimerButtonScan.str1.1 
    121 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_buttons.o | .rodata.APP_bButtonInitialise.str1.1 
@@ -2080,21 +2080,19 @@ SYMBOLS ------------------------------------------------------------------------
     29 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o | .rodata.vAppHandleStartup.str1.1 
     54 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o | .rodata.u32WakeTimerSecondsToTicks.str1.1 
     36 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_sensor_state_machine.o | .rodata.vStartWakeTimer.str1.1 
-   260 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.u8NumberOfNonSleepPreventingTimers.str1.1 
-    72 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.u8NumberOfTimersTaskTimers.str1.1 
-   226 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.vWakeCallBack.str1.1 
-   667 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.vAttemptToSleep.str1.1 
+   272 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.vWakeCallBack.str1.1 
+   111 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.vScheduleSleep.str1.1 
+  1252 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_sleep_handler.o | .rodata.vAttemptToSleep.str1.1 
     25 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vStopPollTimerTask.str1.1 
     42 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vStartPollTimer.str1.1 
-    73 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandlePollResponse.str1.1 
-    38 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandleFailedToJoin.str1.1 
+   428 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandlePollResponse.str1.1 
+   128 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandleFailedToJoin.str1.1 
     48 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandleNetworkJoinEndDevice.str1.1 
     72 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandleNetworkLeave.str1.1 
     19 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandleNetworkJoinAndRejoin.str1.1 
     59 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_nwk_event_handler.o | .rodata.vHandleNetworkLeaveConfirm.str1.1 
     32 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .rodata.vDioEventHandler.str1.1 
-   214 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .rodata.vAppHandleAppEvent.str1.1 
-    35 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .rodata.vEventStopFindAndBind.str1.1 
+   215 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_event_handler.o | .rodata.vAppHandleAppEvent.str1.1 
     12 SYMBOL: Flash640 | ACTIVE_288KB | .text | board_utility.o | .rodata.BOARD_Clock32MCapacitanceCharacteristics 
    304 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_events.o | .rodata.vHandlePulseRisingEvent.str1.1 
     39 SYMBOL: Flash640 | ACTIVE_288KB | .text | app_pulses_events.o | .rodata.vHandleButtonPressedEventRejoin.str1.1 
@@ -2381,6 +2379,7 @@ SYMBOLS ------------------------------------------------------------------------
      4 SYMBOL: RAM0 | BANK5_8KB | .data | app_pulses_buttons.o | .data.u32PreviousDioState 
      4 SYMBOL: RAM0 | BANK5_8KB | .data | app_pulses_sensor_state_machine.o | .data.u32WtimerCalibration 
      4 SYMBOL: RAM0 | BANK5_8KB | .data | app_sleep_handler.o | .data.u16FlagReportTimer 
+     4 SYMBOL: RAM0 | BANK5_8KB | .data | app_nwk_event_handler.o | .data.u32RejoinBackoffTime 
      4 SYMBOL: RAM0 | BANK5_8KB | .data | temp_sensor_drv.o | .data.cal 
     16 SYMBOL: RAM0 | BANK5_8KB | .data | app_zps_link_keys.o | .data.au8DistributedLinkKey 
     16 SYMBOL: RAM0 | BANK5_8KB | .data | app_zps_link_keys.o | .data.au8TLCertKey 
@@ -2446,7 +2445,7 @@ SYMBOLS ------------------------------------------------------------------------
     88 SYMBOL: RAM0 | BANK5_8KB | .data | radio.o | .data.RadioConfiguration 
      1 SYMBOL: RAM0 | BANK5_8KB | .data | radio.o | .data.eCurrentTxMode 
      1 SYMBOL: RAM0 | BANK5_8KB | .data | radio.o | .data.i8Radio_TxMaxPower 
-     6 SYMBOL: RAM0 | BANK5_8KB | .data | radio.o | .data.i8Radio_TxMaxPowerCh26 
+     2 SYMBOL: RAM0 | BANK5_8KB | .data | radio.o | .data.i8Radio_TxMaxPowerCh26 
      1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.APP_bInitialised 
      3 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.APP_bPersistantPolling 
     16 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.APP_msgAppEvents 
@@ -2454,7 +2453,7 @@ SYMBOLS ------------------------------------------------------------------------
     16 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.APP_msgZclEvents 
     16 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.APP_msgZpsEvents 
    128 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.asTimers 
-     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.initialized.18889 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.initialized.18891 
      1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.u8TimerBlink 
      1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.u8TimerButtonScan 
      1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_main.o | .bss.u8TimerMinWake 
@@ -2542,8 +2541,9 @@ SYMBOLS ------------------------------------------------------------------------
      2 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o | .bss.sDeviceDesc 
      2 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o | .bss.u16WatchdogAttemptToSleep 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o | .bss.u32countStart 
-     4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o | .bss.u8NoQueryCount 
-     4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zcl_sensor_task.o | .bss.u32RadioTempUpdateMs.17723 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zlo_sensor_node.o | .bss.u8NoQueryCount 
+     3 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zcl_sensor_task.o | .bss.bPreventTickTimerRestart 
+     4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zcl_sensor_task.o | .bss.u32RadioTempUpdateMs.17724 
      1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_pulses_buttons.o | .bss.bDebouncing 
      1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_pulses_buttons.o | .bss.bImpulsionRelease 
      2 SYMBOL: RAM0 | BANK5_8KB | .bss | app_pulses_buttons.o | .bss.s_u8ButtonState 
@@ -2552,8 +2552,14 @@ SYMBOLS ------------------------------------------------------------------------
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_pulses_buttons.o | .bss.u8LoopButton0 
     16 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.sWake 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u32OldCounter 
-     4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u8NbFailedTransmit 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u8ConsecutiveReportSleepAttempts.18167 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u8ConsecutiveSleepFailures 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u8NbFailedTransmit 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u8PollTimerRunningCount.18168 
+     4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_sleep_handler.o | .bss.u8SleepCheckFailures 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_nwk_event_handler.o | .bss.u32PollTime 
+     1 SYMBOL: RAM0 | BANK5_8KB | .bss | app_nwk_event_handler.o | .bss.u8ConsecutivePollCount 
+     3 SYMBOL: RAM0 | BANK5_8KB | .bss | app_nwk_event_handler.o | .bss.u8RejoinAttempts 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_zcl_tick_handler.o | .bss.u32NumberOfZCLTicksSinceLastReport 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_blink_led.o | .bss.bDIO1State 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | app_blink_led.o | .bss.u32BlinkTickTime 
@@ -2767,42 +2773,11 @@ SYMBOLS ------------------------------------------------------------------------
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | Mini_Running.o | COMMON 
      4 SYMBOL: RAM0 | BANK5_8KB | .bss | Mini_Doze.o | COMMON 
    488 SYMBOL: RAM0 | BANK5_8KB | .bss | radio.o | COMMON 
-     4 SYMBOL: RAM0 | BANK5_8KB | .bss | zps_nwk_nib.o | g_u32NwkFrameCounter 
+    12 SYMBOL: RAM0 | BANK5_8KB | .bss | zps_nwk_nib.o | g_u32NwkFrameCounter 
 FOLDERS --------------------------------------------------------------------
-  2377 FOLDER: Flash640 | .text | APP/Common/Source/board 
-  1342 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/components/serial_manager 
-   574 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/components/uart 
-   228 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189 
- 11208 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers 
-    90 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/utilities 
-   618 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/utilities/debug_console 
-  1404 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/utilities/str 
-   104 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common 
-  4074 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/DebugExceptionHandlers_jn518x/src 
-    82 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/DebugFifo/Source 
-    62 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/FunctionLib 
-    12 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/GPIO 
-   134 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Lists 
-  2699 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/LowPower/Source/jn5189dk6 
-   316 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/MemManager/Source 
-    28 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Messaging/Source 
-   448 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/OSAbstraction/Source 
-     2 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Panic/Source 
-   122 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/RNG/Source 
-   664 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/SecLib 
-  1694 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/TimersManager/Source 
-  2163 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Source/Common 
-  1986 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Source/FindAndBind 
-  2771 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Source/NwkSteering 
- 14900 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCIF/Source 
-  1864 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/General/Source 
-    92 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/MeasurementAndSensing/Source 
-   388 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/SmartEnergy/Source 
-   296 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Devices/ZHA/Generic/Source 
-  1520 FOLDER: Flash640 | .text | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Source 
- 17868 FOLDER: Flash640 | .text | APP/PulsesSensor/Source 
-   556 FOLDER: Flash640 | .text | APP/gcc 
+ 15316 FOLDER: Flash640 | .text | APP/PulsesSensor/Source 
     16 FOLDER: Flash640 | .text | LIB/ 
+ 59374 FOLDER: Flash640 | .text | LIB/Binaries/PulsesSensor_OM15082/obj 
   9620 FOLDER: Flash640 | .text | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Library/libPDM.a 
   2432 FOLDER: Flash640 | .text | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDUM/Library/libPDUM.a 
     32 FOLDER: Flash640 | .text | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PWRM/Library/libPWRM.a 
@@ -2817,243 +2792,156 @@ FOLDERS --------------------------------------------------------------------
   1884 FOLDER: Flash640 | .text | LIB/gcc/arm-none-eabi/9.2.1/thumb/v7e-m/nofp/libgcc.a 
   1028 FOLDER: RAM0 | .bss_discard | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Library/libPDM.a 
   1528 FOLDER: RAM0 | .bss_discard | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSMAC_Mini_SOC.a 
-     4 FOLDER: RAM0 | .data | APP/Common/Source/board 
-     4 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189 
-    20 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers 
-    12 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common 
-    12 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/LowPower/Source/jn5189dk6 
-    32 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/MemManager/Source 
-    32 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/OSAbstraction/Source 
-    32 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/TimersManager/Source 
-    64 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/General/Source 
-    16 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/MeasurementAndSensing/Source 
-    16 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/SmartEnergy/Source 
-    32 FOLDER: RAM0 | .data | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Source 
-  1144 FOLDER: RAM0 | .data | APP/PulsesSensor/Source 
+  1136 FOLDER: RAM0 | .data | APP/PulsesSensor/Source 
+   288 FOLDER: RAM0 | .data | LIB/Binaries/PulsesSensor_OM15082/obj 
      4 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/SecLib/lib_crypto_m4.a 
-    96 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/XCVR/lib/libRadio.a 
+    92 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/XCVR/lib/libRadio.a 
      4 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/ieee-802.15.4/lib/libMiniMac.a 
     27 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSAPL.a 
     12 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSMAC_Mini_SOC.a 
     37 FOLDER: RAM0 | .data | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSNWK_ZED.a 
-    72 FOLDER: RAM0 | .bss | APP/Common/Source/board 
-   151 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers 
-    32 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/utilities/debug_console 
-     4 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/GPIO 
-   620 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/LowPower/Source/jn5189dk6 
-  2624 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/MemManager/Source 
-   160 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/OSAbstraction/Source 
-    19 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/SecLib 
-   350 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/TimersManager/Source 
-   132 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Source/Common 
-    92 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Source/FindAndBind 
-    16 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/BDB/Source/NwkSteering 
-   496 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCIF/Source 
-    29 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/General/Source 
-     5 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/MeasurementAndSensing/Source 
-    10 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZCL/Clusters/SmartEnergy/Source 
-    16 FOLDER: RAM0 | .bss | APP/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Source 
-  7992 FOLDER: RAM0 | .bss | APP/PulsesSensor/Source 
+  7908 FOLDER: RAM0 | .bss | APP/PulsesSensor/Source 
+  4920 FOLDER: RAM0 | .bss | LIB/Binaries/PulsesSensor_OM15082/obj 
    140 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Library/libPDM.a 
     28 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDUM/Library/libPDUM.a 
    495 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/XCVR/lib/libRadio.a 
    341 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/ieee-802.15.4/lib/libMiniMac.a 
    268 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSAPL.a 
     98 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSMAC_Mini_SOC.a 
-   110 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSNWK_ZED.a 
+   118 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSNWK_ZED.a 
      4 FOLDER: RAM0 | .bss | LIB/PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/Library/libZPSTSV.a 
 TREE -----------------------------------------------------------------------
- 72686 TREE: Flash640 | .text | APP /  
-  2377 TREE: Flash640 | .text | APP / Common /  
-  2377 TREE: Flash640 | .text | APP / Common / Source /  
-  2377 TREE: Flash640 | .text | APP / Common / Source / board /  
-    44 TREE: Flash640 | .text | APP / Common / Source / board / board.o 
-    44 TREE: Flash640 | .text | APP / Common / Source / board / board_utility.o 
-   256 TREE: Flash640 | .text | APP / Common / Source / board / hardware_init.o 
-    72 TREE: Flash640 | .text | APP / Common / Source / board / pin_mux.o 
-  1683 TREE: Flash640 | .text | APP / Common / Source / board / temp_sensor_drv.o 
-   278 TREE: Flash640 | .text | APP / Common / Source / board / voltage_drv.o 
- 69753 TREE: Flash640 | .text | APP / PulsesSensor /  
- 51885 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
-  1916 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / components /  
-  1342 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / components / serial_manager /  
-   987 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / components / serial_manager / serial_manager.o 
-   355 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / components / serial_manager / serial_port_uart.o 
-   574 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / components / uart /  
-   574 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / components / uart / usart_adapter.o 
- 13548 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices /  
- 13548 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 /  
- 11208 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers /  
-   747 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_adc.o 
-   244 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_aes.o 
-  2273 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_clock.o 
-   312 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_common.o 
-   132 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_ctimer.o 
-   353 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_dma.o 
-   228 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_flash.o 
-  1135 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_flexcomm.o 
-    40 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_fmeas.o 
-   372 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_gint.o 
-    48 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_gpio.o 
-    20 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_inputmux.o 
-  2416 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_power.o 
-   346 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_reset.o 
-   180 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_rng.o 
-    26 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_rtc.o 
-   991 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_usart.o 
-   784 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_wtimer.o 
-   561 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_wwdt.o 
-   228 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / system_JN5189.o 
-  2112 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities /  
-   618 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / debug_console /  
-   618 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / debug_console / fsl_debug_console.o 
-    90 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / fsl_assert.o 
-  1404 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / str /  
-  1404 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / str / fsl_str.o 
- 36421 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
- 36421 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
- 10441 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework /  
-   104 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Common /  
-    72 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Common / Heap.o 
-    32 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Common / MicroInt_arm_sdk2.o 
-  4074 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugExceptionHandlers_jn518x /  
-  4074 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugExceptionHandlers_jn518x / src /  
-    40 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugExceptionHandlers_jn518x / src / Exceptions_NVIC.o 
-  4034 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugExceptionHandlers_jn518x / src / MicroExceptions_arm.o 
-    82 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugFifo /  
-    82 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugFifo / Source /  
-    82 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / DebugFifo / Source / Debug.o 
-    62 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / FunctionLib /  
-    62 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / FunctionLib / FunctionLib.o 
-    12 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / GPIO /  
-    12 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / GPIO / GPIO_Adapter.o 
-   134 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Lists /  
-   134 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Lists / GenericList.o 
-  2699 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower /  
-  2699 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source /  
-  2699 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 /  
-  1883 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 / PWR.o 
-   788 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 / PWRLib.o 
-    28 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 / PWR_setjmp.o 
-   316 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager /  
-   316 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager / Source /  
-   316 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager / Source / MemManager.o 
-    28 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Messaging /  
-    28 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Messaging / Source /  
-    28 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Messaging / Source / Messaging.o 
-   448 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction /  
-   448 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction / Source /  
-   448 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction / Source / fsl_os_abstraction_bm.o 
-     2 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Panic /  
-     2 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Panic / Source /  
-     2 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Panic / Source / Panic.o 
-   122 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / RNG /  
-   122 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / RNG / Source /  
-   122 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / RNG / Source / RNG.o 
-   664 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib /  
-   664 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib / SecLib.o 
-  1694 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager /  
-  1694 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source /  
-   885 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source / TMR_Adapter.o 
-   809 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source / TimersManager.o 
- 25980 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee /  
-  6920 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB /  
-  6920 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source /  
-  2163 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common /  
-   184 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common / bdb_fr.o 
-  1707 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common / bdb_start.o 
-   272 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common / bdb_state_machine.o 
-  1986 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / FindAndBind /  
-    12 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / FindAndBind / bdb_fb_common.o 
-  1974 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / FindAndBind / bdb_fb_initiator.o 
-  2771 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / NwkSteering /  
-  2771 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / NwkSteering / bdb_ns.o 
- 14900 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF /  
- 14900 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source /  
-   284 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / dlist.o 
-  1210 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl.o 
-   316 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_CustomCommandReceive.o 
-   584 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_CustomCommandSend.o 
-   344 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_PDUbufferReadWrite.o 
-   690 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_PDUbufferReadWriteString.o 
-   802 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_WriteAttributesRequestHandle.o 
-  1298 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_attribute.o 
-    72 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_buffer.o 
-   304 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_command.o 
-    60 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_common.o 
-  1240 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_configureReportingCommandHandle.o 
-   248 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_defaultResponse.o 
-  1340 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_event.o 
-    56 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_heap.o 
-   112 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_library_options.o 
-   520 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_readAttributesRequestHandle.o 
-   448 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_readAttributesResponseHandle.o 
-   704 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_readReportingConfigurationCommandHandle.o 
-   850 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_reportManager.o 
-   568 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_reportMaths.o 
-   710 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_reportScheduler.o 
-   260 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_reportStringHandling.o 
-   132 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_reportStructure.o 
-   528 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_search.o 
-   392 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_timer.o 
-   828 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_transmit.o 
-  2640 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL /  
-  2344 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters /  
-  1864 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General /  
-  1864 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source /  
-   264 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Basic.o 
-    18 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / BasicClientCommands.o 
-    98 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / BasicCommandHandler.o 
-   136 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Groups.o 
-   130 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / GroupsClientCommands.o 
-   256 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / GroupsCommandHandler.o 
-   266 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Identify.o 
-   118 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / IdentifyClientCommands.o 
-   310 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / IdentifyCommandHandler.o 
-   160 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / IdentifyServerCommands.o 
-   108 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / PowerConfiguration.o 
-    92 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing /  
-    92 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing / Source /  
-    92 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing / Source / TemperatureMeasurement.o 
-   388 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy /  
-   388 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source /  
-   136 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source / SimpleMetering.o 
-   252 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source / SimpleMeteringCommandHandler.o 
-   296 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Devices /  
-   296 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Devices / ZHA /  
-   296 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Devices / ZHA / Generic /  
-   296 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Devices / ZHA / Generic / Source /  
-   296 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Devices / ZHA / Generic / Source / base_device.o 
-  1520 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon /  
-  1520 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source /  
-   156 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / ZQueue.o 
-   444 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / ZTimer.o 
-   472 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / appZdpExtraction.o 
-   292 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / appZpsBeaconHandler.o 
-     8 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / app_zps_link_keys.o 
-   148 TREE: Flash640 | .text | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / port_JN518x.o 
- 17868 TREE: Flash640 | .text | APP / PulsesSensor / Source /  
-   244 TREE: Flash640 | .text | APP / PulsesSensor / Source / App_PulsesSensor.o 
-   200 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_blink_led.o 
-   601 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_event_handler.o 
-  1736 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_main.o 
-   864 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_nwk_event_handler.o 
-  1618 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_pulses_buttons.o 
-   632 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_pulses_events.o 
-   418 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_pulses_sensor_state_machine.o 
-  1342 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_reporting.o 
-  2177 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_sleep_handler.o 
-  1342 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_start_sensor.o 
-  2222 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_zcl_sensor_task.o 
-    20 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_zcl_tick_handler.o 
+ 15316 TREE: Flash640 | .text | APP /  
+ 15316 TREE: Flash640 | .text | APP / PulsesSensor /  
+ 15316 TREE: Flash640 | .text | APP / PulsesSensor / Source /  
+   224 TREE: Flash640 | .text | APP / PulsesSensor / Source / App_PulsesSensor.o 
+   531 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_event_handler.o 
+  1596 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_main.o 
+  1649 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_nwk_event_handler.o 
+  3139 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_sleep_handler.o 
+  1365 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_start_sensor.o 
+  2360 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_zcl_sensor_task.o 
   3108 TREE: Flash640 | .text | APP / PulsesSensor / Source / app_zlo_sensor_node.o 
     40 TREE: Flash640 | .text | APP / PulsesSensor / Source / pdum_gen.o 
   1304 TREE: Flash640 | .text | APP / PulsesSensor / Source / zps_gen.o 
-   556 TREE: Flash640 | .text | APP / gcc /  
-   556 TREE: Flash640 | .text | APP / gcc / startup_JN5189.o 
-107228 TREE: Flash640 | .text | LIB /  
+166602 TREE: Flash640 | .text | LIB /  
     16 TREE: Flash640 | .text | LIB /  /  
     16 TREE: Flash640 | .text | LIB /  / linker 
+ 59374 TREE: Flash640 | .text | LIB / Binaries /  
+ 59374 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 /  
+ 59374 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj /  
+   264 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Basic.o 
+    18 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / BasicClientCommands.o 
+    98 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / BasicCommandHandler.o 
+    82 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Debug.o 
+    40 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Exceptions_NVIC.o 
+    62 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / FunctionLib.o 
+    12 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / GPIO_Adapter.o 
+   134 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / GenericList.o 
+   136 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Groups.o 
+   130 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / GroupsClientCommands.o 
+   256 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / GroupsCommandHandler.o 
+    72 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Heap.o 
+   266 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Identify.o 
+   118 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / IdentifyClientCommands.o 
+   310 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / IdentifyCommandHandler.o 
+   160 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / IdentifyServerCommands.o 
+   316 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / MemManager.o 
+    28 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Messaging.o 
+  4034 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / MicroExceptions_arm.o 
+    32 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / MicroInt_arm_sdk2.o 
+  1835 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / PWR.o 
+   788 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / PWRLib.o 
+    28 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / PWR_setjmp.o 
+     2 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / Panic.o 
+   108 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / PowerConfiguration.o 
+   122 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / RNG.o 
+   664 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / SecLib.o 
+   136 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / SimpleMetering.o 
+   252 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / SimpleMeteringCommandHandler.o 
+   885 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / TMR_Adapter.o 
+    92 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / TemperatureMeasurement.o 
+   809 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / TimersManager.o 
+   156 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / ZQueue.o 
+   484 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / ZTimer.o 
+   472 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / appZdpExtraction.o 
+   292 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / appZpsBeaconHandler.o 
+   200 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_blink_led.o 
+  1618 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_pulses_buttons.o 
+   632 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_pulses_events.o 
+   418 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_pulses_sensor_state_machine.o 
+  1668 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_reporting.o 
+    20 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_zcl_tick_handler.o 
+     8 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / app_zps_link_keys.o 
+   296 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / base_device.o 
+    12 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_fb_common.o 
+  1974 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_fb_initiator.o 
+   184 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_fr.o 
+  2771 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_ns.o 
+  1707 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_start.o 
+   272 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_state_machine.o 
+    44 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / board.o 
+    44 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / board_utility.o 
+   284 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / dlist.o 
+   747 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_adc.o 
+   244 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_aes.o 
+    90 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_assert.o 
+  2273 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_clock.o 
+   312 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_common.o 
+   132 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_ctimer.o 
+   618 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_debug_console.o 
+   353 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_dma.o 
+   228 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_flash.o 
+  1135 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_flexcomm.o 
+    40 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_fmeas.o 
+   372 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_gint.o 
+    48 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_gpio.o 
+    20 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_inputmux.o 
+   448 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_os_abstraction_bm.o 
+  2416 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_power.o 
+   346 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_reset.o 
+   180 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_rng.o 
+    26 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_rtc.o 
+  1404 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_str.o 
+   991 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_usart.o 
+   784 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_wtimer.o 
+   561 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_wwdt.o 
+   256 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / hardware_init.o 
+    80 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / pin_mux.o 
+   148 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / port_JN518x.o 
+   987 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / serial_manager.o 
+   355 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / serial_port_uart.o 
+   556 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / startup_JN5189.o 
+   228 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / system_JN5189.o 
+  1683 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / temp_sensor_drv.o 
+   574 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / usart_adapter.o 
+   278 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / voltage_drv.o 
+  1210 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl.o 
+   316 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_CustomCommandReceive.o 
+   584 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_CustomCommandSend.o 
+   344 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_PDUbufferReadWrite.o 
+   690 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_PDUbufferReadWriteString.o 
+   802 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_WriteAttributesRequestHandle.o 
+  1298 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_attribute.o 
+    72 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_buffer.o 
+   304 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_command.o 
+    60 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_common.o 
+  1240 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_configureReportingCommandHandle.o 
+   248 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_defaultResponse.o 
+  1340 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_event.o 
+    56 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_heap.o 
+   112 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_library_options.o 
+   520 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_readAttributesRequestHandle.o 
+   448 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_readAttributesResponseHandle.o 
+   704 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_readReportingConfigurationCommandHandle.o 
+   850 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_reportManager.o 
+   568 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_reportMaths.o 
+   710 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_reportScheduler.o 
+   260 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_reportStringHandling.o 
+   132 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_reportStructure.o 
+   528 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_search.o 
+   392 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_timer.o 
+   828 TREE: Flash640 | .text | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_transmit.o 
 104532 TREE: Flash640 | .text | LIB / PulsesSensor /  
 104532 TREE: Flash640 | .text | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
 104532 TREE: Flash640 | .text | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
@@ -3251,76 +3139,49 @@ TREE -----------------------------------------------------------------------
   1528 TREE: RAM0 | .bss_discard | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library /  
   1528 TREE: RAM0 | .bss_discard | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSMAC_Mini_SOC.a /  
   1528 TREE: RAM0 | .bss_discard | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSMAC_Mini_SOC.a / zps_miniMac.o 
-  1420 TREE: RAM0 | .data | APP /  
-     4 TREE: RAM0 | .data | APP / Common /  
-     4 TREE: RAM0 | .data | APP / Common / Source /  
-     4 TREE: RAM0 | .data | APP / Common / Source / board /  
-     4 TREE: RAM0 | .data | APP / Common / Source / board / temp_sensor_drv.o 
-  1416 TREE: RAM0 | .data | APP / PulsesSensor /  
-   272 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
-    24 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices /  
-    24 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 /  
-    20 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers /  
-    20 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_power.o 
-     4 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / system_JN5189.o 
-   248 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
-   248 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
-   120 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework /  
-    12 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Common /  
-    12 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / Common / Heap.o 
-    12 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower /  
-    12 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source /  
-    12 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 /  
-    12 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 / PWR.o 
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager / Source /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager / Source / MemManager.o 
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction / Source /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction / Source / fsl_os_abstraction_bm.o 
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source / TimersManager.o 
-   128 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee /  
-    96 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL /  
-    96 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters /  
-    64 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General /  
-    64 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source /  
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Basic.o 
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Groups.o 
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Identify.o 
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / PowerConfiguration.o 
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing /  
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing / Source /  
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing / Source / TemperatureMeasurement.o 
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy /  
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source /  
-    16 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source / SimpleMetering.o 
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source /  
-    32 TREE: RAM0 | .data | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / app_zps_link_keys.o 
-  1144 TREE: RAM0 | .data | APP / PulsesSensor / Source /  
+  1136 TREE: RAM0 | .data | APP /  
+  1136 TREE: RAM0 | .data | APP / PulsesSensor /  
+  1136 TREE: RAM0 | .data | APP / PulsesSensor / Source /  
     64 TREE: RAM0 | .data | APP / PulsesSensor / Source / App_PulsesSensor.o 
      4 TREE: RAM0 | .data | APP / PulsesSensor / Source / app_main.o 
-     8 TREE: RAM0 | .data | APP / PulsesSensor / Source / app_pulses_buttons.o 
-     4 TREE: RAM0 | .data | APP / PulsesSensor / Source / app_pulses_sensor_state_machine.o 
+     4 TREE: RAM0 | .data | APP / PulsesSensor / Source / app_nwk_event_handler.o 
      4 TREE: RAM0 | .data | APP / PulsesSensor / Source / app_sleep_handler.o 
     24 TREE: RAM0 | .data | APP / PulsesSensor / Source / pdum_apdu.o 
    124 TREE: RAM0 | .data | APP / PulsesSensor / Source / pdum_gen.o 
    912 TREE: RAM0 | .data | APP / PulsesSensor / Source / zps_gen.o 
-   180 TREE: RAM0 | .data | LIB /  
-   180 TREE: RAM0 | .data | LIB / PulsesSensor /  
-   180 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
-   180 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
-   180 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
-   100 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework /  
+   464 TREE: RAM0 | .data | LIB /  
+   288 TREE: RAM0 | .data | LIB / Binaries /  
+   288 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 /  
+   288 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj /  
+    16 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / Basic.o 
+    16 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / Groups.o 
+    12 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / Heap.o 
+    16 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / Identify.o 
+    32 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / MemManager.o 
+    12 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / PWR.o 
+    16 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / PowerConfiguration.o 
+    16 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / SimpleMetering.o 
+    16 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / TemperatureMeasurement.o 
+    32 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / TimersManager.o 
+     8 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / app_pulses_buttons.o 
+     4 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / app_pulses_sensor_state_machine.o 
+    32 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / app_zps_link_keys.o 
+    32 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_os_abstraction_bm.o 
+    20 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_power.o 
+     4 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / system_JN5189.o 
+     4 TREE: RAM0 | .data | LIB / Binaries / PulsesSensor_OM15082 / obj / temp_sensor_drv.o 
+   176 TREE: RAM0 | .data | LIB / PulsesSensor /  
+   176 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
+   176 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
+   176 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
+    96 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework /  
      4 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib /  
      4 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib / lib_crypto_m4.a /  
      4 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib / lib_crypto_m4.a / SW_RNG.c.obj 
-    96 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR /  
-    96 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR / lib /  
-    96 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR / lib / libRadio.a /  
-    96 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR / lib / libRadio.a / radio.o 
+    92 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR /  
+    92 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR / lib /  
+    92 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR / lib / libRadio.a /  
+    92 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / XCVR / lib / libRadio.a / radio.o 
      4 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / ieee-802.15.4 /  
      4 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / ieee-802.15.4 / lib /  
      4 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / ieee-802.15.4 / lib / libMiniMac.a /  
@@ -3349,101 +3210,63 @@ TREE -----------------------------------------------------------------------
      2 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_maint.o 
      2 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_mcps.o 
      1 TREE: RAM0 | .data | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_nib.o 
- 12820 TREE: RAM0 | .bss | APP /  
- 12748 TREE: RAM0 | .bss | APP / PulsesSensor /  
-  7992 TREE: RAM0 | .bss | APP / PulsesSensor / Source /  
+  7908 TREE: RAM0 | .bss | APP /  
+  7908 TREE: RAM0 | .bss | APP / PulsesSensor /  
+  7908 TREE: RAM0 | .bss | APP / PulsesSensor / Source /  
    204 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_main.o 
   2116 TREE: RAM0 | .bss | APP / PulsesSensor / Source / pdum_gen.o 
   4584 TREE: RAM0 | .bss | APP / PulsesSensor / Source / zps_gen.o 
-    64 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_reporting.o 
+  6412 TREE: RAM0 | .bss | LIB /  
+  4920 TREE: RAM0 | .bss | LIB / Binaries /  
+  4920 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 /  
+  4920 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj /  
+    64 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / app_reporting.o 
      1 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_start_sensor.o 
    919 TREE: RAM0 | .bss | APP / PulsesSensor / Source / App_PulsesSensor.o 
-    44 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_zlo_sensor_node.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_zcl_sensor_task.o 
-    16 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_pulses_buttons.o 
-    24 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_sleep_handler.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_nwk_event_handler.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_zcl_tick_handler.o 
-     8 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_blink_led.o 
-  4756 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
-   183 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices /  
-   183 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 /  
-    32 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities /  
-    32 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / debug_console /  
-    32 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / utilities / debug_console / fsl_debug_console.o 
-   151 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers /  
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_gint.o 
-    72 TREE: RAM0 | .bss | APP / Common /  
-    72 TREE: RAM0 | .bss | APP / Common / Source /  
-    72 TREE: RAM0 | .bss | APP / Common / Source / board /  
-    72 TREE: RAM0 | .bss | APP / Common / Source / board / temp_sensor_drv.o 
-  4573 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
-  4573 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
-   796 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee /  
-    16 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon /  
-    16 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source /  
-    12 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / ZTimer.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZigbeeCommon / Source / appZpsBeaconHandler.o 
-    56 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_flexcomm.o 
-     5 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_power.o 
-  3777 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework /  
-    19 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib /  
-    19 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / SecLib / SecLib.o 
-  2624 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager /  
-  2624 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager / Source /  
-  2624 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / MemManager / Source / MemManager.o 
-   350 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager /  
-   350 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source /  
-   344 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source / TimersManager.o 
-     6 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / TimersManager / Source / TMR_Adapter.o 
-    10 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_ctimer.o 
-    76 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / devices / JN5189 / drivers / fsl_dma.o 
-   620 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower /  
-   620 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source /  
-   620 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 /  
-   328 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 / PWR.o 
-   292 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / LowPower / Source / jn5189dk6 / PWRLib.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / GPIO /  
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / GPIO / GPIO_Adapter.o 
-   160 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction /  
-   160 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction / Source /  
-   160 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / OSAbstraction / Source / fsl_os_abstraction_bm.o 
-    44 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL /  
-    44 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters /  
-    29 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General /  
-    29 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source /  
-    15 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Basic.o 
-     2 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Groups.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / Identify.o 
-     8 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / General / Source / PowerConfiguration.o 
-     5 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing /  
-     5 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing / Source /  
-     5 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / MeasurementAndSensing / Source / TemperatureMeasurement.o 
-    10 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy /  
-    10 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source /  
-    10 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCL / Clusters / SmartEnergy / Source / SimpleMetering.o 
-   496 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF /  
-   496 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source /  
-   240 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl.o 
-   228 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_common.o 
-     8 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_event.o 
-    16 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_readAttributesResponseHandle.o 
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / ZCIF / Source / zcl_search.o 
-   240 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB /  
-   240 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source /  
-   132 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common /  
-     4 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common / bdb_fr.o 
-    40 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common / bdb_start.o 
-    88 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / Common / bdb_state_machine.o 
-    16 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / NwkSteering /  
-    16 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / NwkSteering / bdb_ns.o 
-    92 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / FindAndBind /  
-    92 TREE: RAM0 | .bss | APP / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / BDB / Source / FindAndBind / bdb_fb_initiator.o 
-  1484 TREE: RAM0 | .bss | LIB /  
-  1484 TREE: RAM0 | .bss | LIB / PulsesSensor /  
-  1484 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
-  1484 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
-  1484 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
+    41 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_zlo_sensor_node.o 
+     7 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_zcl_sensor_task.o 
+    16 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / app_pulses_buttons.o 
+    28 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_sleep_handler.o 
+     8 TREE: RAM0 | .bss | APP / PulsesSensor / Source / app_nwk_event_handler.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / app_zcl_tick_handler.o 
+     8 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / app_blink_led.o 
+    32 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_debug_console.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_gint.o 
+    72 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / temp_sensor_drv.o 
+    12 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / ZTimer.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / appZpsBeaconHandler.o 
+    56 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_flexcomm.o 
+     5 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_power.o 
+    19 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / SecLib.o 
+  2624 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / MemManager.o 
+   344 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / TimersManager.o 
+     6 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / TMR_Adapter.o 
+    10 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_ctimer.o 
+    76 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_dma.o 
+   328 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / PWR.o 
+   292 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / PWRLib.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / GPIO_Adapter.o 
+   160 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / fsl_os_abstraction_bm.o 
+    15 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / Basic.o 
+     2 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / Groups.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / Identify.o 
+     8 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / PowerConfiguration.o 
+     5 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / TemperatureMeasurement.o 
+    10 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / SimpleMetering.o 
+   240 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl.o 
+   228 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_common.o 
+     8 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_event.o 
+    16 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_readAttributesResponseHandle.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / zcl_search.o 
+     4 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_fr.o 
+    40 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_start.o 
+    88 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_state_machine.o 
+    16 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_ns.o 
+    92 TREE: RAM0 | .bss | LIB / Binaries / PulsesSensor_OM15082 / obj / bdb_fb_initiator.o 
+  1492 TREE: RAM0 | .bss | LIB / PulsesSensor /  
+  1492 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 /  
+  1492 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware /  
+  1492 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless /  
    663 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework /  
     28 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / PDUM /  
     28 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / PDUM / Library /  
@@ -3455,8 +3278,8 @@ TREE -----------------------------------------------------------------------
    140 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / PDM / Library / libPDM.a /  
    108 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / PDM / Library / libPDM.a / PDM_Create.c.obj 
     32 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / framework / PDM / Library / libPDM.a / PDM_FLASH.c.obj 
-   480 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee /  
-   480 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library /  
+   488 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee /  
+   488 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library /  
    268 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSAPL.a /  
      4 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSAPL.a / zps_apl_af.o 
      8 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSAPL.a / zps_apl_af_apsde.o 
@@ -3476,13 +3299,13 @@ TREE -----------------------------------------------------------------------
     36 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSMAC_Mini_SOC.a / zps_mac_common.o 
     20 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSMAC_Mini_SOC.a / zps_mac_shim.o 
     42 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSMAC_Mini_SOC.a / zps_miniMac.o 
-   110 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a /  
+   118 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a /  
      2 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_lib.o 
      4 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_lkst.o 
      8 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_main.o 
      4 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_maint.o 
     18 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_mcps.o 
-    34 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_nib.o 
+    42 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_nib.o 
     36 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_disc.o 
      4 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / zigbee / Library / libZPSNWK_ZED.a / zps_nwk_disc_st.o 
    341 TREE: RAM0 | .bss | LIB / PulsesSensor / SDK_2_6_4_JN5189DK6 / middleware / wireless / ieee-802.15.4 /  

@@ -116,6 +116,8 @@
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZdpExtraction.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZpsBeaconHandler.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Include/PDM.h \
+ ../../../Common/Source/app_common.h \
+ ../../../PulsesSensor/Source/App_PulsesSensor.h \
  ../../../PulsesSensor/Source/app_zcl_tick_handler.h
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common/dbg.h:
@@ -349,5 +351,9 @@ c:\nxp\mcuxpressoide_11.2.0_4120\ide\tools\arm-none-eabi\include\alloca.h:
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZpsBeaconHandler.h:
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Include/PDM.h:
+
+../../../Common/Source/app_common.h:
+
+../../../PulsesSensor/Source/App_PulsesSensor.h:
 
 ../../../PulsesSensor/Source/app_zcl_tick_handler.h:

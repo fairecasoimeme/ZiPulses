@@ -95,6 +95,8 @@
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZdpExtraction.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/zigbee/ZigbeeCommon/Include/appZpsBeaconHandler.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Include/PDM.h \
+ ../../../Common/Source/app_common.h \
+ ../../../PulsesSensor/Source/App_PulsesSensor.h \
  ../../../PulsesSensor/Source/app_blink_led.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common/dbg.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers/fsl_common.h \
@@ -120,7 +122,10 @@
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/components/serial_manager/serial_port_uart.h \
  ../../../Common/Source/board/app.h \
  ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers/fsl_gpio.h \
- ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers/fsl_ctimer.h
+ ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers/fsl_ctimer.h \
+ ../../../PulsesSensor/Source/app_zlo_sensor_node.h \
+ ../../../PulsesSensor/Source/app_pulses_events.h \
+ ../../../Common/Source/PDM_IDs.h
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common/jendefs.h:
 
@@ -312,6 +317,10 @@ c:\nxp\mcuxpressoide_11.2.0_4120\ide\tools\arm-none-eabi\include\sys\string.h:
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/PDM/Include/PDM.h:
 
+../../../Common/Source/app_common.h:
+
+../../../PulsesSensor/Source/App_PulsesSensor.h:
+
 ../../../PulsesSensor/Source/app_blink_led.h:
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/middleware/wireless/framework/Common/dbg.h:
@@ -363,3 +372,9 @@ c:\nxp\mcuxpressoide_11.2.0_4120\ide\tools\arm-none-eabi\include\alloca.h:
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers/fsl_gpio.h:
 
 ../../../PulsesSensor/SDK_2_6_4_JN5189DK6/devices/JN5189/drivers/fsl_ctimer.h:
+
+../../../PulsesSensor/Source/app_zlo_sensor_node.h:
+
+../../../PulsesSensor/Source/app_pulses_events.h:
+
+../../../Common/Source/PDM_IDs.h:

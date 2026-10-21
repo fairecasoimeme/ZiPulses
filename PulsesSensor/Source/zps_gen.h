@@ -6,7 +6,7 @@
  *
  * COMPONENT:      zps_gen.h
  *
- * DATE:           Mon Jan  9 17:32:51 2023
+ * DATE:           Mon Oct 20 08:52:30 2025
  *
  * AUTHOR:         NXP Zigbee Protocol Stack Configuration Tool
  *
