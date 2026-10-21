@@ -279,19 +279,20 @@ PUBLIC void vSendImmediateIndexReport(void)
 
 /****************************************************************************
  *
- * NAME: vSendImmediateReport
+ * NAME: vSendSingleAttributeReport
  *
  * DESCRIPTION:
- * Method to send a report to all bound nodes.
+ * Send one attribute report to all bound nodes, using its own APDU buffer
+ * (the stack takes ownership of the buffer on success).
  *
  ****************************************************************************/
-PUBLIC void vSendImmediateAllReport(void)
+PRIVATE void vSendSingleAttributeReport(uint16 u16ClusterId, uint16 u16AttributeId)
 {
     PDUM_thAPduInstance myPDUM_thAPduInstance;
     tsZCL_Address sDestinationAddress;
     teZCL_Status eStatus;
 
-    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateAllReport()");
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: cluster 0x%04x attr 0x%04x", u16ClusterId, u16AttributeId);
 
     /* get buffer to write the response in*/
     myPDUM_thAPduInstance = hZCL_AllocateAPduInstance();
@@ -299,103 +300,60 @@ PUBLIC void vSendImmediateAllReport(void)
     if(myPDUM_thAPduInstance == PDUM_INVALID_HANDLE)
     {
         DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: hZCL_AllocateAPduInstance() == PDUM_INVALID_HANDLE, ERROR!");
+        return;
     }
-    /* Got buffer ? */
+
+    /* Set the address mode to send to all bound device and don't wait for an ACK*/
+    sDestinationAddress.eAddressMode = E_ZCL_AM_BOUND_NON_BLOCKING_NO_ACK; //MJL: was E_ZCL_AM_BOUND_NO_ACK;
+
+    /* Attempt to send */
+    eStatus = eZCL_ReportAttribute(&sDestinationAddress,
+                                   u16ClusterId,
+                                   u16AttributeId,
+                                   1,
+                                   1,
+                                   myPDUM_thAPduInstance);
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAttribute() = 0x%02x", eStatus);
+    if (E_ZCL_SUCCESS == eStatus)
+    {
+        u8NbFailedTransmit = 0;
+        DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
+    }
     else
     {
-        /* Set the address mode to send to all bound device and don't wait for an ACK*/
-        sDestinationAddress.eAddressMode = E_ZCL_AM_BOUND_NON_BLOCKING_NO_ACK; //MJL: was E_ZCL_AM_BOUND_NO_ACK;
-        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: SE_CLUSTER_ID_SIMPLE_METERING");
-        /* Attempt to send */
-    	eStatus = eZCL_ReportAttribute(&sDestinationAddress,
-    	        									SE_CLUSTER_ID_SIMPLE_METERING,
-													0,
-    	                                            1,
-    	                                            1,
-    	                                           myPDUM_thAPduInstance);
-        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
-        /* Sent the report with all attributes ? */
-        if (E_ZCL_SUCCESS == eStatus)
-        {
-        	u8NbFailedTransmit = 0;
-            DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
-        }
-        else
-        {
-        	u8NbFailedTransmit++;
-            DBG_vPrintf(TRACE_REPORT, ", FAILED");
-            /* free buffer for failed send */
-            PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
-
-        }
-        APP_vGetVoltageBattery();
-        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: GENERAL_CLUSTER_ID_POWER_CONFIGURATION");
-        eStatus = eZCL_ReportAttribute(&sDestinationAddress,
-        											GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
-													E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE,
-													1,
-													1,
-												   myPDUM_thAPduInstance);
-        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
-        if (E_ZCL_SUCCESS == eStatus)
-		{
-			u8NbFailedTransmit = 0;
-			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
-		}
-		else
-		{
-			u8NbFailedTransmit++;
-			DBG_vPrintf(TRACE_REPORT, ", FAILED");
-			/* free buffer for failed send */
-			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
-		}
-        //Batterie pourcent calcul
-        APP_vGetVoltagePourcentage();
-        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING");
-        eStatus = eZCL_ReportAttribute(&sDestinationAddress,
-													GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
-													E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING,
-													1,
-													1,
-												   myPDUM_thAPduInstance);
-		DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
-		/* Sent the report with all attributes ? */
-		if (E_ZCL_SUCCESS == eStatus)
-		{
-			u8NbFailedTransmit = 0;
-			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
-		}
-		else
-		{
-			u8NbFailedTransmit++;
-			DBG_vPrintf(TRACE_REPORT, ", FAILED");
-			/* free buffer for failed send */
-			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
-		}
-
-		APP_vRadioTempUpdate(TRUE);
-		 DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT");
-		eStatus = eZCL_ReportAttribute(&sDestinationAddress,
-				 	 	 	 	 	 	 	 MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT,
-											 E_CLD_TEMPMEAS_ATTR_ID_MEASURED_VALUE,
-												1,
-												1,
-											   myPDUM_thAPduInstance);
-		DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
-		/* Sent the report with all attributes ? */
-		if (E_ZCL_SUCCESS == eStatus)
-		{
-			u8NbFailedTransmit = 0;
-			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
-		}
-		else
-		{
-			u8NbFailedTransmit++;
-			DBG_vPrintf(TRACE_REPORT, ", FAILED");
-			/* free buffer for failed send */
-			PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
-		}
+        u8NbFailedTransmit++;
+        DBG_vPrintf(TRACE_REPORT, ", FAILED");
+        /* free buffer for failed send */
+        PDUM_eAPduFreeAPduInstance(myPDUM_thAPduInstance);
+    }
 }
+
+/****************************************************************************
+ *
+ * NAME: vSendImmediateAllReport
+ *
+ * DESCRIPTION:
+ * Method to send a report to all bound nodes.
+ *
+ ****************************************************************************/
+PUBLIC void vSendImmediateAllReport(void)
+{
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateAllReport()");
+
+    vSendSingleAttributeReport(SE_CLUSTER_ID_SIMPLE_METERING, 0);
+
+    APP_vGetVoltageBattery();
+    vSendSingleAttributeReport(GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
+                               E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE);
+
+    //Batterie pourcent calcul
+    APP_vGetVoltagePourcentage();
+    vSendSingleAttributeReport(GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
+                               E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING);
+
+    APP_vRadioTempUpdate(TRUE);
+    vSendSingleAttributeReport(MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT,
+                               E_CLD_TEMPMEAS_ATTR_ID_MEASURED_VALUE);
 }
 
 /****************************************************************************/

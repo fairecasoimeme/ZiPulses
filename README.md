@@ -343,6 +343,22 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ## Changelog
 
+### Version 0010
+
+* Fix sleep management
+  * force sleep when the sleep check keeps failing (no more stuck awake)
+  * reboot (keeping network settings) when the device cannot sleep for too long
+* Fix poll method and reconnection
+  * limit poll retries on NO_ACK
+  * stop polling as soon as no more data is pending
+* Fix immediate report buffer handling (one buffer per attribute report)
+* Send index only when the button is pressed
+
+### Version 0009
+
+* Enhance rejoin procedure (retries, then reboot)
+* Don't sleep while the button is being scanned
+
 ### Version 0008
 
 * Fix Pulses detection

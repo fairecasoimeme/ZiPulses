@@ -248,17 +248,6 @@ PUBLIC void vAttemptToSleep(void)
             while(delay--);
         }
 
-<<<<<<< Updated upstream
-        if (u16ActivityCount>2)
-        {
-        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------u16ActivityCount > 3 : \r\n");
-        	/*PWR_teStatus result;
-        	result = PWR_eRemoveActivity(&sWake);
-        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);
-
-        	result = PWRM_eFinishActivity();
-        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\n------------------PWRM_eRemoveActivity : %d \r\n",result);*/
-=======
         /* 3. Revérifier l'activité */
 #ifdef APP_LOW_POWER_API
         u16ActivityCount = mLPMFlag;
@@ -266,7 +255,6 @@ PUBLIC void vAttemptToSleep(void)
         u16ActivityCount = PWRM_u16GetActivityCount();
 #endif
         DBG_vPrintf(TRUE, "\r\nSLEEP: After wait, Act:%d", u16ActivityCount);
->>>>>>> Stashed changes
 
         /* 4. Vérifier si on peut dormir */
         int sleepCheck = PWR_CheckIfDeviceCanGoToSleep();
@@ -316,48 +304,12 @@ PUBLIC void vAttemptToSleep(void)
             return;
         }
 
-<<<<<<< Updated upstream
-        /* Check if Wake timer 0 is running.*/
-        /*if (( (SYSCON->WKT_STAT&SYSCON_WKT_STAT_WKT0_RUNNING_MASK) == SYSCON_WKT_STAT_WKT0_RUNNING_MASK))
-        {
-        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: bDeepSleep FALSE");
-            bDeepSleep = FALSE;
-            vScheduleSleep();
-        }
-        else
-        {
-        	DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: bDeepSleep TRUE");
-        #ifdef CLD_OTA
-            // OTA allowing deep sleep ?
-            if (bOTADeepSleepAllowed())
-            {
-                // Set Flag as True
-                bDeepSleep = TRUE;
-            }
-                // OTA not allowing deep sleep
-            else
-            {
-                // Set Flag as False
-                bDeepSleep = FALSE;
-            }
-        #else
-            bDeepSleep = TRUE;
-        #endif
-            vScheduleSleep();
-        }*/
-
-
-		DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: bDeepSleep FALSE");
-		bDeepSleep = FALSE;
-		uint32 u32WakeTicks;
-=======
         /* sleepCheck > 0 : Peut dormir normalement */
         if (sleepCheck > 0)
         {
             u16WatchdogAttemptToSleep++;
             u8SleepCheckFailures = 0;
             u8ConsecutiveReportSleepAttempts = 0;  // Reset sur succès
->>>>>>> Stashed changes
 
             if (u16WatchdogAttemptToSleep > 20)
             {
@@ -366,8 +318,8 @@ PUBLIC void vAttemptToSleep(void)
 
                 if (u8ConsecutiveSleepFailures >= MAX_CONSECUTIVE_SLEEP_FAILURES)
                 {
-                    DBG_vPrintf(TRUE, "\r\n!!! CRITICAL: Factory reset !!!");
-                    APP_vFactoryResetRecords();
+                    /* Simple reboot : on conserve le réseau (pas de factory reset) */
+                    DBG_vPrintf(TRUE, "\r\n!!! CRITICAL: System reset !!!");
                     __disable_irq();
                     RESET_SystemReset();
                 }
