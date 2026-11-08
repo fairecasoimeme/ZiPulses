@@ -61,11 +61,20 @@ PUBLIC void APP_cbTimerPoll( void * pvParam);
 PUBLIC void vStopPollTimerTask();
 PUBLIC void vHandleFailedToJoin(void);
 PUBLIC void vStartPollTimer(uint32 u32PollInterval);
+PUBLIC void vStartPersistentPollWindow(uint32 u32Count);
+PUBLIC void vExtendPersistentPollWindow(void);
+PUBLIC void vRequestReportAtPollWindowEnd(void);
+PUBLIC void vAppStartLeaveAndReset(void);
+PUBLIC void vAppFinishLeaveAndReset(void);
+PUBLIC void vResetRejoinAttempts(void);
+PUBLIC void vAppStartRejoin(void);
+PUBLIC void vRejoinBackoffOnWake(void);
 
 PUBLIC void APP_cbTimerRejoin( void *pvParams);
 /****************************************************************************/
 /***        Exported Variables                                            ***/
 /****************************************************************************/
+extern PUBLIC bool_t bAppRejoinInProgress;
 
 #endif /* APP_NWK_EVENT_HANDLER_H_ */
 /****************************************************************************/

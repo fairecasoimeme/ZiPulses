@@ -18,6 +18,9 @@
 #include "fsl_wtimer.h"
 #include "voltage_drv.h"
 #include "PDM_IDs.h"
+#include "app_main.h"
+#include "app_common.h"
+#include "app_nwk_event_handler.h"
 
 extern bool bPulsesAction;
 
@@ -78,7 +81,8 @@ PUBLIC bool vHandleButtonPressedEventRejoin(bool ledON)
 	}*/
 	vStopBlinkTimer();
 	APP_vSetLED(LED1, 1);
-	BDB_vStart();
+	vAppStartRejoin();
+	return true;
 
 	/*if(bBDBJoinFailed)
 	{
@@ -112,29 +116,43 @@ PUBLIC bool vHandleButtonPressedEvent(bool ledON)
 {
 	DBG_vPrintf(1, "\r\n vHandleButtonPressedEvent()\r\n");
 
-	if(bBDBJoinFailed)
+	if(!APP_bNodeIsInRunningState())
+	{
+		/* Pas dans un réseau (ex : après un leave) : toujours relancer le network
+		 * steering, même si aucun échec n'a été remonté (scan interrompu...) */
+		if (ledON)
+		{
+			vStartBlinkTimer(50);
+		}
+		vResetRejoinAttempts();
+		vAppHandleStartup();
+		return false;
+	}
+	else if(bBDBJoinFailed)
 	{
 		if (ledON)
 		{
 			vStartBlinkTimer(50);
 		}
-		if(APP_bNodeIsInRunningState())
-		{
-			// TODO kick BDB for rejoin
-			sBDB.sAttrib.bbdbNodeIsOnANetwork = TRUE;
-			BDB_vStart();
-		}
-		else
-		{
-			//Retrigger the network steering as sensor is not part of a network
-			vAppHandleStartup();
-		}
+		/* Relance manuelle : rejoin immédiat et backoff remis à zéro */
+		vResetRejoinAttempts();
+		vAppStartRejoin();
 		return false;
 	}
 	else
 	{
 		vStopBlinkTimer();
 		APP_vSetLED(LED1, 1);
+		/* Rester éveillé quelques secondes pour récupérer les requêtes
+		 * en attente chez le parent (bind, configure reporting, write...) */
+		if (APP_bPersistantPolling)
+		{
+			vExtendPersistentPollWindow();
+		}
+		else
+		{
+			vStartPersistentPollWindow(APP_BUTTON_POLL_COUNT);
+		}
 		return true;
 	}
 

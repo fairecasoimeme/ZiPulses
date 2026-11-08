@@ -64,6 +64,7 @@ PUBLIC void vLoadDefaultConfigForReportable(void);
 PUBLIC void vSaveReportableRecord(uint16 u16ClusterID, tsZCL_AttributeReportingConfigurationRecord* psAttributeReportingConfigurationRecord);
 PUBLIC void vSendImmediateIndexReport(void);
 PUBLIC void vSendImmediateAllReport(void);
+PUBLIC void vSendAllReportToCoordinator(void);
 
 /****************************************************************************/
 /***        External Variables                                            ***/

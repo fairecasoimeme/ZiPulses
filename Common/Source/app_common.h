@@ -91,6 +91,13 @@
 
 #define POLL_TIME               ZTIMER_TIME_MSEC(1000)
 #define POLL_TIME_FAST          ZTIMER_TIME_MSEC(100)
+/* Persistent polling windows, in POLL_TIME_FAST periods (ZED: keep them short) */
+#define APP_PAIRING_POLL_COUNT  150     /* 15 s after a new join (interview, bind, reporting) */
+#define APP_REJOIN_POLL_COUNT   30      /* 3 s after a rejoin */
+#define APP_BUTTON_POLL_COUNT   30      /* 3 s after a button press, to fetch pending requests */
+#define APP_PAIRING_POLL_EXTEND 50      /* stay awake 5 s after the last message from the network */
+#define APP_LEAVE_TIMEOUT_COUNT 30      /* wait max 3 s for the leave confirm before factory reset */
+#define APP_REPORT_POLL_COUNT   10      /* stay awake 1 s after the end-of-pairing report */
 #define TEN_HZ_TICK_TIME        ZTIMER_TIME_MSEC(100)
 
 /****************************************************************************/

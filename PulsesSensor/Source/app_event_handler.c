@@ -210,6 +210,15 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 
         vSendImmediateAllReport();
 
+        /* Keep-alive : sans impulsion ni bouton, c'est le seul poll vers le parent.
+         * Sans lui, le coordinateur peut retirer le ZED à l'expiration du timeout.
+         * Le timer empêche le sommeil jusqu'au poll confirm, qui l'arrête. */
+        if (APP_bNodeIsInRunningState() && !bBDBJoinFailed &&
+            !bAppRejoinInProgress && !APP_bPersistantPolling)
+        {
+            vStartPollTimer(POLL_TIME_FAST);
+        }
+
         break;
 
     case APP_E_EVENT_PERIODIC_REPORT:
@@ -218,23 +227,9 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
         break;
 
     case APP_E_EVENT_LEAVE_AND_RESET:
-    	if (sDeviceDesc.eNodeState == E_RUNNING)
-		{
-			if (ZPS_eAplZdoLeaveNetwork( 0UL, FALSE, FALSE) != ZPS_E_SUCCESS )
-			 {
-				APP_vFactoryResetRecords();
-				MICRO_DISABLE_INTERRUPTS();
-				RESET_SystemReset();
-			 }
-		}
-		else
-		{
-			APP_vFactoryResetRecords();
-			MICRO_DISABLE_INTERRUPTS();
-			RESET_SystemReset();
-		}
-		PDM_vDeleteAllDataRecords();
-
+    	/* Leave puis factory reset garantis : le device reste éveillé jusqu'à la
+    	 * confirmation du leave (ou un timeout), puis efface tout et redémarre */
+    	vAppStartLeaveAndReset();
     	break;
     default:
         break;

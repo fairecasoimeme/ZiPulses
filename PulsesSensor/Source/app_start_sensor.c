@@ -61,6 +61,7 @@
 #include "AppApi.h"
 #include "app_zlo_sensor_node.h"
 #include "app_main.h"
+#include "app_nwk_event_handler.h"
 #include "app_blink_led.h"
 #include "app_pulses_buttons.h"
 #include <string.h>
@@ -187,6 +188,8 @@ PUBLIC void vAppMain(void)
 #endif
     {
         DBG_vPrintf(TRACE_START, "\r\nSTART: vAppMain() -> BDB_vStart() : RUNNING : %d",sDeviceDesc.eNodeState);
+        /* Noeud déjà appairé : BDB_vStart() lance un rejoin */
+        bAppRejoinInProgress = APP_bNodeIsInRunningState();
         BDB_vStart();
         if (FALSE == APP_bNodeIsInRunningState()) BDB_eNsStartNwkSteering();
     }

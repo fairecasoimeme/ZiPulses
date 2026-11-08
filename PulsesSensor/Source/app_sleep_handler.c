@@ -97,6 +97,7 @@ PRIVATE void vStopNonSleepPreventingTimers(void);
 PRIVATE void vStartNonSleepPreventingTimers(void);
 PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void);
 PRIVATE void vPurgeTimerCallbacks(void);
+PRIVATE bool_t bCommissioningInProgress(void);
 
 PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
 PRIVATE uint32 u32OldCounter=0;
@@ -148,9 +149,18 @@ PUBLIC void vAttemptToSleep(void)
     uint16 u16ActivityCount;
     static uint8 u8ConsecutiveReportSleepAttempts = 0;
     static uint8 u8PollTimerRunningCount = 0;
+    /* Pendant un appairage / rejoin / fenêtre de poll, ne jamais forcer :
+     * forcer le sommeil interrompt le scan, le join ou l'interview */
+    bool_t bCommissioning = bCommissioningInProgress();
+    if (bCommissioning)
+    {
+        /* Les refus de la pile pendant un join / rejoin / fenêtre sont normaux :
+         * ne pas les cumuler, sinon le sommeil est forcé dès la fin (TX en cours) */
+        u8SleepCheckFailures = 0;
+    }
 
     /* ===== NOUVEAU : Forcer l'arrêt du Poll si actif trop longtemps ===== */
-	if (ZTIMER_eGetState(u8TimerPoll) == E_ZTIMER_STATE_RUNNING)
+	if ((ZTIMER_eGetState(u8TimerPoll) == E_ZTIMER_STATE_RUNNING) && !bCommissioning)
 	{
 		u8PollTimerRunningCount++;
 
@@ -194,7 +204,7 @@ PUBLIC void vAttemptToSleep(void)
         APP_vSetLED(LED1, 0);
 
         /* 2. Détection rapide du scénario "post-report" */
-        bool_t bPostReportScenario = (u16ActivityCount >= 5);
+        bool_t bPostReportScenario = (u16ActivityCount >= 5) && !bCommissioning;
 
         if (bPostReportScenario)
         {
@@ -265,8 +275,8 @@ PUBLIC void vAttemptToSleep(void)
             u8SleepCheckFailures++;
             DBG_vPrintf(TRUE, "\r\nSLEEP: Check failed (count=%d)", u8SleepCheckFailures);
 
-            /* FORÇAGE RAPIDE après seulement 3 échecs */
-            if (u8SleepCheckFailures >= 3)
+            /* FORÇAGE RAPIDE après seulement 3 échecs (jamais pendant le commissioning) */
+            if ((u8SleepCheckFailures >= 3) && !bCommissioning)
             {
                 DBG_vPrintf(TRUE, "\r\n*** SLEEP: LEVEL 3 - FORCING SLEEP (fast track) ***");
 
@@ -368,6 +378,23 @@ PUBLIC void vAttemptToSleep(void)
 /***        Local Function                                                     ***/
 /****************************************************************************/
 
+
+/****************************************************************************
+ *
+ * NAME:        bCommissioningInProgress
+ *
+ * DESCRIPTION: TRUE only while the radio is really busy joining (scan,
+ *              association, key exchange), rejoining, or during the short
+ *              persistent polling window (interview, bind). Outside of these
+ *              phases the forced sleep stays active to protect the battery.
+ *
+ ****************************************************************************/
+PRIVATE bool_t bCommissioningInProgress(void)
+{
+    return ((sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS) ||
+            (bAppRejoinInProgress) ||
+            (APP_bPersistantPolling));
+}
 
 /****************************************************************************
  *
@@ -694,9 +721,15 @@ PRIVATE void vWakeCallBack(void)
     }
 
 
-    if (u8NbFailedTransmit>=5)
+    if (bBDBJoinFailed)
     {
-    	DBG_vPrintf(1, "\r\nRESET after too many transmit failed\r\n");
+    	/* Rejoin déjà en échec : retenter avec backoff (1, 2, 4 ... réveils) */
+    	vRejoinBackoffOnWake();
+    }
+    else if (u8NbFailedTransmit>=5)
+    {
+    	DBG_vPrintf(1, "\r\nREJOIN after too many transmit failed\r\n");
+    	u8NbFailedTransmit = 0;
     	vHandleButtonPressedEventRejoin(true);
 
     }

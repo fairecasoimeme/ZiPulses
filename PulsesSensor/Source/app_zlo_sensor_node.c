@@ -358,12 +358,11 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
     case BDB_EVENT_REJOIN_SUCCESS: // only for ZED
         DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nNODE: APP_vBdbCallback(REJOIN_SUCCESS)");
         bBDBJoinFailed = FALSE;
+        bAppRejoinInProgress = FALSE;
         vHandleNetworkJoinEndDevice();
-        //test poll
-		u32countStart=100;
 		DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
-		APP_bPersistantPolling |= TRUE;
-		vStartPollTimer(POLL_TIME_FAST);
+		vStartPersistentPollWindow(APP_REJOIN_POLL_COUNT);
+		vRequestReportAtPollWindowEnd();
 
 
         break;
@@ -372,12 +371,12 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
         // go to running state
         DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nNODE: APP_vBdbCallback(NWK_STEERING_SUCCESS)");
         bBDBJoinFailed = FALSE;
+        bAppRejoinInProgress = FALSE;
+        vResetRejoinAttempts();
         vHandleNetworkJoinAndRejoin();
-        //test poll
-		u32countStart=100;
 		DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nEVENT: vStartPersistantPolling()");
-		APP_bPersistantPolling |= TRUE;
-		vStartPollTimer(POLL_TIME_FAST);
+		vStartPersistentPollWindow(APP_PAIRING_POLL_COUNT);
+		vRequestReportAtPollWindowEnd();
 
         break;
 
@@ -390,10 +389,19 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
         DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nNODE: APP_vBdbCallback(NWK_JOIN_SUCCESS)");
         break;
 
+    case BDB_EVENT_NWK_JOIN_FAILURE:
+        /* Echec de l'échange de clé TC : la pile a déjà quitté le réseau.
+         * Sans ce traitement la LED et le poll restaient actifs (plus de sleep) */
+        DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nNODE: APP_vBdbCallback(NWK_JOIN_FAILURE)");
+        vHandleFailedToJoin();
+        break;
+
     case BDB_EVENT_APP_START_POLLING:
         DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nNODE: APP_vBdbCallback(APP_START_POLLING)");
-        /* Start fast seconds polling */
-        vStartPollTimer(POLL_TIME_FAST);
+        /* Juste après l'association (échange de clés TC) : le coordinateur lance
+         * déjà l'interview (node / active EP / simple descriptor). Poll persistant,
+         * sinon le poll s'arrête au premier NO_DATA et les requêtes ZDO expirent. */
+        vStartPersistentPollWindow(APP_PAIRING_POLL_COUNT);
         break;
 
     case BDB_EVENT_FB_HANDLE_SIMPLE_DESC_RESP_OF_TARGET:
@@ -528,6 +536,23 @@ PUBLIC void APP_taskSensor(void)
  ****************************************************************************/
 PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
 {
+    /* Diagnostic appairage : erreurs de la pile et trames reçues (cluster, EP) */
+    if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_ERROR)
+    {
+        ZPS_tsAfErrorEvent *psErr = &psZpsAfEvent->sStackEvent.uEvent.sAfErrorEvent;
+        DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nZPS ERROR %d (cluster 0x%04x, ep %d->%d)",
+                    psErr->eError,
+                    psErr->uErrorData.sAfErrorApdu.u16ClusterId,
+                    psErr->uErrorData.sAfErrorApdu.u8SrcEndpoint,
+                    psErr->uErrorData.sAfErrorApdu.u8DstEndpoint);
+    }
+    else if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
+    {
+        DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nRX cluster 0x%04x ep %d from 0x%04x",
+                    psZpsAfEvent->sStackEvent.uEvent.sApsDataIndEvent.u16ClusterId,
+                    psZpsAfEvent->sStackEvent.uEvent.sApsDataIndEvent.u8DstEndpoint,
+                    psZpsAfEvent->sStackEvent.uEvent.sApsDataIndEvent.uSrcAddress.u16Addr);
+    }
 
 #ifdef CLD_OTA
     if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
@@ -554,6 +579,13 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
         }
     }
 #endif
+    /* Message reçu du coordinateur (interview, bind, configure reporting...) :
+     * rester éveillé encore un peu pour recevoir la suite */
+    if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
+    {
+        vExtendPersistentPollWindow();
+    }
+
     if (psZpsAfEvent->u8EndPoint == app_u8GetSensorEndpoint())
     {
         DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nNODE: vAppHandleAfEvent() -> APP_ZCL_vEventHandler()");

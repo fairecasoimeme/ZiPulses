@@ -54,8 +54,8 @@ L'appareil **ZiPulses** permet de récupérer les impulsions d'un compteur pour 
 #### Le capteur est appairé
 
 ##### Juste après l'appairage ou Rejoin
-* Le capteur ZiPulses reste éveillé environ 10 secondes afin que le coordinateur zigbee puisse faire un bind sur les clusters : 0x0001, 0x0402, 0x0702 ou interroger le capteur
-⚠️ **Il est recommandé d'appuyer régulièrement sur le bouton (pendant 2 secondes toutes les secondes) lors de l'appairage**
+* Le capteur ZiPulses reste éveillé environ 10 secondes (à partir du firmware v11 : 15 secondes, prolongées tant que le coordinateur lui envoie des requêtes) afin que le coordinateur zigbee puisse faire un bind sur les clusters : 0x0001, 0x0402, 0x0702 ou interroger le capteur
+⚠️ **(avant le firmware v11) Il est recommandé d'appuyer régulièrement sur le bouton (pendant 2 secondes toutes les secondes) lors de l'appairage**
 
 ##### ZiPulses n'est pas sollicité
 * Le capteur va se réveiller et s'endormir toutes les 60 secondes
@@ -343,15 +343,31 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ## Changelog
 
+### Version 0011
+
+* Fix pairing / interview / bind
+  * never force sleep while joining, rejoining or during the pairing window (it aborted the scan, the join or the interview)
+  * keep polling right after association (TC key exchange): the coordinator interview (simple descriptor...) no longer times out
+  * pairing window is now 15 s (time based), extended up to 5 s after the last message received from the coordinator
+  * 3 s polling window after a rejoin or a button press (to receive pending requests)
+  * send index, battery voltage, battery percentage and temperature to the coordinator at the end of the pairing / rejoin, to show the device is working
+* Fix re-pairing after a leave: button press always restarts network steering when not in a network
+* Fix 10 s button press (leave and reset): the device stays awake until the leave is confirmed (3 s timeout), then always erases its data and reboots (it could stay half reset: data erased but still on the network)
+* Save battery on join / rejoin failure
+  * not paired: 3 network scans then sleep until the next button press (no more endless scan / reset loop)
+  * paired but coordinator unreachable: no more network steering + reset loop, rejoin retried on wake with a backoff (1, 2, 4 ... 32 min)
+  * LED switched off when joining fails
+* Keep-alive: poll the parent with each 2-hour report, so the coordinator does not drop the device when there are no pulses for several days
+* Reboot (keeping network settings) instead of factory reset when the device cannot sleep for too long
+* Fix immediate report buffer handling (one buffer per attribute report)
+
 ### Version 0010
 
 * Fix sleep management
   * force sleep when the sleep check keeps failing (no more stuck awake)
-  * reboot (keeping network settings) when the device cannot sleep for too long
 * Fix poll method and reconnection
   * limit poll retries on NO_ACK
   * stop polling as soon as no more data is pending
-* Fix immediate report buffer handling (one buffer per attribute report)
 * Send index only when the button is pressed
 
 ### Version 0009

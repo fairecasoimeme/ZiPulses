@@ -482,8 +482,10 @@ PUBLIC void APP_vGetVoltageBattery()
 {
 	uint16 voltage = Get_BattVolt();
 	DBG_vPrintf(1, "\r\n ----------VOLTAGE : %d\r\n",voltage );
-	sSensor.sPowerConfigServerCluster.u8BatteryVoltage = (uint8_t)(voltage/ 100);
-
+	/* Arrondi au dixième de volt (unité de l'attribut BatteryVoltage) */
+	sSensor.sPowerConfigServerCluster.u8BatteryVoltage = (uint8_t)((voltage + 50) / 100);
+	/* Pourcentage toujours calculé sur la même mesure que la tension */
+	APP_vGetVoltagePourcentage();
 
 }
 

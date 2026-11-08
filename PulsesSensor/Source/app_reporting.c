@@ -282,14 +282,14 @@ PUBLIC void vSendImmediateIndexReport(void)
  * NAME: vSendSingleAttributeReport
  *
  * DESCRIPTION:
- * Send one attribute report to all bound nodes, using its own APDU buffer
- * (the stack takes ownership of the buffer on success).
+ * Send one attribute report to psDestinationAddress, using its own APDU
+ * buffer (the stack takes ownership of the buffer on success).
  *
  ****************************************************************************/
-PRIVATE void vSendSingleAttributeReport(uint16 u16ClusterId, uint16 u16AttributeId)
+PRIVATE void vSendSingleAttributeReport(tsZCL_Address *psDestinationAddress,
+                                        uint16 u16ClusterId, uint16 u16AttributeId)
 {
     PDUM_thAPduInstance myPDUM_thAPduInstance;
-    tsZCL_Address sDestinationAddress;
     teZCL_Status eStatus;
 
     DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: cluster 0x%04x attr 0x%04x", u16ClusterId, u16AttributeId);
@@ -303,11 +303,8 @@ PRIVATE void vSendSingleAttributeReport(uint16 u16ClusterId, uint16 u16Attribute
         return;
     }
 
-    /* Set the address mode to send to all bound device and don't wait for an ACK*/
-    sDestinationAddress.eAddressMode = E_ZCL_AM_BOUND_NON_BLOCKING_NO_ACK; //MJL: was E_ZCL_AM_BOUND_NO_ACK;
-
     /* Attempt to send */
-    eStatus = eZCL_ReportAttribute(&sDestinationAddress,
+    eStatus = eZCL_ReportAttribute(psDestinationAddress,
                                    u16ClusterId,
                                    u16AttributeId,
                                    1,
@@ -330,6 +327,31 @@ PRIVATE void vSendSingleAttributeReport(uint16 u16ClusterId, uint16 u16Attribute
 
 /****************************************************************************
  *
+ * NAME: vSendAllAttributeReports
+ *
+ * DESCRIPTION:
+ * Index (energy), battery voltage, battery percentage and temperature
+ *
+ ****************************************************************************/
+PRIVATE void vSendAllAttributeReports(tsZCL_Address *psDestinationAddress)
+{
+    vSendSingleAttributeReport(psDestinationAddress, SE_CLUSTER_ID_SIMPLE_METERING, 0);
+
+    APP_vGetVoltageBattery();
+    vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
+                               E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE);
+
+    /* Pourcentage déjà recalculé par APP_vGetVoltageBattery() */
+    vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
+                               E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING);
+
+    APP_vRadioTempUpdate(TRUE);
+    vSendSingleAttributeReport(psDestinationAddress, MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT,
+                               E_CLD_TEMPMEAS_ATTR_ID_MEASURED_VALUE);
+}
+
+/****************************************************************************
+ *
  * NAME: vSendImmediateAllReport
  *
  * DESCRIPTION:
@@ -338,22 +360,33 @@ PRIVATE void vSendSingleAttributeReport(uint16 u16ClusterId, uint16 u16Attribute
  ****************************************************************************/
 PUBLIC void vSendImmediateAllReport(void)
 {
+    tsZCL_Address sDestinationAddress;
+
     DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateAllReport()");
 
-    vSendSingleAttributeReport(SE_CLUSTER_ID_SIMPLE_METERING, 0);
+    /* Set the address mode to send to all bound device and don't wait for an ACK*/
+    sDestinationAddress.eAddressMode = E_ZCL_AM_BOUND_NON_BLOCKING_NO_ACK; //MJL: was E_ZCL_AM_BOUND_NO_ACK;
+    vSendAllAttributeReports(&sDestinationAddress);
+}
 
-    APP_vGetVoltageBattery();
-    vSendSingleAttributeReport(GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
-                               E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE);
+/****************************************************************************
+ *
+ * NAME: vSendAllReportToCoordinator
+ *
+ * DESCRIPTION:
+ * Send all attributes directly to the coordinator (works even before the
+ * coordinator has created its bindings), e.g. at the end of the pairing.
+ *
+ ****************************************************************************/
+PUBLIC void vSendAllReportToCoordinator(void)
+{
+    tsZCL_Address sDestinationAddress;
 
-    //Batterie pourcent calcul
-    APP_vGetVoltagePourcentage();
-    vSendSingleAttributeReport(GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
-                               E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING);
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendAllReportToCoordinator()");
 
-    APP_vRadioTempUpdate(TRUE);
-    vSendSingleAttributeReport(MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT,
-                               E_CLD_TEMPMEAS_ATTR_ID_MEASURED_VALUE);
+    sDestinationAddress.eAddressMode = E_ZCL_AM_SHORT_NO_ACK;
+    sDestinationAddress.uAddress.u16DestinationAddress = 0x0000;
+    vSendAllAttributeReports(&sDestinationAddress);
 }
 
 /****************************************************************************/

@@ -54,6 +54,8 @@
 #include "app_ota_client.h"
 #endif
 #include "MicroSpecific.h"
+#include "app.h"
+#include "app_reporting.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
@@ -81,10 +83,14 @@
 /****************************************************************************/
 PRIVATE uint32 u32PollTime = 0;
 PRIVATE uint8 u8RejoinAttempts = 0;
-PRIVATE uint32 u32RejoinBackoffTime = 10; // Par ex. 10 secondes
-#define APP_MAX_REJOIN_ATTEMPTS 5
-#define APP_REJOIN_BACKOFF_INITIAL 10000  // 10 secondes en ms
-#define APP_REJOIN_BACKOFF_MAX 300000     // 5 minutes max
+PRIVATE uint16 u16RejoinBackoffWakes = 1;       /* réveils (60 s) avant le prochain rejoin */
+PRIVATE uint16 u16WakesSinceRejoinFailure = 0;
+#define APP_MAX_JOIN_ATTEMPTS        2          /* scans supplémentaires avant d'abandonner (non appairé) */
+#define APP_REJOIN_BACKOFF_MAX_WAKES 32         /* ~32 min max entre deux rejoins */
+
+PUBLIC bool_t bAppRejoinInProgress = FALSE;
+PUBLIC bool_t bAppLeaveAndResetPending = FALSE;  /* appui 10 s : leave en cours puis factory reset */
+PRIVATE bool_t bReportAtWindowEnd = FALSE;      /* rapport complet à la fin de la fenêtre de poll */
 
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -142,7 +148,75 @@ PUBLIC void APP_cbTimerPoll( void * pvParam)
  //   ZPS_eAplZdoPoll();
 //    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP Poll Handler: Poll Sent, new poll time %d", u32PollTime);
   //  ZTIMER_eStart(u8TimerPoll, u32PollTime);
+
+    /* Fenêtre de poll persistant : décomptée par le timer (donc en temps),
+     * pas par les poll confirm qui peuvent s'enchaîner très vite */
+    if (APP_bPersistantPolling)
+    {
+        if (u32countStart == 0)
+        {
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent window elapsed, stopping");
+            APP_bPersistantPolling = FALSE;
+            vStopPollTimerTask();
+            if (bAppLeaveAndResetPending)
+            {
+                /* Pas de confirmation du leave : factory reset quand même */
+                DBG_vPrintf(TRUE, "\r\nLEAVE: no confirm, forcing factory reset");
+                vAppFinishLeaveAndReset();
+            }
+            if (bReportAtWindowEnd)
+            {
+                /* Fin d'appairage / rejoin : interview et binds terminés,
+                 * envoyer index, batterie et température pour montrer que ça marche */
+                bReportAtWindowEnd = FALSE;
+                vSendAllReportToCoordinator();
+                /* Rester éveillé 1 s le temps que les trames partent (et un éventuel retour) */
+                vStartPersistentPollWindow(APP_REPORT_POLL_COUNT);
+            }
+            return;
+        }
+        u32countStart--;
+    }
 	vStartPollTimer(u32PollTime);
+}
+
+/****************************************************************************
+ *
+ * NAME: vStartPersistentPollWindow
+ *
+ * DESCRIPTION:
+ * Keep the device awake and polling fast for u32Count POLL_TIME_FAST periods
+ * so the coordinator can interview / bind / configure it.
+ *
+ ****************************************************************************/
+PUBLIC void vStartPersistentPollWindow(uint32 u32Count)
+{
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent window start (%d)", u32Count);
+    u32countStart = u32Count;
+    APP_bPersistantPolling = TRUE;
+    vStartPollTimer(POLL_TIME_FAST);
+}
+
+/****************************************************************************
+ *
+ * NAME: vExtendPersistentPollWindow
+ *
+ * DESCRIPTION:
+ * Called on each message received from the network: if a persistent window
+ * is running, make sure it lasts at least APP_PAIRING_POLL_EXTEND more periods.
+ *
+ ****************************************************************************/
+PUBLIC void vRequestReportAtPollWindowEnd(void)
+{
+    bReportAtWindowEnd = TRUE;
+}
+
+PUBLIC void vExtendPersistentPollWindow(void)
+{
+    if (APP_bPersistantPolling && (u32countStart < APP_PAIRING_POLL_EXTEND))
+    {
+        u32countStart = APP_PAIRING_POLL_EXTEND;
+    }
 }
 
 /****************************************************************************
@@ -173,10 +247,11 @@ PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
         /* SUCCESS : données reçues */
         u8ConsecutivePollCount = 0;
 
-        /* Si c'est un poll persistant (pairing), re-poll */
-        if (u32countStart > 0 || APP_bPersistantPolling)
+        /* Si c'est un poll persistant (pairing), re-poll : d'autres trames peuvent attendre */
+        if (APP_bPersistantPolling)
         {
             DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent mode, re-polling");
+            vExtendPersistentPollWindow();
             ZPS_eAplZdoPoll();
         }
         else
@@ -191,6 +266,12 @@ PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
         DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: NO_ACK");
 
         u8ConsecutivePollCount++;
+
+        if (APP_bPersistantPolling)
+        {
+            /* Mode persistant : le timer de poll relancera, ne pas l'arrêter */
+            break;
+        }
 
         /* Re-poll avec limite */
         if (u8ConsecutivePollCount < MAX_CONSECUTIVE_POLLS)
@@ -213,11 +294,10 @@ PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
         /* NO_DATA : pas de données en attente */
         u8ConsecutivePollCount = 0;
 
-        /* Si mode persistant (pairing), continuer à poller */
-        if (u32countStart > 0 || APP_bPersistantPolling)
+        /* Si mode persistant (pairing), le timer de poll continue (pas de re-poll immédiat) */
+        if (APP_bPersistantPolling)
         {
-            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent mode, continuing");
-            ZPS_eAplZdoPoll();
+            DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent mode, waiting next poll");
         }
         else
         {
@@ -231,27 +311,18 @@ PUBLIC void vHandlePollResponse(ZPS_tsAfEvent* psStackEvent)
         DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Other status %d",
                    psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status);
         u8ConsecutivePollCount = 0;
-        vStopPollTimerTask();
+        if (!APP_bPersistantPolling)
+        {
+            vStopPollTimerTask();
+        }
         break;
     }
 
     u16WatchdogAttemptToSleep = 0;
 
-    /* Gestion du compteur de pairing */
+    /* La fenêtre de pairing est décomptée dans APP_cbTimerPoll */
     DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nu32countStart: %d, APP_bPersistantPolling: %d",
                u32countStart, APP_bPersistantPolling);
-
-    if ((u32countStart == 0) && (APP_bPersistantPolling))
-    {
-        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Pairing complete, stopping persistent polling");
-        APP_bPersistantPolling = FALSE;
-        vStopPollTimerTask();
-    }
-    else if (u32countStart > 0)
-    {
-        u32countStart--;
-        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Pairing countdown: %d remaining", u32countStart);
-    }
 }
 
 /****************************************************************************
@@ -292,33 +363,40 @@ PUBLIC void APP_cbTimerRejoin(void *pvParam)
  ****************************************************************************/
 PUBLIC void vHandleFailedToJoin(void)
 {
-    //DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin");
     /* In case Find And Bind or Keep alive in progress stop it and make sure we go to sleep */
-    /*vEventStopFindAndBind();
-    APP_bPersistantPolling &= FALSE;
-    bBDBJoinFailed = TRUE;*/
-	//vEventStopFindAndBind();
-	APP_bPersistantPolling &= FALSE;
+	APP_bPersistantPolling = FALSE;
+	vStopPollTimerTask();
 	bBDBJoinFailed = TRUE;
-    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin - Attempt %d/%d",
-    	                u8RejoinAttempts + 1, APP_MAX_REJOIN_ATTEMPTS);
-	if (u8RejoinAttempts < APP_MAX_REJOIN_ATTEMPTS)
+	bAppRejoinInProgress = FALSE;
+	/* LED éteinte : on va dormir */
+	vStopBlinkTimer();
+	APP_vSetLED(LED1, 0);
+
+	if (!APP_bNodeIsInRunningState())
 	{
-
-		/* Programmer une nouvelle tentative avec backoff exponentiel */
-		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nScheduling rejoin in %d ms", u32RejoinBackoffTime);
-		u8RejoinAttempts++;
-		BDB_eNsStartNwkSteering();
-
+		/* Pas encore appairé : quelques scans seulement, puis on dort.
+		 * Un appui sur le bouton relance la recherche (pas de reset en boucle) */
+		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Join - Attempt %d/%d",
+					u8RejoinAttempts + 1, APP_MAX_JOIN_ATTEMPTS);
+		if (u8RejoinAttempts < APP_MAX_JOIN_ATTEMPTS)
+		{
+			u8RejoinAttempts++;
+			BDB_eNsStartNwkSteering();
+		}
+		else
+		{
+			DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nJoin given up, waiting for button press");
+		}
 	}
 	else
 	{
-		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nMax rejoin attempts reached - going to reset");
-		/* Après trop d'échecs, retour aux paramètres d'usine */
-		RESET_SystemReset();
+		/* Déjà appairé (parent / coordinateur absent) : pas de network steering
+		 * (il ouvrirait le réseau sans rejoindre) ni de reset en boucle.
+		 * On dort et le rejoin est retenté aux réveils avec un backoff. */
+		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin, next try in %d wakes",
+					u16RejoinBackoffWakes);
+		u16WakesSinceRejoinFailure = 0;
 	}
-
-
 }
 
 /****************************************************************************
@@ -334,28 +412,7 @@ PUBLIC void vHandleFailedToJoin(void)
  ****************************************************************************/
 PUBLIC void vHandleFailedRejoin(void)
 {
-	/* Start Blink Timer to avoid sleeping */
-	/*if(ZTIMER_eGetState(u8TimerBlink) != E_ZTIMER_STATE_RUNNING)
-		vStartBlinkTimer(APP_JOINING_BLINK_TIME);*/
-	APP_bPersistantPolling &= FALSE;
-	bBDBJoinFailed = TRUE;
-	DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: Failed Rejoin - Attempt %d/%d",
-						u8RejoinAttempts + 1, APP_MAX_REJOIN_ATTEMPTS);
-	if (u8RejoinAttempts < APP_MAX_REJOIN_ATTEMPTS)
-	{
-
-		/* Programmer une nouvelle tentative avec backoff exponentiel */
-		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nScheduling rejoin in %d ms", u32RejoinBackoffTime);
-		u8RejoinAttempts++;
-		BDB_eNsStartNwkSteering();
-
-	}
-	else
-	{
-		DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nMax rejoin attempts reached - going to reset");
-		/* Après trop d'échecs, retour aux paramètres d'usine */
-		RESET_SystemReset();
-	}
+	vHandleFailedToJoin();
 }
 
 /****************************************************************************
@@ -363,14 +420,60 @@ PUBLIC void vHandleFailedRejoin(void)
  * NAME: vResetRejoinAttempts
  *
  * DESCRIPTION:
- * Réinitialiser les compteurs en cas de succès
+ * Réinitialiser les compteurs (succès, ou relance manuelle par le bouton)
  *
  ****************************************************************************/
 PUBLIC void vResetRejoinAttempts(void)
 {
     u8RejoinAttempts = 0;
-    u32RejoinBackoffTime = APP_REJOIN_BACKOFF_INITIAL;
+    u16RejoinBackoffWakes = 1;
+    u16WakesSinceRejoinFailure = 0;
+}
 
+/****************************************************************************
+ *
+ * NAME: vAppStartRejoin
+ *
+ * DESCRIPTION:
+ * Rejoin du réseau connu (noeud déjà appairé)
+ *
+ ****************************************************************************/
+PUBLIC void vAppStartRejoin(void)
+{
+    bAppRejoinInProgress = TRUE;
+    sBDB.sAttrib.bbdbNodeIsOnANetwork = TRUE;
+    BDB_vStart();
+}
+
+/****************************************************************************
+ *
+ * NAME: vRejoinBackoffOnWake
+ *
+ * DESCRIPTION:
+ * Appelé à chaque réveil périodique : si le rejoin a échoué, le retenter
+ * après 1, 2, 4 ... APP_REJOIN_BACKOFF_MAX_WAKES réveils pour économiser la pile
+ *
+ ****************************************************************************/
+PUBLIC void vRejoinBackoffOnWake(void)
+{
+    if (!bBDBJoinFailed || bAppRejoinInProgress || !APP_bNodeIsInRunningState())
+    {
+        return;
+    }
+
+    u16WakesSinceRejoinFailure++;
+    if (u16WakesSinceRejoinFailure < u16RejoinBackoffWakes)
+    {
+        return;
+    }
+
+    u16WakesSinceRejoinFailure = 0;
+    if (u16RejoinBackoffWakes < APP_REJOIN_BACKOFF_MAX_WAKES)
+    {
+        u16RejoinBackoffWakes *= 2;
+    }
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nRejoin backoff: retrying (next in %d wakes)", u16RejoinBackoffWakes);
+    vAppStartRejoin();
 }
 
 /****************************************************************************
@@ -443,10 +546,53 @@ PUBLIC void vHandleNetworkLeave(ZPS_tsAfEvent* psStackEvent)
             (psStackEvent->uEvent.sNwkLeaveIndicationEvent.u8Rejoin == FALSE))
     {
         DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\nAPP NWK Event Handler: ZDO Leave" );
-        APP_vFactoryResetRecords();
-        MICRO_DISABLE_INTERRUPTS();
-        RESET_SystemReset();
+        vAppFinishLeaveAndReset();
     }
+}
+
+/****************************************************************************
+ *
+ * NAME: vAppStartLeaveAndReset
+ *
+ * DESCRIPTION:
+ * Appui long (10 s) : quitter le réseau puis factory reset. Le device reste
+ * éveillé (fenêtre de poll) jusqu'à la confirmation du leave, avec un timeout,
+ * pour ne jamais rester à moitié réinitialisé (PDM effacée mais encore appairé).
+ *
+ ****************************************************************************/
+PUBLIC void vAppStartLeaveAndReset(void)
+{
+    bAppLeaveAndResetPending = TRUE;
+
+    if ((sDeviceDesc.eNodeState == E_RUNNING) &&
+        (ZPS_eAplZdoLeaveNetwork(0UL, FALSE, FALSE) == ZPS_E_SUCCESS))
+    {
+        DBG_vPrintf(TRUE, "\r\nLEAVE: request sent, waiting for confirm");
+        vStartPersistentPollWindow(APP_LEAVE_TIMEOUT_COUNT);
+    }
+    else
+    {
+        vAppFinishLeaveAndReset();
+    }
+}
+
+/****************************************************************************
+ *
+ * NAME: vAppFinishLeaveAndReset
+ *
+ * DESCRIPTION:
+ * Factory reset (toutes les données effacées si appui long) puis reboot
+ *
+ ****************************************************************************/
+PUBLIC void vAppFinishLeaveAndReset(void)
+{
+    if (bAppLeaveAndResetPending)
+    {
+        PDM_vDeleteAllDataRecords();
+    }
+    APP_vFactoryResetRecords();
+    MICRO_DISABLE_INTERRUPTS();
+    RESET_SystemReset();
 }
 
 /****************************************************************************
@@ -495,9 +641,7 @@ PUBLIC void vHandleNetworkLeaveConfirm(ZPS_tsAfEvent* psStackEvent)
                 psStackEvent->uEvent.sNwkLeaveConfirmEvent.u64ExtAddr);
     if ( psStackEvent->uEvent.sNwkLeaveConfirmEvent.u64ExtAddr == 0UL)
     {
-        APP_vFactoryResetRecords();
-        MICRO_DISABLE_INTERRUPTS();
-        RESET_SystemReset();
+        vAppFinishLeaveAndReset();
     }
 }
 

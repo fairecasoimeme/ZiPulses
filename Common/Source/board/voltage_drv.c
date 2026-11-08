@@ -84,10 +84,13 @@ uint16_t Get_BattVolt(void)
 	}
 	ADC_Deinit(ADC0);
 	PRINTF("estimated_sum = %d\r\n", estimated_sum);
+	/* Moyenne des 8 derniers échantillons (les 5 premiers servent à stabiliser l'ADC) */
 	voltage = (uint16_t)(estimated_sum / 8);
-	PRINTF("voltage = %d\r\n", voltage);
-	voltage = (uint16_t)adcResultInfoStruct.result;
-	PRINTF("voltage = %d\r\n", voltage);
+	PRINTF("adc raw = %d\r\n", voltage);
+	/* Canal VBAT en mode normal (div4) : pleine échelle 12 bits = 3600 mV.
+	 * Le brut n'est pas en mV : pile à 3.0 V mesurée -> brut ~3300 */
+	voltage = (uint16_t)((estimated_sum * 3600UL) / (8UL * 4095UL));
+	PRINTF("voltage = %d mV\r\n", voltage);
 
 
 	return(voltage);
