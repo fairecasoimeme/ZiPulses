@@ -63,6 +63,8 @@ PUBLIC void vMakeSupportedAttributesReportable(void);
 PUBLIC void vLoadDefaultConfigForReportable(void);
 PUBLIC void vSaveReportableRecord(uint16 u16ClusterID, tsZCL_AttributeReportingConfigurationRecord* psAttributeReportingConfigurationRecord);
 PUBLIC void vSendImmediateIndexReport(void);
+PUBLIC void vIndexAckReceived(uint8 u8Status);
+PUBLIC bool_t bIndexNotConfirmed(void);
 PUBLIC void vSendImmediateAllReport(void);
 PUBLIC void vSendAllReportToCoordinator(void);
 

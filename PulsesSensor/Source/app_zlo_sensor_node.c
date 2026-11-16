@@ -580,6 +580,13 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
         }
     }
 #endif
+    /* APS ACK of a metering cluster report (index) */
+    if ((psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_ACK) &&
+        (psZpsAfEvent->sStackEvent.uEvent.sApsDataAckEvent.u16ClusterId == SE_CLUSTER_ID_SIMPLE_METERING))
+    {
+        vIndexAckReceived(psZpsAfEvent->sStackEvent.uEvent.sApsDataAckEvent.u8Status);
+    }
+
     /* Message reçu du coordinateur (interview, bind, configure reporting...) :
      * rester éveillé encore un peu pour recevoir la suite */
     if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
