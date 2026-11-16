@@ -63,6 +63,7 @@
 #include "app_pulses_events.h"
 #include "app_blink_led.h"
 #include "app_nwk_event_handler.h"
+#include "fsl_wtimer.h"
 
 #include "app_pulses_sensor_state_machine.h"
 
@@ -90,7 +91,8 @@
 /***        Local Function Prototypes                                     ***/
 /****************************************************************************/
 PRIVATE uint8 u8NumberOfTimersTaskTimers(void);
-PRIVATE void vScheduleSleep(void);
+PRIVATE void vScheduleSleep(uint32 u32WakeMs);
+PRIVATE void vProgramNextWake(void);
 PRIVATE void vWakeCallBack(void);
 PRIVATE void vStopAllTimers(void);
 PRIVATE void vStopNonSleepPreventingTimers(void);
@@ -238,10 +240,8 @@ PUBLIC void vAttemptToSleep(void)
                 while(delay--);
 
                 bDeepSleep = FALSE;
-                vScheduleSleep();
+                vProgramNextWake();
 
-                uint32 u32WakeTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
-                vStartWakeTimer(u32WakeTicks);
 
                 DBG_vPrintf(TRUE, "\r\nSLEEP: POST-REPORT FORCED - will wake in %d seconds", MAXIMUM_TIME_TO_SLEEP);
 
@@ -303,10 +303,8 @@ PUBLIC void vAttemptToSleep(void)
                 while(delay--);
 
                 bDeepSleep = FALSE;
-                vScheduleSleep();
+                vProgramNextWake();
 
-                uint32 u32WakeTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
-                vStartWakeTimer(u32WakeTicks);
 
                 DBG_vPrintf(TRUE, "\r\nSLEEP: FORCED - will wake in %d seconds", MAXIMUM_TIME_TO_SLEEP);
 
@@ -365,11 +363,9 @@ PUBLIC void vAttemptToSleep(void)
             DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: Entering sleep mode (normal)");
             bDeepSleep = FALSE;
 
-            vScheduleSleep();
+            vProgramNextWake();
 
             DBG_vPrintf(TRUE, "\r\nSLEEP: vScheduleSleep() completed");
-            uint32 u32WakeTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
-            vStartWakeTimer(u32WakeTicks);
 
             u8ConsecutiveSleepFailures = 0;
         }
@@ -536,15 +532,57 @@ PRIVATE uint8 u8NumberOfTimersTaskTimers(void)
 
 /****************************************************************************
  *
+ * NAME:        vProgramNextWake
+ *
+ * DESCRIPTION: Programs the next periodic wake before sleeping. Every sleep
+ * used to restart a full MAXIMUM_TIME_TO_SLEEP period; since every pulse wakes
+ * the device, the periodic wake (the only one that sends the index) never came
+ * while water was flowing. If wake timer 0 is still running (wake by a pulse
+ * or a button), keep the remaining time; a new period only starts when it
+ * expires. The three sleep paths of vAttemptToSleep go through here.
+ *
+ ****************************************************************************/
+PRIVATE void vProgramNextWake(void)
+{
+    uint32 u32PeriodTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
+    uint32 u32Calibration = u32GetWakeTimerCalibration();
+    uint32 u32Ticks = u32PeriodTicks;
+
+    if (WTIMER_GetStatusFlags(WTIMER_TIMER0_ID) == WTIMER_STATUS_RUNNING)
+    {
+        uint32 u32Remaining = WTIMER_ReadTimerSafe(WTIMER_TIMER0_ID);
+        /* Less than 200 ms left: the period is considered over (avoids
+         * counting the same wake twice) */
+        if ((u32Remaining >= (u32Calibration / 5)) && (u32Remaining < u32PeriodTicks))
+        {
+            u32Ticks = u32Remaining;
+        }
+    }
+    DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: wake in %d ticks", u32Ticks);
+
+    bDeepSleep = FALSE;
+    vScheduleSleep((uint32)(((uint64)u32Ticks * APP_PWRM_TICKS_PER_SECOND) / u32Calibration));
+    vStartWakeTimer(u32Ticks);
+}
+
+/****************************************************************************
+ *
  * NAME:        vScheduleSleep
  *
  * DESCRIPTION: If we have deep sleep enabled and we attempting to deep sleep
  * then re-initialise the power manager for deep sleep
  *
  ****************************************************************************/
-PRIVATE void vScheduleSleep(void)
+PRIVATE void vScheduleSleep(uint32 u32WakeMs)
 {
-    uint32 u32WakeMs;
+    /* A wake caused by an input (pulse, button) leaves the previous activity
+     * pending; scheduling it again would then fail silently. Remove it first
+     * (no effect if it is not scheduled). */
+#ifdef APP_LOW_POWER_API
+    (void)PWR_eRemoveActivity(&sWake);
+#else
+    (void)PWRM_eRemoveActivity(&sWake);
+#endif
 
     DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: vScheduleSleep()");
 
@@ -568,8 +606,7 @@ PRIVATE void vScheduleSleep(void)
            u32WakeMs = SENSOR_OTA_SLEEP_IN_SECONDS * APP_PWRM_TICKS_PER_SECOND;
        else
        #endif
-          // u32WakeMs = (MAXIMUM_TIME_TO_SLEEP - u32GetNumberOfZCLTicksSinceReport())*APP_PWRM_TICKS_PER_SECOND;
-       u32WakeMs = MAXIMUM_TIME_TO_SLEEP * APP_PWRM_TICKS_PER_SECOND;
+       { /* u32WakeMs: time left in the current period (vProgramNextWake) */ }
 #ifdef APP_LOW_POWER_API
         PWR_eScheduleActivity(&sWake, u32WakeMs, vWakeCallBack);
 #else
@@ -578,7 +615,6 @@ PRIVATE void vScheduleSleep(void)
         DBG_vPrintf(TRACE_SLEEP_HANDLER , "\r\nSLEEP: PWRM_eScheduleActivity(%dms)", u32WakeMs);
     }
 #else
-    u32WakeMs = (MAXIMUM_TIME_TO_SLEEP - u32GetNumberOfZCLTicksSinceReport())*APP_PWRM_TICKS_PER_SECOND;
 #ifdef APP_LOW_POWER_API
     PWR_eScheduleActivity(&sWake, u32WakeMs, vWakeCallBack);
 #else
