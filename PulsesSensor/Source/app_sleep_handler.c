@@ -98,6 +98,10 @@ PRIVATE void vStartNonSleepPreventingTimers(void);
 PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void);
 PRIVATE void vPurgeTimerCallbacks(void);
 PRIVATE bool_t bCommissioningInProgress(void);
+extern uint32_t OSA_TimeGetMsec(void);
+
+/* Durée max d'une phase de join / rejoin / fenêtre de poll sans sommeil forcé */
+#define APP_COMMISSIONING_MAX_MS    (5UL * 60UL * 1000UL)
 
 PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
 PRIVATE uint32 u32OldCounter=0;
@@ -149,6 +153,14 @@ PUBLIC void vAttemptToSleep(void)
     uint16 u16ActivityCount;
     static uint8 u8ConsecutiveReportSleepAttempts = 0;
     static uint8 u8PollTimerRunningCount = 0;
+    /* Reed transition missed while awake: scan it instead of sleeping */
+    if (bAppReedScanNeeded())
+    {
+        DBG_vPrintf(TRUE, "\r\nSLEEP: reed level changed, scanning before sleep");
+        vAppStartReedScan();
+        return;
+    }
+
     /* Pendant un appairage / rejoin / fenêtre de poll, ne jamais forcer :
      * forcer le sommeil interrompt le scan, le join ou l'interview */
     bool_t bCommissioning = bCommissioningInProgress();
@@ -391,9 +403,46 @@ PUBLIC void vAttemptToSleep(void)
  ****************************************************************************/
 PRIVATE bool_t bCommissioningInProgress(void)
 {
-    return ((sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS) ||
-            (bAppRejoinInProgress) ||
-            (APP_bPersistantPolling));
+    static uint32 u32StartMs = 0;
+    static uint8 u8LastState = 0;
+    static bool_t bExpired = FALSE;
+
+    uint8 u8State = ((sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS) ? 0x01 : 0) |
+                    ((bAppRejoinInProgress) ? 0x02 : 0) |
+                    ((APP_bPersistantPolling) ? 0x04 : 0);
+
+    if (u8State != u8LastState)
+    {
+        /* Nouvelle phase (join, rejoin, fenêtre de poll...) : nouveau délai */
+        u8LastState = u8State;
+        u32StartMs = OSA_TimeGetMsec();
+        bExpired = FALSE;
+    }
+
+    if ((u8State == 0) || bExpired)
+    {
+        return FALSE;
+    }
+
+    if ((OSA_TimeGetMsec() - u32StartMs) > APP_COMMISSIONING_MAX_MS)
+    {
+        /* Filet de sécurité : un indicateur bloqué (événement de fin perdu)
+         * ne doit jamais empêcher la mise en sommeil forcée et vider la pile */
+        DBG_vPrintf(TRUE, "\r\nSLEEP: commissioning stuck (state 0x%02x), forced sleep allowed again", u8State);
+        bExpired = TRUE;
+        if (bAppRejoinInProgress && APP_bNodeIsInRunningState())
+        {
+            /* Rejoin sans fin : le retenter plus tard avec le backoff */
+            bBDBJoinFailed = TRUE;
+        }
+        bAppRejoinInProgress = FALSE;
+        APP_bPersistantPolling = FALSE;
+        vStopPollTimerTask();
+        vStopBlinkTimer();
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 /****************************************************************************
@@ -726,11 +775,12 @@ PRIVATE void vWakeCallBack(void)
     	/* Rejoin déjà en échec : retenter avec backoff (1, 2, 4 ... réveils) */
     	vRejoinBackoffOnWake();
     }
-    else if (u8NbFailedTransmit>=5)
+    else if ((u8NbFailedTransmit>=5) && !bAppRejoinInProgress)
     {
     	DBG_vPrintf(1, "\r\nREJOIN after too many transmit failed\r\n");
     	u8NbFailedTransmit = 0;
-    	vHandleButtonPressedEventRejoin(true);
+    	/* Rejoin automatique, personne devant : pas de LED */
+    	vHandleButtonPressedEventRejoin(false);
 
     }
 

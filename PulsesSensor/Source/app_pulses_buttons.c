@@ -78,10 +78,7 @@ void gint_callback(void);
 void ntag_callback(ntag_field_detect_t fd, void *userData);
 #endif
 
-uint32 u32TimeButton0;
 uint32 u32TimeButton1;
-bool bImpulsionRelease=false;
-uint8 u8LoopButton0=0;
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -139,6 +136,128 @@ uint8 u8LoopButton0=0;
 #endif
 
 PRIVATE volatile bool_t bDebouncing = FALSE;
+
+/* Reed contact (SW0) tracking.
+ * The pulse is counted on closure; the opening only re-arms the detection.
+ * While awake, the group interrupt GINT0 is always armed with the polarity
+ * opposite to the current reed level, so no transition is missed whatever
+ * the length of the closure. While asleep, any level change wakes the chip
+ * (PWR_vWakeUpConfig) and a scan runs at wake.
+ * Before this fix (LiXee code), a closure longer than 20 scans (40 ms without
+ * traces) stopped the scan without re-enabling the interrupt: a closure that
+ * followed while the device was still awake was lost. It also kept the group
+ * "active", so the link button was ignored while the reed stayed closed. */
+#define SW0_INDEX                    0
+#define SW1_INDEX                    1
+#define REED_MASK                    (1 << APP_BOARD_SW0_PIN)
+#define REED_CLOSED_CONFIRM_SAMPLES  3   /* closure stable for about 6 ms */
+#define REED_OPEN_CONFIRM_SAMPLES    5   /* opening accepted after about 10 ms (bounce filter) */
+
+/* RAM is retained during sleep: the state survives the warm starts */
+PRIVATE bool_t bReedStateKnown = FALSE;  /* FALSE until the first scan after a cold start */
+PRIVATE bool_t bReedClosed = FALSE;
+PRIVATE uint8 u8ReedClosedRun = 0;       /* consecutive closed samples while closed */
+PRIVATE uint8 u8ReedOpenRun = 0;         /* consecutive open samples while closed */
+
+PRIVATE void vPostButtonEvent(APP_teEventType eType, uint8 u8Button)
+{
+    APP_tsEvent sButtonEvent;
+    sButtonEvent.eType = eType;
+    sButtonEvent.uEvent.sButton.u8Button = u8Button;
+    DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d event %d\r\n", u8Button, eType);
+    if (ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent) == FALSE)
+    {
+        DBG_vPrintf(TRACE_APP_BUTTON, "Button: Failed to post Event %d \r\n", eType);
+    }
+}
+
+/* Returns TRUE when the reed state is stable (nothing to confirm) */
+PRIVATE bool_t bScanReed(uint32 u32DIOState)
+{
+    bool_t bLevelClosed = ((u32DIOState & REED_MASK) == 0);
+
+    if (!bReedStateKnown)
+    {
+        /* Cold start: take the current level as reference, without counting */
+        bReedStateKnown = TRUE;
+        bReedClosed = bLevelClosed;
+        u8ReedClosedRun = REED_CLOSED_CONFIRM_SAMPLES;
+        u8ReedOpenRun = 0;
+        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nREED: initial state %s", bReedClosed ? "closed" : "open");
+        return TRUE;
+    }
+
+    if (bReedClosed)
+    {
+        if (bLevelClosed)
+        {
+            u8ReedOpenRun = 0;
+            if (u8ReedClosedRun < 0xFF)
+            {
+                u8ReedClosedRun++;
+            }
+        }
+        else if (++u8ReedOpenRun >= REED_OPEN_CONFIRM_SAMPLES)
+        {
+            /* Opening confirmed: ready for the next pulse */
+            bReedClosed = FALSE;
+            u8ReedOpenRun = 0;
+            u8ReedClosedRun = 0;
+            DBG_vPrintf(TRACE_APP_BUTTON, "\r\nREED: open");
+        }
+    }
+    else if (bLevelClosed)
+    {
+        /* Closure: one pulse, counted at once (the first sample is taken 20 ms
+         * after the interrupt, past the closing bounce) */
+        bReedClosed = TRUE;
+        u8ReedClosedRun = 1;
+        u8ReedOpenRun = 0;
+        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nREED: closed, pulse");
+        vPostButtonEvent(APP_E_EVENT_BUTTON_DOWN, SW0_INDEX);
+    }
+
+    if (bReedClosed)
+    {
+        return (u8ReedOpenRun == 0) && (u8ReedClosedRun >= REED_CLOSED_CONFIRM_SAMPLES);
+    }
+    return TRUE;
+}
+
+/* Arms GINT0 so that it fires on the next reed transition (polarity opposite
+ * to the current level) or on a press of the link button */
+PRIVATE void vArmButtonInterrupt(void)
+{
+    uint32 u32Polarity = DEMO_GINT0_POL_MASK;   /* 0: active low */
+    if ((APP_u32GetSwitchIOState() & REED_MASK) == 0)
+    {
+        /* Reed closed: wait for it to open */
+        u32Polarity |= REED_MASK;
+    }
+    GINT_ConfigPins(GINT0, DEMO_GINT0_PORT, u32Polarity, DEMO_GINT0_ENA_MASK);
+    GINT_ClrStatus(GINT0);
+    GINT_EnableCallback(GINT0);
+}
+
+/* TRUE if the reed level no longer matches the tracked state while no scan
+ * is running (transition missed between the end of a scan and the arming of
+ * the interrupt). Checked before going to sleep. */
+PUBLIC bool_t bAppReedScanNeeded(void)
+{
+    if (!bReedStateKnown || bDebouncing || (ZTIMER_eGetState(u8TimerButtonScan) == E_ZTIMER_STATE_RUNNING))
+    {
+        return FALSE;
+    }
+    return (((APP_u32GetSwitchIOState() & REED_MASK) == 0) != bReedClosed);
+}
+
+PUBLIC void vAppStartReedScan(void)
+{
+    GINT_DisableCallback(GINT0);
+    bDebouncing = TRUE;
+    ZTIMER_eStop(u8TimerButtonScan);
+    ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(2));
+}
 
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -308,7 +427,8 @@ void gint_callback(void)
     DBG_vPrintf(TRACE_APP_BUTTON, "GINT Pin Interrupt event detected %x\r\n", u32IOStatus);
 
 // MJL not used in 6x/7x sensor
-    if (u32IOStatus != APP_BUTTONS_DIO_MASK)
+    /* Any edge: closure, opening of the reed (all inputs high then) or link button */
+    (void)u32IOStatus; /* only used by traces (TRACE=0) */
     {
         /* disable edge detection until scan complete */
         GINT_DisableCallback(GINT0);
@@ -392,176 +512,60 @@ void ntag_callback(ntag_field_detect_t fd, void *userData)
 PUBLIC void APP_cbTimerButtonScan(void *pvParam)
 {
 #if ((!defined DONGLE) && (!defined OM5578))
-    /*
-     * The DIO changed status register is reset here before the scan is performed.
-     * This avoids a race condition between finishing a scan and re-enabling the
-     * DIO to interrupt on a falling edge.
-     */
-//GINT_EnableCallback(GINT0);
-//GINT_DisableCallback(GINT0);
-	 DBG_vPrintf(TRACE_APP_BUTTON, "\r\n ------------------ BUTTON ----------------------- \r\n");
+    DBG_vPrintf(TRACE_APP_BUTTON, "\r\n ------------------ BUTTON ----------------------- \r\n");
 
-
-
-    uint8 u8AllReleased = 0x03;
-    unsigned int i;
     uint32 u32DIOState = APP_u32GetSwitchIOState();
+    bool_t bReedSettled;
+    bool_t bSw1Settled;
 
     bDebouncing = TRUE;
 
-    for (i = 0; i < APP_BUTTONS_NUM; i++)
+    /* SW0: reed contact of the meter */
+    bReedSettled = bScanReed(u32DIOState);
+
+    /* SW1: link button (short press, 10 s press for leave and reset) */
     {
-        uint8 u8Button = (uint8) ((u32DIOState >> s_u8ButtonDIOLine[i]) & 1);
-        s_u8ButtonDebounce[i] <<= 1;
-        s_u8ButtonDebounce[i] |= u8Button;
-        u8AllReleased &= s_u8ButtonDebounce[i];
+        uint8 u8Button = (uint8) ((u32DIOState >> s_u8ButtonDIOLine[SW1_INDEX]) & 1);
+        s_u8ButtonDebounce[SW1_INDEX] <<= 1;
+        s_u8ButtonDebounce[SW1_INDEX] |= u8Button;
 
-        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton %d Int=%d u32DIOState=%d Previous=%d state=%d Release=%d \r\n",i, s_u8ButtonDebounce[i],u32DIOState,u32PreviousDioState, u8Button,s_u8ButtonState[i]);
+        DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton 1 Int=%d u32DIOState=%d state=%d \r\n",
+                    s_u8ButtonDebounce[SW1_INDEX], u32DIOState, s_u8ButtonState[SW1_INDEX]);
 
-        if ((i==0) && (u8Button==0))
+        if ((u8Button == 0) && !s_u8ButtonState[SW1_INDEX])
         {
-
-        	u8LoopButton0++;
-        }
-
-
-
-        if ((u8Button == 0) && !s_u8ButtonState[i])
-        {
-        	bImpulsionRelease=false;
-            s_u8ButtonState[i] = TRUE;
-            bDebouncing = FALSE;
-
-             // button consistently depressed for 8 scan periods
-             // so post message to application task to indicate
-             // a button down event
-            APP_tsEvent sButtonEvent;
-            sButtonEvent.eType = APP_E_EVENT_BUTTON_DOWN;
-            sButtonEvent.uEvent.sButton.u8Button = i;
+            s_u8ButtonState[SW1_INDEX] = TRUE;
             u32TimeButton1 = OSA_TimeGetMsec();
-            u32TimeButton0 = OSA_TimeGetMsec();
-            u8LoopButton0=0;
-
-            u32PreviousDioState &= ~(1 << s_u8ButtonDIOLine[i]);
-            DBG_vPrintf(TRACE_APP_BUTTON, "\r\nButton DN=%d\r\n", i);
-
-            if(ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent) == FALSE)
-            {
-                DBG_vPrintf(TRACE_APP_BUTTON, "Button: Failed to post Event %d \r\n", sButtonEvent.eType);
-            }
-
-        }else if ((u8Button == 0) && (s_u8ButtonDebounce[0]==0))
-        {
-
-        	//u32TimeButton0 = OSA_TimeGetMsec() - u32TimeButton0 ;
-        	if ((u8LoopButton0>20))
-        	{
-        		//u32TimeButton0 = OSA_TimeGetMsec();
-        		bDebouncing = false;
-				DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION TROP LARGE : %d---------------------\r\n",u8LoopButton0);
-				u8LoopButton0=0;
-				bImpulsionRelease = true;
-        	}
-
-        //}else if  ((u8Button == 0) && (s_u8ButtonDebounce[0]>03 ))
-        //}else if  ((s_u8ButtonDebounce[0] & 0x01) == true )
+            vPostButtonEvent(APP_E_EVENT_BUTTON_DOWN, SW1_INDEX);
         }
-        else if  ((u8Button == 0) && (s_u8ButtonDebounce[0]>1))
+        else if (((s_u8ButtonDebounce[SW1_INDEX] & 0x03) == 0x03) && s_u8ButtonState[SW1_INDEX])
         {
-        	if( bImpulsionRelease)
-        	{
-        		//bDebouncing = false;
-        		DBG_vPrintf(TRACE_APP_BUTTON, "\r\n-----------------------IMPULSION RELEASE ---------------------\r\n");
-        		s_u8ButtonDebounce[0] = 0x03;
-        		s_u8ButtonState[0] = FALSE;
-        	}
-        	//s_u8ButtonState[0] = FALSE;
+            /* Released after two consecutive high samples (masked: a bounce while
+             * pressed leaves other bits set, an exact 0x03 match would never come
+             * and the scan would run forever, preventing sleep) */
+            s_u8ButtonState[SW1_INDEX] = FALSE;
+            u32TimeButton1 = OSA_TimeGetMsec() - u32TimeButton1;
+            DBG_vPrintf(TRACE_APP_BUTTON, "\r\n----------------u32TimeButton1: %d ---------------------\r\n", u32TimeButton1);
+            vPostButtonEvent((u32TimeButton1 < 5000) ? APP_E_EVENT_BUTTON_UP : APP_E_EVENT_LEAVE_AND_RESET, SW1_INDEX);
         }
-        else if (0x03 == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
-        {
-            s_u8ButtonState[i] = FALSE;
-            bDebouncing = FALSE;
-            //
-            // button consistently released for 8 scan periods
-            // so post message to application task to indicate
-            // a button up event
-            //
-            u32TimeButton1 = OSA_TimeGetMsec() - u32TimeButton1 ;
-			APP_tsEvent sButtonEvent;
-			DBG_vPrintf(TRACE_APP_BUTTON, "\r\n----------------u32TimeButton1: %d ---------------------\r\n", u32TimeButton1);
-			if ((u32TimeButton1<5000) || (i != 1))
-			{
-				sButtonEvent.eType = APP_E_EVENT_BUTTON_UP;
-			}else{
-				sButtonEvent.eType = APP_E_EVENT_LEAVE_AND_RESET;
-			}
-			sButtonEvent.uEvent.sButton.u8Button = i;
-
-			DBG_vPrintf(TRACE_APP_BUTTON, "Button UP=%d event :%d\r\n", i,sButtonEvent.eType);
-
-			if(ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent) == FALSE)
-			{
-				DBG_vPrintf(TRACE_APP_BUTTON, "Button: Failed to post Event %d \r\n", sButtonEvent.eType);
-			}
-        }
+        bSw1Settled = !s_u8ButtonState[SW1_INDEX] && ((s_u8ButtonDebounce[SW1_INDEX] & 0x03) == 0x03);
     }
 
-    if (0x03 == u8AllReleased)
+    ZTIMER_eStop(u8TimerButtonScan);
+    if (bReedSettled && bSw1Settled)
     {
-
-        //all buttons high so set dio to interrupt on change
-    	bImpulsionRelease=false;
-    	s_u8ButtonState[0] = FALSE;
-    	s_u8ButtonState[1] = FALSE;
-    	bDebouncing = FALSE;
-        DBG_vPrintf(TRACE_APP_BUTTON, "ALL UP\r\n", i);
-       // IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 | IOCON_MODE_PULLUP | IOCON_DIGITAL_EN | IOCON_GPIO_MODE);
-        GINT_EnableCallback(GINT0);
-        // Using internal NTAG FD on JN518x ?
-        #if ((defined APP_NTAG_NWK) && (APP_BUTTONS_NFC_FD != (0xff)))
-        #if (APP_BUTTONS_NFC_FD ==  APP_INTERNAL_NTAG_FD_BIT)
-        {
-            // Enable interrupt callback
-            ntag_config_t config;
-            // Get default config
-            NTAG_GetDefaultConfig(&config);
-            // Set callback function in config
-            config.callback = ntag_callback;
-            // Initialise ntag
-            NTAG_Init(&config);
-        }
-        #endif
-        #endif
-        //DBG_vPrintf(TRACE_APP_BUTTON, ":t");
-        ZTIMER_eStop(u8TimerButtonScan);
-
+        /* Nothing in progress: wait for the next transition on the interrupt */
+        bDebouncing = FALSE;
+        DBG_vPrintf(TRACE_APP_BUTTON, "SETTLED, reed %s\r\n", bReedClosed ? "closed" : "open");
+        vArmButtonInterrupt();
     }
     else
     {
-
-    	if (bImpulsionRelease)
-    	{
-    		bDebouncing = false;
-    		IOCON_PinMuxSet(IOCON, 0, 1, IOCON_FUNC0 |  IOCON_MODE_PULLUP | IOCON_DIGITAL_EN);
-    		ZTIMER_eStop(u8TimerButtonScan);
-
-
-    	}else{
-
-    		//one or more buttons is still depressed so continue scanning
-
-			//DBG_vPrintf(TRACE_APP_BUTTON, ";t");
-    		ZTIMER_eStop(u8TimerButtonScan);
-    		ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(2));
-    	}
+        /* Reed bouncing or opening, or button held: keep scanning */
+        ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(2));
     }
-//ZTIMER_eStop(u8TimerButtonScan);
-//ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
-//GINT_EnableCallback(GINT0);
 #endif
 }
-
-
 
 /****************************************************************************
  *
@@ -597,6 +601,7 @@ PUBLIC void vActionOnButtonActivationAfterDeepSleep(void)
     ZTIMER_eStop(u8TimerButtonScan);
     eStatus = ZTIMER_eStart(u8TimerButtonScan, ZTIMER_TIME_MSEC(20));
     DBG_vPrintf(TRACE_APP_BUTTON, "\r\nBUTTON: ZTIMER_eStart()=%d", eStatus);
+    (void)eStatus; /* only used by traces (TRACE=0) */
 }
 
 /****************************************************************************

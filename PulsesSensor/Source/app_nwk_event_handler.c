@@ -89,7 +89,7 @@ PRIVATE uint16 u16WakesSinceRejoinFailure = 0;
 #define APP_REJOIN_BACKOFF_MAX_WAKES 32         /* ~32 min max entre deux rejoins */
 
 PUBLIC bool_t bAppRejoinInProgress = FALSE;
-PUBLIC bool_t bAppLeaveAndResetPending = FALSE;  /* appui 10 s : leave en cours puis factory reset */
+PRIVATE bool_t bAppLeaveAndResetPending = FALSE; /* appui 10 s : leave en cours puis factory reset */
 PRIVATE bool_t bReportAtWindowEnd = FALSE;      /* rapport complet à la fin de la fenêtre de poll */
 
 /****************************************************************************/
@@ -199,11 +199,10 @@ PUBLIC void vStartPersistentPollWindow(uint32 u32Count)
 
 /****************************************************************************
  *
- * NAME: vExtendPersistentPollWindow
+ * NAME: vRequestReportAtPollWindowEnd
  *
  * DESCRIPTION:
- * Called on each message received from the network: if a persistent window
- * is running, make sure it lasts at least APP_PAIRING_POLL_EXTEND more periods.
+ * Send a full report to the coordinator when the current poll window ends.
  *
  ****************************************************************************/
 PUBLIC void vRequestReportAtPollWindowEnd(void)
@@ -211,6 +210,15 @@ PUBLIC void vRequestReportAtPollWindowEnd(void)
     bReportAtWindowEnd = TRUE;
 }
 
+/****************************************************************************
+ *
+ * NAME: vExtendPersistentPollWindow
+ *
+ * DESCRIPTION:
+ * Called on each message received from the network: if a persistent window
+ * is running, make sure it lasts at least APP_PAIRING_POLL_EXTEND more periods.
+ *
+ ****************************************************************************/
 PUBLIC void vExtendPersistentPollWindow(void)
 {
     if (APP_bPersistantPolling && (u32countStart < APP_PAIRING_POLL_EXTEND))
@@ -363,8 +371,17 @@ PUBLIC void APP_cbTimerRejoin(void *pvParam)
  ****************************************************************************/
 PUBLIC void vHandleFailedToJoin(void)
 {
+	if (bAppLeaveAndResetPending)
+	{
+		/* Appui 10 s en cours : l'échec du rejoin ne doit pas annuler le
+		 * timeout du leave, sinon le device reste à moitié réinitialisé */
+		vAppFinishLeaveAndReset();
+		return;
+	}
+
     /* In case Find And Bind or Keep alive in progress stop it and make sure we go to sleep */
 	APP_bPersistantPolling = FALSE;
+	bReportAtWindowEnd = FALSE;
 	vStopPollTimerTask();
 	bBDBJoinFailed = TRUE;
 	bAppRejoinInProgress = FALSE;
@@ -404,7 +421,7 @@ PUBLIC void vHandleFailedToJoin(void)
  * NAME: vHandleFailedRejoin
  *
  * DESCRIPTION:
- * If we have failed to rejoin the network we start the blink timer.
+ * Rejoin failed (from APP_cbTimerRejoin): same handling as a failed join.
  *
  * RETURNS:
  * void
@@ -413,6 +430,27 @@ PUBLIC void vHandleFailedToJoin(void)
 PUBLIC void vHandleFailedRejoin(void)
 {
 	vHandleFailedToJoin();
+}
+
+/****************************************************************************
+ *
+ * NAME: vHandleRejoinStarted
+ *
+ * DESCRIPTION:
+ * The stack lost its parent and BDB starts its rejoin cycles: mark the rejoin
+ * in progress (no second rejoin from a wake or a button press) and stop the
+ * poll window, useless without a parent (except during a 10 s leave).
+ *
+ ****************************************************************************/
+PUBLIC void vHandleRejoinStarted(void)
+{
+	bAppRejoinInProgress = TRUE;
+	if (!bAppLeaveAndResetPending)
+	{
+		APP_bPersistantPolling = FALSE;
+		bReportAtWindowEnd = FALSE;
+		vStopPollTimerTask();
+	}
 }
 
 /****************************************************************************

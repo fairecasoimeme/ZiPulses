@@ -24,3 +24,6 @@ PulsesSensor/Source/pdum_gen.c
 PulsesSensor/Source/pdum_gen.h
 PulsesSensor/Source/zps_gen.c
 PulsesSensor/Source/zps_gen.h
+# Per-version build folders (release .bin goes to the GitHub release)
+Binaries/v*_nodbg/
+Binaries/v*_test/

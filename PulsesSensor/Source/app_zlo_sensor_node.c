@@ -267,8 +267,6 @@ PUBLIC void APP_vInitialiseNode(void)
     APP_vRadioTempUpdate(TRUE);
 
 	bFlagReset = TRUE;
-	u32countStart = u32WakeTimerSecondsToTicks(5, TRUE);
-	DBG_vPrintf(1, "\r\n ----------u32countStart : %d\r\n",u32countStart );
     #ifdef PDM_EEPROM
         vDisplayPDMUsage();
     #endif
@@ -347,7 +345,10 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
 
     case BDB_EVENT_FAILURE_RECOVERY_FOR_REJOIN: //Recovery on rejoin failure
         DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nNODE: APP_vBdbCallback(FAILURE_RECOVERY_FOR_REJOIN)");
-        vHandleFailedRejoin();
+        /* Début de la récupération (parent perdu) : BDB lance les cycles de
+         * rejoin juste après. Ce n'est pas un échec, la fin arrive par
+         * REJOIN_SUCCESS ou REJOIN_FAILURE */
+        vHandleRejoinStarted();
         break;
 
     case BDB_EVENT_REJOIN_FAILURE: // only for ZED

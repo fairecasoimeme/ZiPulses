@@ -464,11 +464,14 @@ PUBLIC void APP_vGetVoltagePourcentage()
 {
 	uint8_t voltage = sSensor.sPowerConfigServerCluster.u8BatteryVoltage;
 	uint8_t pourcentage = 0;
-	if (voltage>=32)
+	/* Tension réelle (mV depuis la v12) : une pile lithium neuve tient ~3.0 V
+	 * en fonctionnement. 3.0 V et plus = 100 %, 2.2 V = 0 %, linéaire entre les
+	 * deux (unité ZCL : 0.5 %, donc 200 = 100 %, 25 = 12.5 % par 0.1 V) */
+	if (voltage>=30)
 	{
 		pourcentage=200;
-	}else if ((voltage>=22) && (voltage<32)){
-		pourcentage =(10 - (32 - voltage)) * 20;
+	}else if (voltage>=22){
+		pourcentage = (voltage - 22) * 25;
 	}else{
 		pourcentage = 0;
 	}

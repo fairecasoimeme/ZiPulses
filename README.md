@@ -343,6 +343,16 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ## Changelog
 
+### Version 0012
+
+* Fix missed pulses with long contacts (meter magnet, open collector): the contact is now tracked in both directions, each closure is counted once and the real level is checked before sleep (#62, thanks @swknf)
+* Fix rejoin started twice: when the stack loses its parent, the recovery start is no longer handled as a failure (no second rejoin from a wake or a button press while one is running)
+* Safety net: a join / rejoin / polling phase longer than 5 min no longer blocks the forced sleep (a lost end event could keep the device awake and drain the battery)
+* Fix 10 s button press during a failing rejoin: the leave timeout is no longer cancelled, the device always erases its data and reboots
+* Battery percentage rescaled for the real voltage: 3.0 V and above = 100 %, 2.2 V = 0 % (a new battery read 70 % in v11)
+* Battery voltage and temperature measured before sending the reports (the voltage dropped right after a radio transmission)
+* LED kept off during an automatic rejoin (only lit when the button is pressed)
+
 ### Version 0011
 
 * Fix pairing / interview / bind
@@ -351,6 +361,7 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
   * pairing window is now 15 s (time based), extended up to 5 s after the last message received from the coordinator
   * 3 s polling window after a rejoin or a button press (to receive pending requests)
   * send index, battery voltage, battery percentage and temperature to the coordinator at the end of the pairing / rejoin, to show the device is working
+* Fix device staying awake (LED blinking) after a TC key exchange failure during pairing
 * Fix re-pairing after a leave: button press always restarts network steering when not in a network
 * Fix 10 s button press (leave and reset): the device stays awake until the leave is confirmed (3 s timeout), then always erases its data and reboots (it could stay half reset: data erased but still on the network)
 * Save battery on join / rejoin failure
@@ -358,6 +369,8 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
   * paired but coordinator unreachable: no more network steering + reset loop, rejoin retried on wake with a backoff (1, 2, 4 ... 32 min)
   * LED switched off when joining fails
 * Keep-alive: poll the parent with each 2-hour report, so the coordinator does not drop the device when there are no pulses for several days
+* Fix battery voltage measurement: real millivolts (values are about 10 % lower than v10), percentage always consistent with the voltage
+* Debug console disabled (lower consumption, better pairing)
 * Reboot (keeping network settings) instead of factory reset when the device cannot sleep for too long
 * Fix immediate report buffer handling (one buffer per attribute report)
 

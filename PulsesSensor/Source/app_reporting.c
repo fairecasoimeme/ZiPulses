@@ -335,17 +335,16 @@ PRIVATE void vSendSingleAttributeReport(tsZCL_Address *psDestinationAddress,
  ****************************************************************************/
 PRIVATE void vSendAllAttributeReports(tsZCL_Address *psDestinationAddress)
 {
-    vSendSingleAttributeReport(psDestinationAddress, SE_CLUSTER_ID_SIMPLE_METERING, 0);
+    /* Mesures avant toute émission : juste après un TX la pile bouton chute
+     * et la tension serait sous-estimée */
+    APP_vRadioTempUpdate(TRUE);
+    APP_vGetVoltageBattery();   /* recalcule aussi le pourcentage */
 
-    APP_vGetVoltageBattery();
+    vSendSingleAttributeReport(psDestinationAddress, SE_CLUSTER_ID_SIMPLE_METERING, 0);
     vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
                                E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE);
-
-    /* Pourcentage déjà recalculé par APP_vGetVoltageBattery() */
     vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
                                E_CLD_PWRCFG_ATTR_ID_BATTERY_PERCENTAGE_REMAINING);
-
-    APP_vRadioTempUpdate(TRUE);
     vSendSingleAttributeReport(psDestinationAddress, MEASUREMENT_AND_SENSING_CLUSTER_ID_TEMPERATURE_MEASUREMENT,
                                E_CLD_TEMPMEAS_ATTR_ID_MEASURED_VALUE);
 }

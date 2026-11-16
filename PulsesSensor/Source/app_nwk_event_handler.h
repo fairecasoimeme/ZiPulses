@@ -69,6 +69,7 @@ PUBLIC void vAppFinishLeaveAndReset(void);
 PUBLIC void vResetRejoinAttempts(void);
 PUBLIC void vAppStartRejoin(void);
 PUBLIC void vRejoinBackoffOnWake(void);
+PUBLIC void vHandleRejoinStarted(void);
 
 PUBLIC void APP_cbTimerRejoin( void *pvParams);
 /****************************************************************************/

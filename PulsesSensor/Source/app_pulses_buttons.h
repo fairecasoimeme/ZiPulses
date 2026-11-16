@@ -151,6 +151,8 @@ PUBLIC void vActionOnButtonActivationAfterDeepSleep(void);
 PUBLIC void vSaveDioStateBeforeDeepSleep(void);
 PUBLIC bool_t bGetPreSleepOccupancyState(void);
 PUBLIC bool_t bButtonDebounceInProgress(void);
+PUBLIC bool_t bAppReedScanNeeded(void);
+PUBLIC void vAppStartReedScan(void);
 
 /****************************************************************************/
 /***        External Variables                                            ***/

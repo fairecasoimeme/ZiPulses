@@ -80,7 +80,12 @@ PUBLIC bool vHandleButtonPressedEventRejoin(bool ledON)
 		return false;
 	}*/
 	vStopBlinkTimer();
-	APP_vSetLED(LED1, 1);
+	/* LED seulement si quelqu'un est là : un rejoin automatique (réveil)
+	 * peut durer longtemps, LED allumée = pile gaspillée */
+	if (ledON)
+	{
+		APP_vSetLED(LED1, 1);
+	}
 	vAppStartRejoin();
 	return true;
 
@@ -126,6 +131,13 @@ PUBLIC bool vHandleButtonPressedEvent(bool ledON)
 		}
 		vResetRejoinAttempts();
 		vAppHandleStartup();
+		return false;
+	}
+	else if(bAppRejoinInProgress)
+	{
+		/* Rejoin déjà en cours : ne pas en lancer un second par-dessus,
+		 * ni poller sans parent. La LED s'éteint à la mise en sommeil. */
+		APP_vSetLED(LED1, 1);
 		return false;
 	}
 	else if(bBDBJoinFailed)
