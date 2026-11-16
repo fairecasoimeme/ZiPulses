@@ -96,7 +96,6 @@
 PRIVATE void app_vStartNodeFactoryNew(void);
 PRIVATE void app_vRestartNode (void);
 PRIVATE void vAppHandleZdoEvents( BDB_tsZpsAfEvent *psZpsAfEvent);
-PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
 PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent* psZpsAfEvent);
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -613,62 +612,6 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
     }
 
 }
-
-/****************************************************************************
- *
- * NAME: vDeletePDMOnButtonPress
- *
- * DESCRIPTION:
- * PDM context clearing on button press
- *
- * RETURNS:
- * void
- *
- ****************************************************************************/
-PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO)
-{
-    bool_t bDeleteRecords = FALSE;
-    uint8 u8Status;
-    uint32 u32Buttons = APP_u32GetSwitchIOState() & (1 << u8ButtonDIO);
-
-    if (u32Buttons == 0)
-    {
-        bDeleteRecords = TRUE;
-    }
-    else
-    {
-        bDeleteRecords = FALSE;
-    }
-    /* If required, at this point delete the network context from flash, perhaps upon some condition
-     * For example, check if a button is being held down at reset, and if so request the Persistent
-     * Data Manager to delete all its records:
-     * e.g. bDeleteRecords = vCheckButtons();
-     * Alternatively, always call PDM_vDelete() if context saving is not required.
-     */
-    if(bDeleteRecords)
-    {
-    	/* wait for button release */
-		while (u32Buttons == 0)
-		{
-			u32Buttons = APP_u32GetSwitchIOState() & (1 << u8ButtonDIO);
-		}
-        sBDB.sAttrib.bbdbNodeIsOnANetwork = FALSE;
-        u8Status = ZPS_eAplZdoLeaveNetwork(0, FALSE,FALSE);
-        if (ZPS_E_SUCCESS !=  u8Status )
-        {
-            /* Leave failed, probably lost parent, so just reset everything */
-            DBG_vPrintf(TRACE_SENSOR_NODE,"\r\nNODE: vDeletePDMOnButtonPress() -> APP_vFactoryResetRecords()");
-            APP_vFactoryResetRecords();
-            MICRO_DISABLE_INTERRUPTS();
-            RESET_SystemReset();
-        }else {
-        	DBG_vPrintf(1, "RESET: Sent Leave\r\n");
-        }
-
-    }
-}
-
-
 
 /****************************************************************************
  *

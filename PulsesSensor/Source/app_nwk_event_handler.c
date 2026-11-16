@@ -56,6 +56,7 @@
 #include "MicroSpecific.h"
 #include "app.h"
 #include "app_reporting.h"
+#include "app_pulses_events.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
