@@ -460,6 +460,57 @@ PUBLIC void APP_vInitResources(void)
     #endif
 }
 
+/****************************************************************************
+ *
+ * Power mode (battery or external power), set from zigbee2mqtt through the
+ * standard BatterySize attribute of the Power Configuration cluster:
+ * 0 (no battery) = external power, any other value = battery. Stored in its
+ * own PDM record (one byte); a missing record means battery, the safe default.
+ * The chip cannot tell by itself: it sees 3.0 V on the regulator (REG), and
+ * 3.1 to 3.3 V with a new CR2477.
+ *
+ ****************************************************************************/
+PRIVATE bool_t bMainsPowered = FALSE;
+
+PUBLIC bool_t bAppIsMainsPowered(void)
+{
+	return bMainsPowered;
+}
+
+PRIVATE void vApplyBatterySize(uint8 u8BatterySize)
+{
+	sSensor.sPowerConfigServerCluster.u8BatterySize = u8BatterySize;
+	bMainsPowered = (u8BatterySize == E_CLD_PWRCFG_BATTERY_SIZE_NO_BATTERY);
+	DBG_vPrintf(TRUE, "\r\nPOWER: mode %s (BatterySize %d)", bMainsPowered ? "mains" : "battery", u8BatterySize);
+}
+
+/* Called at startup, after the clusters are initialised */
+PUBLIC void vAppLoadPowerMode(void)
+{
+	uint8 u8BatterySize = E_CLD_PWRCFG_BATTERY_SIZE_OTHER;
+	uint16 u16BytesRead = 0;
+	if ((PDM_eReadDataFromRecord(PDM_ID_APP_POWER_MODE, &u8BatterySize, sizeof(u8BatterySize), &u16BytesRead) != PDM_E_STATUS_OK) ||
+		(u16BytesRead != sizeof(u8BatterySize)))
+	{
+		u8BatterySize = E_CLD_PWRCFG_BATTERY_SIZE_OTHER;
+	}
+	vApplyBatterySize(u8BatterySize);
+}
+
+/* Called when the BatterySize attribute has been written over the air */
+PUBLIC void vAppPowerModeWritten(void)
+{
+	uint8 u8BatterySize = sSensor.sPowerConfigServerCluster.u8BatterySize;
+	bool_t bWasMains = bMainsPowered;
+	vApplyBatterySize(u8BatterySize);
+	PDM_eSaveRecordData(PDM_ID_APP_POWER_MODE, &u8BatterySize, sizeof(u8BatterySize));
+	if (bWasMains != bMainsPowered)
+	{
+		/* Percentage depends on the mode */
+		APP_vGetVoltagePourcentage();
+	}
+}
+
 PUBLIC void APP_vGetVoltagePourcentage()
 {
 	uint8_t voltage = sSensor.sPowerConfigServerCluster.u8BatteryVoltage;
@@ -474,6 +525,16 @@ PUBLIC void APP_vGetVoltagePourcentage()
 		pourcentage = (voltage - 22) * 25;
 	}else{
 		pourcentage = 0;
+	}
+	if (bAppIsMainsPowered())
+	{
+		/* External power: the regulator gives about 3.0 V, right at the 100 %
+		 * threshold, so a slightly low reading would show a falling "battery";
+		 * on mains it is always reported full. The voltage is still reported
+		 * as measured. (The Basic PowerSource attribute is left unchanged:
+		 * zigbee2mqtt would treat the device as mains powered and ping it for
+		 * availability.) */
+		pourcentage = 200;
 	}
 	DBG_vPrintf(1, "\r\n ----------Pourcentage : %d\r\n",pourcentage );
 	sSensor.sPowerConfigServerCluster.u8BatteryPercentageRemaining = pourcentage;

@@ -29,6 +29,8 @@ PUBLIC void vHandlePulseRisingEvent(void)
 {
 	bPulsesAction = true;
 	sDeviceCounter.counter++;
+	/* External power: fast wakes, the index goes out within a few seconds */
+	vSignalPulse();
 	DBG_vPrintf(1, "\r\n********************************************************************************sDeviceCounter.multiplier :%d , sDeviceCounter.counter: %d //////////////////// \r\n", sDeviceCounter.multiplier,sDeviceCounter.counter);
 	if (sDeviceCounter.multiplier>1)
 	{

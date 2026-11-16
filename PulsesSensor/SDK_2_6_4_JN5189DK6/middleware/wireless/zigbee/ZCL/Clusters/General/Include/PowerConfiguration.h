@@ -72,7 +72,8 @@
 //#define CLD_PWRCFG_ATTR_BATTERY_MANUFACTURER
 
 /* Enable the optional Battery Size attribute */
-//#define CLD_PWRCFG_ATTR_BATTERY_SIZE
+/* ZiPulses: used as the power mode setting (0 = no battery = external power) */
+#define CLD_PWRCFG_ATTR_BATTERY_SIZE
 
 /* Enable the optional Battery Amp Hour attribute */
 //#define CLD_PWRCFG_ATTR_BATTERY_AHR_RATING
