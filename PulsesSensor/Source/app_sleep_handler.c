@@ -563,11 +563,26 @@ PRIVATE uint32 u32WakePeriodS(void)
     return MAXIMUM_TIME_TO_SLEEP;
 }
 
-/* Called on every pulse: on external power, switch to fast wakes */
+/* Called on every pulse: on external power, switch to fast wakes. At the start
+ * of a draw (no fast wake running yet), the index is sent right away instead of
+ * waiting for the first fast wake; during the draw the fast wakes take over, so
+ * pulses close together are grouped and the network is not flooded. Not while a
+ * poll window (index ACK, pairing) is open or off the network: the next wake
+ * sends it. */
 PUBLIC void vSignalPulse(void)
 {
     if (bAppIsMainsPowered())
     {
+        if ((u8FastWakesLeft == 0) && APP_bNodeIsInRunningState() &&
+            !bBDBJoinFailed && !bAppRejoinInProgress && !APP_bPersistantPolling)
+        {
+            APP_tsEvent sAppEvent;
+            sAppEvent.eType = APP_E_EVENT_PERIODIC_REPORT;
+            if (ZQ_bQueueSend(&APP_msgAppEvents, &sAppEvent) == FALSE)
+            {
+                DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: immediate index send not queued");
+            }
+        }
         u8FastWakesLeft = FAST_WAKE_COUNT;
     }
 }
