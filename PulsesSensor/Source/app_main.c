@@ -102,7 +102,7 @@
 #define ZPS_QUEUE_SIZE               1
 #define ZCL_QUEUE_SIZE               1
 #define APP_QUEUE_SIZE               4
-#define BDB_QUEUE_SIZE               2
+#define BDB_QUEUE_SIZE               8   /* was 2: an overflow drops stack events (and the APDU of a lost data indication) */
 #if (defined APP_NTAG_ICODE)
 #define APP_ZTIMER_STORAGE           6 /* NTAG: Added timer */
 #else
