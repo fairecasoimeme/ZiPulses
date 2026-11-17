@@ -68,6 +68,8 @@ PRIVATE void vToggleLED(void);
 /****************************************************************************/
 PRIVATE bool_t bDIO1State = FALSE;
 PRIVATE uint32 u32BlinkTickTime = 0;
+/* Single flash in progress (vFlashLED): the timer switches the LED off without restarting */
+PRIVATE bool_t bSingleFlash = FALSE;
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
@@ -142,8 +144,40 @@ PUBLIC void vAPP_cbBlinkLED( void *pvParams)
 {
     DBG_vPrintf(TRACE_BLINK_LED, "\nAPP Blink LED: Task Started");
     ZTIMER_eStop(u8TimerBlink);
+    if (bSingleFlash)
+    {
+        /* End of the flash: LED off, timer not restarted */
+        bSingleFlash = FALSE;
+        bDIO1State = FALSE;
+        APP_vSetLED(BLINK_LED, FALSE);
+        return;
+    }
     vToggleLED();
     ZTIMER_eStart(u8TimerBlink, u32BlinkTickTime);
+}
+
+/****************************************************************************
+ *
+ * NAME: vFlashLED
+ *
+ * DESCRIPTION:
+ * Single LED flash (u32Ms milliseconds), e.g. on each pulse. If the device
+ * goes to sleep before the end, the sleep handler stops the timer and
+ * switches the LED off. No effect while a blink is running (pairing),
+ * which keeps priority.
+ *
+ ****************************************************************************/
+PUBLIC void vFlashLED(uint32 u32Ms)
+{
+    if ((u32BlinkTickTime != 0) && !bSingleFlash)
+    {
+        return;
+    }
+    ZTIMER_eStop(u8TimerBlink);
+    bSingleFlash = TRUE;
+    bDIO1State = TRUE;
+    APP_vSetLED(BLINK_LED, TRUE);
+    ZTIMER_eStart(u8TimerBlink, ZTIMER_TIME_MSEC(u32Ms));
 }
 
 /****************************************************************************
@@ -161,6 +195,7 @@ PUBLIC void vStartBlinkTimer(uint32 u32Ticks)
 {
     DBG_vPrintf(TRACE_BLINK_LED, "\nAPP Blink LED: Starting Blink Timer value = %d", u32Ticks);
     ZTIMER_eStop(u8TimerBlink);
+    bSingleFlash = FALSE;
     u32BlinkTickTime = u32Ticks;
     ZTIMER_eStart(u8TimerBlink, u32Ticks);
 }
@@ -180,6 +215,7 @@ PUBLIC void vStopBlinkTimer(void)
     DBG_vPrintf(TRACE_BLINK_LED, "\nAPP Blink LED: Stopping Blink Timer");
     ZTIMER_eStop(u8TimerBlink);
     u32BlinkTickTime = 0;
+    bSingleFlash = FALSE;
     APP_vSetLED(BLINK_LED, FALSE);
 }
 

@@ -49,7 +49,8 @@ PUBLIC void vHandlePulseRisingEvent(void)
 
 	//APP_vGetVoltageBattery();
 
-	APP_vSetLED(LED1, 1);
+	/* A single short flash: the LED no longer stays on for the whole awake time */
+	vFlashLED(50);
 
 	//vSendImmediateIndexReport();
 
