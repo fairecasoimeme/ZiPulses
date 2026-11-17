@@ -118,6 +118,8 @@ PRIVATE uint32 u32CurrentPeriodS = MAXIMUM_TIME_TO_SLEEP;
 #define FAST_WAKE_COUNT    (60 / FAST_WAKE_PERIOD_S)
 PRIVATE uint8 u8FastWakesLeft = 0;
 PRIVATE uint32 u32CounterAtLastWake = 0;
+/* TRUE once the wake callback of the current period has run */
+PRIVATE bool_t bPeriodWakeDone = TRUE;
 PRIVATE uint32 u32OldCounter=0;
 
 /****************************************************************************/
@@ -594,6 +596,7 @@ PRIVATE void vProgramNextWake(void)
     uint32 u32Calibration = u32GetWakeTimerCalibration();
     uint32 u32Ticks = u32PeriodTicks;
     bool_t bNewPeriod = TRUE;
+    bool_t bPeriodOver = TRUE;
 
     if (WTIMER_GetStatusFlags(WTIMER_TIMER0_ID) == WTIMER_STATUS_RUNNING)
     {
@@ -601,15 +604,29 @@ PRIVATE void vProgramNextWake(void)
         /* Less than 200 ms left: the period is considered over (avoids
          * counting the same wake twice); more than the desired period: switch
          * to fast wakes, new period */
-        if ((u32Remaining >= (u32Calibration / 5)) && (u32Remaining < u32PeriodTicks))
+        if (u32Remaining >= (u32Calibration / 5))
         {
-            bNewPeriod = FALSE;
-            u32Ticks = u32Remaining;
+            bPeriodOver = FALSE;
+            if (u32Remaining < u32PeriodTicks)
+            {
+                bNewPeriod = FALSE;
+                u32Ticks = u32Remaining;
+            }
         }
+    }
+    if (bPeriodOver && !bPeriodWakeDone)
+    {
+        /* The period ended while the device was already awake (pulse): its
+         * wake callback never ran (full report, index resend, fast wakes).
+         * Wake again right away instead of starting a new period, so a steady
+         * flow cannot keep postponing the index. */
+        bNewPeriod = FALSE;
+        u32Ticks = u32Calibration / 20;
     }
     if (bNewPeriod)
     {
         u32CurrentPeriodS = u32Period;
+        bPeriodWakeDone = FALSE;
     }
     DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: wake in %d ticks", u32Ticks);
 
@@ -784,6 +801,7 @@ PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void)
 PRIVATE void vWakeCallBack(void)
 {
     DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: vWakeCallBack()");
+    bPeriodWakeDone = TRUE;
     /* Réautoriser le redémarrage du timer Tick */
     bPreventTickTimerRestart = FALSE;
 
