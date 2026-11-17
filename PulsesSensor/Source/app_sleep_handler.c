@@ -107,6 +107,8 @@ extern uint32_t OSA_TimeGetMsec(void);
 
 PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
 PRIVATE uint32 u32OldCounter=0;
+/* TRUE once the wake callback of the current period has run */
+PRIVATE bool_t bPeriodWakeDone = TRUE;
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -547,16 +549,33 @@ PRIVATE void vProgramNextWake(void)
     uint32 u32PeriodTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
     uint32 u32Calibration = u32GetWakeTimerCalibration();
     uint32 u32Ticks = u32PeriodTicks;
+    bool_t bPeriodOver = TRUE;
 
     if (WTIMER_GetStatusFlags(WTIMER_TIMER0_ID) == WTIMER_STATUS_RUNNING)
     {
         uint32 u32Remaining = WTIMER_ReadTimerSafe(WTIMER_TIMER0_ID);
         /* Less than 200 ms left: the period is considered over (avoids
          * counting the same wake twice) */
-        if ((u32Remaining >= (u32Calibration / 5)) && (u32Remaining < u32PeriodTicks))
+        if (u32Remaining >= (u32Calibration / 5))
         {
-            u32Ticks = u32Remaining;
+            bPeriodOver = FALSE;
+            if (u32Remaining < u32PeriodTicks)
+            {
+                u32Ticks = u32Remaining;
+            }
         }
+    }
+    if (bPeriodOver && !bPeriodWakeDone)
+    {
+        /* The period ended while the device was already awake (pulse): its
+         * wake callback never ran (report, index send). Wake again right
+         * away instead of starting a new period, so a steady flow cannot
+         * keep postponing the index. */
+        u32Ticks = u32Calibration / 20;
+    }
+    else if (bPeriodOver)
+    {
+        bPeriodWakeDone = FALSE;
     }
     DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: wake in %d ticks", u32Ticks);
 
@@ -731,6 +750,7 @@ PRIVATE uint8 u8NumberOfNonSleepPreventingTimers(void)
 PRIVATE void vWakeCallBack(void)
 {
     DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: vWakeCallBack()");
+    bPeriodWakeDone = TRUE;
     /* Réautoriser le redémarrage du timer Tick */
     bPreventTickTimerRestart = FALSE;
 
