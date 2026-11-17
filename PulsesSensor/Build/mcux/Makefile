@@ -282,6 +282,10 @@ CFLAGS += -DDEBUG_EVENT_HANDLER
 CFLAGS += -DDEBUG_APP_NTAG
 #CFLAGS+= -DDEBUG_APP
 CFLAGS += -DDEBUG_BDB
+else
+# No traces: also disable the SDK debug console, so the PRINTF of the drivers
+# (voltage, temperature) no longer keep the CPU awake on the UART
+CFLAGS += -DSDK_DEBUGCONSOLE=2
 endif
 
 APP_CLUSTER_LIGHTING_SRC ?=1

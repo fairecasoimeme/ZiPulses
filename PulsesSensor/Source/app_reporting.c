@@ -133,6 +133,7 @@ PUBLIC void vMakeSupportedAttributesReportable(void)
     for(i=0; i<PULSES_NUMBER_OF_REPORTS; i++)
     {
         u16AttributeEnum=asSavedReports[i].sAttributeReportingConfigurationRecord.u16AttributeEnum;
+        (void)u16AttributeEnum; /* used only by the traces (TRACE=0) */
         u16ClusterId= asSavedReports[i].u16ClusterID;
         psAttributeReportingConfigurationRecord = &(asSavedReports[i].sAttributeReportingConfigurationRecord);
         DBG_vPrintf(TRACE_REPORT, "\r\nCluster %04x Attribute %04x Min %d Max %d IntV %d Direct %d Change %d",

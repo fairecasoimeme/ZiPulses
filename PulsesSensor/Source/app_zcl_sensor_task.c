@@ -208,6 +208,7 @@ PUBLIC void APP_cbTimerZclTick( void *pvParam)
             u32WkRead = WTIMER_ReadTimer(WTIMER_TIMER0_ID);
             u32WkSeconds = u32WkRead / u32GetWakeTimerCalibration();
             DBG_vPrintf(TRACE_SENSOR_TASK, " (%d / %ds)", u32WkRead, u32WkSeconds);
+            (void)u32WkSeconds; /* used only by the traces (TRACE=0) */
         }
         eWkStatus = WTIMER_GetStatusFlags(WTIMER_TIMER1_ID);
         DBG_vPrintf(TRACE_SENSOR_TASK, "\r\nTASK: APP_cbTimerZclTick(), eWk1Status = %d", eWkStatus);
@@ -217,6 +218,7 @@ PUBLIC void APP_cbTimerZclTick( void *pvParam)
             u32WkRead = WTIMER_ReadTimer(WTIMER_TIMER1_ID);
             u32WkSeconds = u32WkRead / u32GetWakeTimerCalibration();
             DBG_vPrintf(TRACE_SENSOR_TASK, " (%d / %ds)", u32WkRead, u32WkSeconds);
+            (void)u32WkSeconds; /* used only by the traces (TRACE=0) */
         }
     }
     #endif

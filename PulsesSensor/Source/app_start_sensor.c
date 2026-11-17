@@ -395,6 +395,7 @@ PWRM_CALLBACK(PreSleep)
             u32WkRead = WTIMER_ReadTimer(WTIMER_TIMER0_ID);
             u32WkSeconds = u32WkRead / u32GetWakeTimerCalibration();
             DBG_vPrintf(TRACE_START, " (%d / %ds)", u32WkRead, u32WkSeconds);
+            (void)u32WkSeconds; /* used only by the traces (TRACE=0) */
         }
         eWkStatus = WTIMER_GetStatusFlags(WTIMER_TIMER1_ID);
         DBG_vPrintf(TRACE_START, "\r\nSTART: PWRM_CALLBACK(PreSleep), eWk1Status = %d", eWkStatus);
@@ -404,6 +405,7 @@ PWRM_CALLBACK(PreSleep)
             u32WkRead = WTIMER_ReadTimer(WTIMER_TIMER1_ID);
             u32WkSeconds = u32WkRead / u32GetWakeTimerCalibration();
             DBG_vPrintf(TRACE_START, " (%d / %ds)", u32WkRead, u32WkSeconds);
+            (void)u32WkSeconds; /* used only by the traces (TRACE=0) */
         }
     }
     #endif

@@ -99,6 +99,7 @@ PUBLIC void vDisplayTableSizes(void)
 
     void * thisNet = ZPS_pvAplZdoGetNwkHandle();
     thisNib = ZPS_psNwkNibGetHandle(thisNet);
+    (void)thisNib; /* used only by the traces (TRACE=0) */
 
     DBG_vPrintf(TRACE_ZBP_UTILS, "Address Map:Size: %d: Record %d: %d: Total: %d ",
                                 thisNib->sTblSize.u16AddrMap,
@@ -542,6 +543,7 @@ void vDisplayNWKKey(void)
 
     void * thisNet = ZPS_pvAplZdoGetNwkHandle();
     thisNib = ZPS_psNwkNibGetHandle(thisNet);
+    (void)thisNib; /* used only by the traces (TRACE=0) */
 
     for(j=0;j<thisNib->sTblSize.u8SecMatSet;j++)
     {
@@ -611,6 +613,7 @@ PUBLIC void vDisplayBindingTable( void )
         {
             
             u64Addr = ZPS_u64NwkNibGetMappedIeeeAddr( ZPS_pvAplZdoGetNwkHandle(), tsAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16AddrOrLkUp);
+            (void)u64Addr; /* used only by the traces (TRACE=0) */
             DBG_vPrintf(TRACE_ZBP_UTILS, "\r\nMAC addr 0x%x %x, ", (uint32)(u64Addr>>32), (uint32)(u64Addr&0xffffffff));
             DBG_vPrintf(TRACE_ZBP_UTILS, " Dest EP %d, ", tsAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u8DestinationEndPoint);
             DBG_vPrintf(TRACE_ZBP_UTILS, "Cluster Id 0x%x ", tsAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16ClusterId);
