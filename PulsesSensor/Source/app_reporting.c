@@ -391,7 +391,9 @@ PRIVATE void vSendSingleAttributeReport(tsZCL_Address *psDestinationAddress,
     DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAttribute() = 0x%02x", eStatus);
     if (E_ZCL_SUCCESS == eStatus)
     {
-        u8NbFailedTransmit = 0;
+        /* No reset of u8NbFailedTransmit here: without an ACK, SUCCESS only
+         * means "queued". Only the index ACK (vIndexAckReceived) proves that
+         * the coordinator can be reached. */
         DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
     }
     else
@@ -418,7 +420,9 @@ PRIVATE void vSendAllAttributeReports(tsZCL_Address *psDestinationAddress)
     APP_vRadioTempUpdate(TRUE);
     APP_vGetVoltageBattery();   /* recalcule aussi le pourcentage */
 
-    vSendSingleAttributeReport(psDestinationAddress, SE_CLUSTER_ID_SIMPLE_METERING, 0);
+    /* Index always sent to the coordinator with an APS ACK: the full report
+     * confirms it too (it used to go without ACK, to the bindings only) */
+    vSendImmediateIndexReport();
     vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
                                E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE);
     vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
