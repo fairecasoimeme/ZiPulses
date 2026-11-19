@@ -91,6 +91,7 @@ PRIVATE uint16 u16WakesSinceRejoinFailure = 0;
 PUBLIC bool_t bAppRejoinInProgress = FALSE;
 PRIVATE bool_t bAppLeaveAndResetPending = FALSE; /* appui 10 s : leave en cours puis factory reset */
 PRIVATE bool_t bReportAtWindowEnd = FALSE;      /* rapport complet à la fin de la fenêtre de poll */
+PRIVATE bool_t bIndexPollWindow = FALSE;        /* window opened for the index ACK: short extension */
 
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -157,6 +158,7 @@ PUBLIC void APP_cbTimerPoll( void * pvParam)
         {
             DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent window elapsed, stopping");
             APP_bPersistantPolling = FALSE;
+            bIndexPollWindow = FALSE;
             vStopPollTimerTask();
             if (bAppLeaveAndResetPending)
             {
@@ -194,7 +196,17 @@ PUBLIC void vStartPersistentPollWindow(uint32 u32Count)
     DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent window start (%d)", u32Count);
     u32countStart = u32Count;
     APP_bPersistantPolling = TRUE;
+    bIndexPollWindow = FALSE;
     vStartPollTimer(POLL_TIME_FAST);
+}
+
+/* Window opened only to receive the index ACK: a received frame (zigbee2mqtt's
+ * response to the report) extends it by APP_INDEX_POLL_EXTEND periods only,
+ * instead of the 5 s used for pairing. */
+PUBLIC void vStartIndexPollWindow(void)
+{
+    vStartPersistentPollWindow(APP_INDEX_POLL_COUNT);
+    bIndexPollWindow = TRUE;
 }
 
 /****************************************************************************
@@ -210,6 +222,18 @@ PUBLIC void vRequestReportAtPollWindowEnd(void)
     bReportAtWindowEnd = TRUE;
 }
 
+/* Shortens the persistent poll window (index ACK received: no need to stay
+ * awake). No effect during pairing or when a report is due at the end of the window. */
+PUBLIC void vShortenPersistentPollWindow(uint32 u32Count)
+{
+    if (APP_bPersistantPolling && !bReportAtWindowEnd && !bAppLeaveAndResetPending &&
+        (sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_IN_PROGRESS) &&
+        !bAppRejoinInProgress && (u32countStart > u32Count))
+    {
+        u32countStart = u32Count;
+    }
+}
+
 /****************************************************************************
  *
  * NAME: vExtendPersistentPollWindow
@@ -221,9 +245,10 @@ PUBLIC void vRequestReportAtPollWindowEnd(void)
  ****************************************************************************/
 PUBLIC void vExtendPersistentPollWindow(void)
 {
-    if (APP_bPersistantPolling && (u32countStart < APP_PAIRING_POLL_EXTEND))
+    uint32 u32Minimum = bIndexPollWindow ? APP_INDEX_POLL_EXTEND : APP_PAIRING_POLL_EXTEND;
+    if (APP_bPersistantPolling && (u32countStart < u32Minimum))
     {
-        u32countStart = APP_PAIRING_POLL_EXTEND;
+        u32countStart = u32Minimum;
     }
 }
 

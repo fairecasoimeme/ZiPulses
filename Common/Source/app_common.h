@@ -98,6 +98,8 @@
 #define APP_PAIRING_POLL_EXTEND 50      /* stay awake 5 s after the last message from the network */
 #define APP_LEAVE_TIMEOUT_COUNT 30      /* wait max 3 s for the leave confirm before factory reset */
 #define APP_REPORT_POLL_COUNT   10      /* stay awake 1 s after the end-of-pairing report */
+#define APP_INDEX_POLL_COUNT    20      /* stay awake at most 2 s to receive the index ACK */
+#define APP_INDEX_POLL_EXTEND   3       /* after a frame received during the index window: 0.3 s more */
 #define TEN_HZ_TICK_TIME        ZTIMER_TIME_MSEC(100)
 
 /****************************************************************************/

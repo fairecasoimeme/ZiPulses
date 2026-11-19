@@ -48,6 +48,8 @@
 #include "zcl_options.h"
 #include "app_reporting.h"
 #include "App_PulsesSensor.h"
+#include "app_zlo_sensor_node.h"
+#include "app_nwk_event_handler.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
@@ -231,13 +233,31 @@ PUBLIC void vSaveReportableRecord(  uint16 u16ClusterID,
 }
 
 
+/* Index confirmed by the coordinator (APS ACK) and index of the pending send.
+ * 0xFFFFFFFF at startup: the first wake sends the index. */
+PUBLIC uint32 u32ConfirmedIndex = 0xFFFFFFFF;
+PRIVATE uint32 u32SentIndex = 0;
+PRIVATE bool_t bIndexAckPending = FALSE;
+
+/****************************************************************************
+ *
+ * NAME: vSendImmediateIndexReport
+ *
+ * DESCRIPTION:
+ * Sends the index directly to the coordinator WITH an APS ACK (before: to
+ * all bindings, without ACK, so a lost report was never resent). The index
+ * counts as sent only when the ACK arrives (vIndexAckReceived); otherwise it
+ * is resent at the next wake. Stays awake briefly, polling the parent to
+ * receive the ACK (with no forced sleep meanwhile).
+ *
+ ****************************************************************************/
 PUBLIC void vSendImmediateIndexReport(void)
 {
 	PDUM_thAPduInstance myPDUM_thAPduInstance;
 	tsZCL_Address sDestinationAddress;
 	teZCL_Status eStatus;
 
-	DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateReport()");
+	DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateIndexReport(%d)", (uint32)sDeviceCounter.counter);
 
 	/* get buffer to write the response in*/
 	myPDUM_thAPduInstance = hZCL_AllocateAPduInstance();
@@ -249,22 +269,35 @@ PUBLIC void vSendImmediateIndexReport(void)
 	/* Got buffer ? */
 	else
 	{
-		/* Set the address mode to send to all bound device and don't wait for an ACK*/
-		sDestinationAddress.eAddressMode = E_ZCL_AM_BOUND_NON_BLOCKING_NO_ACK; //MJL: was E_ZCL_AM_BOUND_NO_ACK;
+		/* Coordinator, with APS ACK */
+		sDestinationAddress.eAddressMode = E_ZCL_AM_SHORT;
+		sDestinationAddress.uAddress.u16DestinationAddress = 0x0000;
 
-		/* Attempt to send */
+		u32SentIndex = sDeviceCounter.counter;
+
+		/* ZCL_DISABLE_APS_ACK (zcl_options.h) turns E_ZCL_AM_SHORT into
+		 * E_ZCL_AM_SHORT_NO_ACK for every send: without this, the ACK was never
+		 * requested and the index never confirmed. ACK re-enabled for this send
+		 * only (other ZCL frames stay without ACK). */
+		vZCL_DisableAPSACK(FALSE);
 		eStatus = eZCL_ReportAttribute(&sDestinationAddress,
 													SE_CLUSTER_ID_SIMPLE_METERING,
 													0,
 													1,
 													1,
 												   myPDUM_thAPduInstance);
-		DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAllAttributes() = 0x%02x", eStatus);
-		/* Sent the report with all attributes ? */
+		vZCL_DisableAPSACK(ZCL_DISABLE_APS_ACK);
+		DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAttribute() = 0x%02x", eStatus);
 		if (E_ZCL_SUCCESS == eStatus)
 		{
-			DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
-			u8NbFailedTransmit=0;
+			DBG_vPrintf(TRACE_REPORT, ", SUCCESS (waiting for ACK)");
+			bIndexAckPending = TRUE;
+			/* Stay awake and poll the parent to receive the ACK,
+			 * unless a window (pairing, rejoin) is already open */
+			if (!APP_bPersistantPolling)
+			{
+				vStartIndexPollWindow();
+			}
 		}
 		else
 		{
@@ -275,6 +308,51 @@ PUBLIC void vSendImmediateIndexReport(void)
 		}
 
 	}
+}
+
+/****************************************************************************
+ *
+ * NAME: vIndexAckReceived
+ *
+ * DESCRIPTION:
+ * APS ACK received (or failure) for a metering cluster report.
+ *
+ ****************************************************************************/
+PUBLIC void vIndexAckReceived(uint8 u8Status)
+{
+    if (!bIndexAckPending)
+    {
+        return;
+    }
+    bIndexAckPending = FALSE;
+
+    if (u8Status == ZPS_E_SUCCESS)
+    {
+        u32ConfirmedIndex = u32SentIndex;
+        u8NbFailedTransmit = 0;
+        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: index %d confirmed", u32ConfirmedIndex);
+        /* No need to stay awake any more */
+        vShortenPersistentPollWindow(1);
+    }
+    else
+    {
+        u8NbFailedTransmit++;
+        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: no ACK for index %d (status 0x%02x, failures %d)",
+                    u32SentIndex, u8Status, u8NbFailedTransmit);
+    }
+}
+
+/****************************************************************************
+ *
+ * NAME: bIndexNotConfirmed
+ *
+ * DESCRIPTION:
+ * TRUE as long as the current index has not been confirmed by the coordinator.
+ *
+ ****************************************************************************/
+PUBLIC bool_t bIndexNotConfirmed(void)
+{
+    return (sDeviceCounter.counter != u32ConfirmedIndex);
 }
 
 /****************************************************************************
@@ -313,7 +391,9 @@ PRIVATE void vSendSingleAttributeReport(tsZCL_Address *psDestinationAddress,
     DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: eZCL_ReportAttribute() = 0x%02x", eStatus);
     if (E_ZCL_SUCCESS == eStatus)
     {
-        u8NbFailedTransmit = 0;
+        /* No reset of u8NbFailedTransmit here: without an ACK, SUCCESS only
+         * means "queued". Only the index ACK (vIndexAckReceived) proves that
+         * the coordinator can be reached. */
         DBG_vPrintf(TRACE_REPORT, ", SUCCESS");
     }
     else
@@ -340,7 +420,9 @@ PRIVATE void vSendAllAttributeReports(tsZCL_Address *psDestinationAddress)
     APP_vRadioTempUpdate(TRUE);
     APP_vGetVoltageBattery();   /* recalcule aussi le pourcentage */
 
-    vSendSingleAttributeReport(psDestinationAddress, SE_CLUSTER_ID_SIMPLE_METERING, 0);
+    /* Index always sent to the coordinator with an APS ACK: the full report
+     * confirms it too (it used to go without ACK, to the bindings only) */
+    vSendImmediateIndexReport();
     vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,
                                E_CLD_PWRCFG_ATTR_ID_BATTERY_VOLTAGE);
     vSendSingleAttributeReport(psDestinationAddress, GENERAL_CLUSTER_ID_POWER_CONFIGURATION,

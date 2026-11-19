@@ -64,6 +64,7 @@
 #include "app_blink_led.h"
 #include "app_nwk_event_handler.h"
 #include "fsl_wtimer.h"
+#include "app_reporting.h"
 
 #include "app_pulses_sensor_state_machine.h"
 
@@ -106,7 +107,6 @@ extern uint32_t OSA_TimeGetMsec(void);
 #define APP_COMMISSIONING_MAX_MS    (5UL * 60UL * 1000UL)
 
 PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
-PRIVATE uint32 u32OldCounter=0;
 /* TRUE once the wake callback of the current period has run */
 PRIVATE bool_t bPeriodWakeDone = TRUE;
 
@@ -811,10 +811,12 @@ PRIVATE void vWakeCallBack(void)
 			DBG_vPrintf(1, "\r\nEVENT PERIODIC SEND ERROR : %d", sAppEvent.eType);
 		}
     }else{
-		if (u32OldCounter != sDeviceCounter.counter)
+		/* Index sent again at every wake until the coordinator has confirmed it
+		 * (only on the network: without a network, the rejoin takes care of it) */
+		if (bIndexNotConfirmed() && APP_bNodeIsInRunningState() &&
+		    !bBDBJoinFailed && !bAppRejoinInProgress)
 		{
 			DBG_vPrintf(1, "\r\n******************************send pulses *******************************************\r\n");
-			u32OldCounter = sDeviceCounter.counter;
 
 			APP_tsEvent sAppEvent;
 			sAppEvent.eType = APP_E_EVENT_PERIODIC_REPORT;
