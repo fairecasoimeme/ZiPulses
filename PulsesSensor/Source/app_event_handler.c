@@ -211,11 +211,13 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 
         /* Keep-alive : sans impulsion ni bouton, c'est le seul poll vers le parent.
          * Sans lui, le coordinateur peut retirer le ZED à l'expiration du timeout.
-         * Le timer empêche le sommeil jusqu'au poll confirm, qui l'arrête. */
+         * Persistent window (1 s) rather than a single poll: the first NO_DATA
+         * used to stop the poll, and the forced sleep (POST-REPORT FORCE) could
+         * then cut the sending of the report frames. */
         if (APP_bNodeIsInRunningState() && !bBDBJoinFailed &&
             !bAppRejoinInProgress && !APP_bPersistantPolling)
         {
-            vStartPollTimer(POLL_TIME_FAST);
+            vStartPersistentPollWindow(APP_REPORT_POLL_COUNT);
         }
 
         break;
