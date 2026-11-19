@@ -70,9 +70,6 @@
 /***        Local Function Prototypes                                     ***/
 /****************************************************************************/
 PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode);
-PRIVATE void vEventStartFindAndBind(void);
-PRIVATE void vStartPersistantPolling(void);
-PRIVATE void vStopPersistantPolling(void);
 /****************************************************************************/
 /***        Exported Variables                                            ***/
 /****************************************************************************/
@@ -243,29 +240,6 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
 /****************************************************************************/
 /****************************************************************************
  *
- * NAME: vEventStartFindAndBind
- *
- * DESCRIPTION:
- * Initiates the find and bind procedure, Starts a poll timer and the blink
- * timer.
- *
- *
- * RETURNS:
- * void
- *
- ****************************************************************************/
-PRIVATE void vEventStartFindAndBind(void)
-{
-    DBG_vPrintf(TRACE_EVENT_HANDLER,"\r\nEVENT: vEventStartFindAndBind()");
-    sBDB.sAttrib.u16bdbCommissioningGroupID = 0xFFFF;
-    vAPP_ZCL_DeviceSpecific_SetIdentifyTime(0xFF);
-    BDB_eFbTriggerAsInitiator(u8MyEndpoint);
-    vStartPollTimer(POLL_TIME);
-    vStartBlinkTimer(APP_FIND_AND_BIND_BLINK_TIME);
-}
-
-/****************************************************************************
- *
  * NAME: vEventStopFindAndBind
  *
  * DESCRIPTION:
@@ -284,39 +258,6 @@ PUBLIC void vEventStopFindAndBind(void)
     vStopBlinkTimer();
     vStopPollTimerTask();
     vHandleNewJoinEvent();
-}
-
-/****************************************************************************
- *
- * NAME: vStartPersistantPolling
- *
- * DESCRIPTION:
- * Starts the Poll timer which will in turn keep the device awake so it can
- * receive data from it's parent.
- *
- ****************************************************************************/
-PRIVATE void vStartPersistantPolling(void)
-{
-    DBG_vPrintf(TRACE_EVENT_HANDLER,"\r\nEVENT: vStartPersistantPolling()");
-    APP_bPersistantPolling |= TRUE;
-    vStartPollTimer(POLL_TIME_FAST);
-    vStartBlinkTimer(APP_KEEP_AWAKE_TIME);
-}
-
-/****************************************************************************
- *
- * NAME: vStopPersistantPolling
- *
- * DESCRIPTION:
- * Stops the poll timer which will allow the device to go back to sleep.
- *
- ****************************************************************************/
-PRIVATE void vStopPersistantPolling(void)
-{
-    DBG_vPrintf(TRACE_EVENT_HANDLER,"\r\nEVENT: vStopPersistantPolling()");
-    APP_bPersistantPolling &= FALSE;
-    vStopPollTimerTask();
-    vStopBlinkTimer();
 }
 
 /****************************************************************************/

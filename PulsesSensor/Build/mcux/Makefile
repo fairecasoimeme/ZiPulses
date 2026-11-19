@@ -357,6 +357,7 @@ APPSRC += app_pulses_sensor_state_machine.c
 APPSRC += app_sleep_handler.c
 APPSRC += app_nwk_event_handler.c
 APPSRC += app_event_handler.c
+APPSRC += app_syscalls.c
 APPSRC += board_utility.c
 
 #APPSRC += app_PIR_events.c
