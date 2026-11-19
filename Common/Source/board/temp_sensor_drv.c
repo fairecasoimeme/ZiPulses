@@ -12,7 +12,7 @@
 #include "temp_sensor_drv.h"
 
 // Uncomment the define to get trace output for debugging
-#define DBG_DRIVER
+//#define DBG_DRIVER
 
 // Comment the define if you want to use specific calibration values or want to debug
 #define LOAD_CAL_FROM_FLASH

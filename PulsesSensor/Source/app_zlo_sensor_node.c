@@ -540,6 +540,7 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
     if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_ERROR)
     {
         ZPS_tsAfErrorEvent *psErr = &psZpsAfEvent->sStackEvent.uEvent.sAfErrorEvent;
+        (void)psErr; /* used only by the traces (TRACE=0) */
         DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nZPS ERROR %d (cluster 0x%04x, ep %d->%d)",
                     psErr->eError,
                     psErr->uErrorData.sAfErrorApdu.u16ClusterId,

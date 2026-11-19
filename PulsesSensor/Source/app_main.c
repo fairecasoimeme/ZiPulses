@@ -599,6 +599,7 @@ PUBLIC uint16 u16RadioCB_ReadNVM(uint8 *pu8DataBlock, uint16 u16DataLength)
 
     /* Debug */
     DBG_vPrintf(TRACE_MAIN_RADIO, "\r\n%d: u16RadioCB_ReadNVM(%d) = %d, eStatus = %d",OSA_TimeGetMsec(), u16DataLength, u16BytesRead, eStatus);
+    (void)eStatus; /* used only by the traces (TRACE=0) */
 
     return u16BytesRead;
 }
