@@ -63,6 +63,7 @@
 
 PUBLIC void vStartBlinkTimer(uint32 u32Ticks);
 PUBLIC void vStopBlinkTimer(void);
+PUBLIC void vFlashLED(uint32 u32Ms);
 PUBLIC void vAPP_cbBlinkLED( void *pvParams);
 PUBLIC void APP_vSetLED(uint8 u8Led, bool_t bOn);
 PUBLIC void APP_vInitLeds(void);
