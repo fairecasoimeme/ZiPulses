@@ -97,7 +97,9 @@ extern const uint8 u8MyEndpoint;
  ****************************************************************************/
 PRIVATE void vDioEventHandler(te_TransitionCode eTransitionCode )
 {
-    ZPS_eAplZdoPoll();
+    /* No ZPS_eAplZdoPoll() here any more: it turned the radio on at every
+     * contact event (every pulse). The index goes out at the periodic wake,
+     * and the link button opens its own poll window (vHandleButtonPressedEvent). */
     DBG_vPrintf(TRACE_EVENT_HANDLER, "\r\nEVENT: vDioEventHandler(%02x)", eTransitionCode);
     switch(eTransitionCode)
     {
