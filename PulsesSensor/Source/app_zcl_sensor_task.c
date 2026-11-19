@@ -499,6 +499,11 @@ PRIVATE void APP_ZCL_cbEndpointCallback(tsZCL_CallBackEvent *psEvent)
         break;
     case E_ZCL_CBET_WRITE_ATTRIBUTES:
     case E_ZCL_CBET_WRITE_INDIVIDUAL_ATTRIBUTE:
+		if (GENERAL_CLUSTER_ID_POWER_CONFIGURATION == psEvent->psClusterInstance->psClusterDefinition->u16ClusterEnum)
+		{
+			/* BatterySize is the only writable attribute of this cluster: power mode */
+			vAppPowerModeWritten();
+		}
 		if(SE_CLUSTER_ID_SIMPLE_METERING == psEvent->psClusterInstance->psClusterDefinition->u16ClusterEnum)
 		{
 

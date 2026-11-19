@@ -55,6 +55,7 @@ extern "C" {
 #define PDM_ID_POWER_ON_COUNTER                   (0xa)
 #define PDM_ID_APP_REPORTS                        (0xb)
 #define PDM_ID_OTA_DATA                           (0x32)
+#define PDM_ID_APP_POWER_MODE                     (0xd)   /* one byte: BatterySize attribute */
 #define PDM_ID_APP_COUNTER						  (0xc)
 
 /* APP_NTAG_ICODE */

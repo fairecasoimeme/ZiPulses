@@ -106,7 +106,19 @@ extern uint32_t OSA_TimeGetMsec(void);
 /* Durée max d'une phase de join / rejoin / fenêtre de poll sans sommeil forcé */
 #define APP_COMMISSIONING_MAX_MS    (5UL * 60UL * 1000UL)
 
-PRIVATE uint16 u16FlagReportTimer=ZLO_MAX_REPORT_INTERVAL-1;
+/* Full report every ZLO_MAX_REPORT_INTERVAL normal wake periods, counted in
+ * seconds since the wake period is shorter on external power. First report at
+ * the first wake. */
+#define FULL_REPORT_INTERVAL_S  ((uint32)ZLO_MAX_REPORT_INTERVAL * (MAXIMUM_TIME_TO_SLEEP))
+PRIVATE uint32 u32SecondsSinceFullReport = FULL_REPORT_INTERVAL_S - (MAXIMUM_TIME_TO_SLEEP);
+/* Length (s) of the current wake period, added to the counter above on wake */
+PRIVATE uint32 u32CurrentPeriodS = MAXIMUM_TIME_TO_SLEEP;
+/* External power: wake every FAST_WAKE_PERIOD_S s while water flows (pulse
+ * within the last minute), otherwise every MAXIMUM_TIME_TO_SLEEP s */
+#define FAST_WAKE_PERIOD_S   5
+#define FAST_WAKE_COUNT    (60 / FAST_WAKE_PERIOD_S)
+PRIVATE uint8 u8FastWakesLeft = 0;
+PRIVATE uint32 u32CounterAtLastWake = 0;
 /* TRUE once the wake callback of the current period has run */
 PRIVATE bool_t bPeriodWakeDone = TRUE;
 
@@ -544,23 +556,60 @@ PRIVATE uint8 u8NumberOfTimersTaskTimers(void)
  * expires. The three sleep paths of vAttemptToSleep go through here.
  *
  ****************************************************************************/
+PRIVATE uint32 u32WakePeriodS(void)
+{
+    if (bAppIsMainsPowered() && (u8FastWakesLeft > 0))
+    {
+        return FAST_WAKE_PERIOD_S;
+    }
+    return MAXIMUM_TIME_TO_SLEEP;
+}
+
+/* Called on every pulse: on external power, switch to fast wakes. At the start
+ * of a draw (no fast wake running yet), the index is sent right away instead of
+ * waiting for the first fast wake; during the draw the fast wakes take over, so
+ * pulses close together are grouped and the network is not flooded. Not while a
+ * poll window (index ACK, pairing) is open or off the network: the next wake
+ * sends it. */
+PUBLIC void vSignalPulse(void)
+{
+    if (bAppIsMainsPowered())
+    {
+        if ((u8FastWakesLeft == 0) && APP_bNodeIsInRunningState() &&
+            !bBDBJoinFailed && !bAppRejoinInProgress && !APP_bPersistantPolling)
+        {
+            APP_tsEvent sAppEvent;
+            sAppEvent.eType = APP_E_EVENT_PERIODIC_REPORT;
+            if (ZQ_bQueueSend(&APP_msgAppEvents, &sAppEvent) == FALSE)
+            {
+                DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: immediate index send not queued");
+            }
+        }
+        u8FastWakesLeft = FAST_WAKE_COUNT;
+    }
+}
+
 PRIVATE void vProgramNextWake(void)
 {
-    uint32 u32PeriodTicks = u32WakeTimerSecondsToTicks(MAXIMUM_TIME_TO_SLEEP, TRUE);
+    uint32 u32Period = u32WakePeriodS();
+    uint32 u32PeriodTicks = u32WakeTimerSecondsToTicks(u32Period, TRUE);
     uint32 u32Calibration = u32GetWakeTimerCalibration();
     uint32 u32Ticks = u32PeriodTicks;
+    bool_t bNewPeriod = TRUE;
     bool_t bPeriodOver = TRUE;
 
     if (WTIMER_GetStatusFlags(WTIMER_TIMER0_ID) == WTIMER_STATUS_RUNNING)
     {
         uint32 u32Remaining = WTIMER_ReadTimerSafe(WTIMER_TIMER0_ID);
         /* Less than 200 ms left: the period is considered over (avoids
-         * counting the same wake twice) */
+         * counting the same wake twice); more than the desired period: switch
+         * to fast wakes, new period */
         if (u32Remaining >= (u32Calibration / 5))
         {
             bPeriodOver = FALSE;
             if (u32Remaining < u32PeriodTicks)
             {
+                bNewPeriod = FALSE;
                 u32Ticks = u32Remaining;
             }
         }
@@ -568,13 +617,15 @@ PRIVATE void vProgramNextWake(void)
     if (bPeriodOver && !bPeriodWakeDone)
     {
         /* The period ended while the device was already awake (pulse): its
-         * wake callback never ran (report, index send). Wake again right
-         * away instead of starting a new period, so a steady flow cannot
-         * keep postponing the index. */
+         * wake callback never ran (full report, index resend, fast wakes).
+         * Wake again right away instead of starting a new period, so a steady
+         * flow cannot keep postponing the index. */
+        bNewPeriod = FALSE;
         u32Ticks = u32Calibration / 20;
     }
-    else if (bPeriodOver)
+    if (bNewPeriod)
     {
+        u32CurrentPeriodS = u32Period;
         bPeriodWakeDone = FALSE;
     }
     DBG_vPrintf(TRACE_SLEEP_HANDLER, "\r\nSLEEP: wake in %d ticks", u32Ticks);
@@ -797,13 +848,24 @@ PRIVATE void vWakeCallBack(void)
     /*Start the u8TimerTick to continue the ZCL tasks */
     vStartNonSleepPreventingTimers();
 
-    /* Increment report */
-    u16FlagReportTimer++;
+    /* Time elapsed since the last full report */
+    u32SecondsSinceFullReport += u32CurrentPeriodS;
 
-    DBG_vPrintf(1, "\r\n-----------u16FlagReportTimer : %d", u16FlagReportTimer);
-    if (u16FlagReportTimer >= ZLO_MAX_REPORT_INTERVAL)
+    /* Fast wakes while the index changes, for one minute after the last pulse */
+    if (bAppIsMainsPowered() && (sDeviceCounter.counter != u32CounterAtLastWake))
     {
-    	u16FlagReportTimer=0;
+        u8FastWakesLeft = FAST_WAKE_COUNT;
+    }
+    else if (u8FastWakesLeft > 0)
+    {
+        u8FastWakesLeft--;
+    }
+    u32CounterAtLastWake = sDeviceCounter.counter;
+
+    DBG_vPrintf(1, "\r\n-----------seconds since full report: %d", u32SecondsSinceFullReport);
+    if (u32SecondsSinceFullReport >= FULL_REPORT_INTERVAL_S)
+    {
+    	u32SecondsSinceFullReport = 0;
     	APP_tsEvent sAppEvent;
 		sAppEvent.eType = APP_E_EVENT_SEND_REPORT;
 		if(ZQ_bQueueSend(&APP_msgAppEvents, &sAppEvent) == FALSE)

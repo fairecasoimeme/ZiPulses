@@ -87,7 +87,8 @@ PRIVATE uint8 u8RejoinAttempts = 0;
 PRIVATE uint16 u16RejoinBackoffWakes = 1;       /* réveils (60 s) avant le prochain rejoin */
 PRIVATE uint16 u16WakesSinceRejoinFailure = 0;
 #define APP_MAX_JOIN_ATTEMPTS        2          /* scans supplémentaires avant d'abandonner (non appairé) */
-#define APP_REJOIN_BACKOFF_MAX_WAKES 32         /* ~32 min max entre deux rejoins */
+/* Rejoin at every wake on external power; ~32 min at most between rejoins on battery */
+#define APP_REJOIN_BACKOFF_MAX_WAKES (bAppIsMainsPowered() ? 1 : 32)
 
 PUBLIC bool_t bAppRejoinInProgress = FALSE;
 PRIVATE bool_t bAppLeaveAndResetPending = FALSE; /* appui 10 s : leave en cours puis factory reset */

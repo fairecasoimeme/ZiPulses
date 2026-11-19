@@ -114,6 +114,11 @@ Ensuite, il faut brancher sur les connecteurs d'alimentation noté **VIN** et **
 
 ⚠️  **A partir de la version HW v2.0 (v0.7 sur PCB), il est possible d'utiliser les bornes pour brancher des piles (pas de surconsommations lié au régulateur)**  
 
+#### Réglage du mode d'alimentation (pile ou secteur)
+Le module ne sait pas détecter seul s'il est alimenté par le bornier ou par une pile : il se règle depuis zigbee2mqtt. Par défaut, il fonctionne en mode pile, comme avant (consommation minimale).
+En mode secteur, il se réveille toutes les 5 secondes pendant une consommation (et une minute après la dernière impulsion) pour envoyer l'index rapidement, et il se reconnecte au réseau sans attente croissante. Le pourcentage de pile est alors toujours annoncé à 100 %.
+Le réglage passe par l'attribut standard `BatterySize` du cluster Power Configuration (0 = pas de pile = secteur). Pour l'avoir dans zigbee2mqtt sous la forme d'un choix `power_mode` (`battery` / `mains`), copier le fichier `zigbee2mqtt/zipulses.mjs` dans le dossier `external_converters` de zigbee2mqtt, puis redémarrer zigbee2mqtt. Le module dormant la plupart du temps, appuyer sur son bouton juste avant de changer le réglage.
+
 #### Alimentation sur pile
 
 Tout d'abord, il faut vérifier que le Switch alimentation (visible [ici](#face-2)) est bien positionné sur **BAT** (comme Battery)  

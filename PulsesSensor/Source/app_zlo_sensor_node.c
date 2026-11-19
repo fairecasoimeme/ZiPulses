@@ -196,6 +196,9 @@ PUBLIC void APP_vInitialiseNode(void)
 	}
 	sSensor.sSimpleMeteringServerCluster.eUnitOfMeasure = sDeviceCounter.unitMeasure;
 
+    /* Power mode (battery / external power) set from zigbee2mqtt */
+    vAppLoadPowerMode();
+
     APP_vRadioTempUpdate(TRUE);
 
 	
