@@ -65,6 +65,8 @@ PUBLIC void vStartPersistentPollWindow(uint32 u32Count);
 PUBLIC void vExtendPersistentPollWindow(void);
 PUBLIC void vStartIndexPollWindow(void);
 PUBLIC void vShortenPersistentPollWindow(uint32 u32Count);
+PUBLIC void vEnsurePersistentPollWindow(uint32 u32Count);
+PUBLIC bool_t bAppMeteringIsBound(void);
 PUBLIC void vRequestReportAtPollWindowEnd(void);
 PUBLIC void vAppStartLeaveAndReset(void);
 PUBLIC void vAppFinishLeaveAndReset(void);

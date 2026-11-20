@@ -214,10 +214,21 @@ PUBLIC void vAppHandleAppEvent(APP_tsEvent sButton)
          * Persistent window (1 s) rather than a single poll: the first NO_DATA
          * used to stop the poll, and the forced sleep (POST-REPORT FORCE) could
          * then cut the sending of the report frames. */
-        if (APP_bNodeIsInRunningState() && !bBDBJoinFailed &&
-            !bAppRejoinInProgress && !APP_bPersistantPolling)
+        if (APP_bNodeIsInRunningState() && !bBDBJoinFailed && !bAppRejoinInProgress)
         {
-            vStartPersistentPollWindow(APP_REPORT_POLL_COUNT);
+            /* Not configured by the coordinator yet (no metering bind): it retries
+             * its configuration when it receives a message. Stay awake 3 s (5 s more
+             * after each frame received) so its bind requests are fetched before
+             * they expire at the parent. Only on this 2 h report: no cost once bound. */
+            if (!bAppMeteringIsBound())
+            {
+                DBG_vPrintf(TRACE_EVENT_HANDLER, "\r\nEVENT: no metering bind, poll window after report");
+                vEnsurePersistentPollWindow(APP_BUTTON_POLL_COUNT);
+            }
+            else if (!APP_bPersistantPolling)
+            {
+                vStartPersistentPollWindow(APP_REPORT_POLL_COUNT);
+            }
         }
 
         break;

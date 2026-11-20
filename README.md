@@ -348,9 +348,26 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ## Changelog
 
+### Version 0012.1
+
+**Pre-release for testing.** Goal: index sent during a flow and acknowledged by the coordinator, pairing that always completes, and lower battery use.
+
+* Index sent during a flow, not only at its end: going back to sleep after a pulse keeps the remaining time of the periodic wake instead of restarting a full period, and a periodic wake missed while awake is caught up (#65, thanks @swknf)
+* Index sent directly to the coordinator with an APS acknowledgement and resent at the next wake until confirmed: no longer depends on the binding made at pairing (#63, #66, thanks @swknf)
+* Battery / mains power mode, set from zigbee2mqtt with the standard `BatterySize` attribute (0 = mains). On mains: wake every 5 s during a flow, index sent within a second of the first pulse, rejoin at every wake, battery reported at 100 %. Battery mode unchanged and remains the default (#68, thanks @swknf)
+* No radio poll at every pulse any more (#69, thanks @swknf)
+* Full report no longer cut by the forced sleep: 1 s poll window after it instead of a single poll (#70, thanks @swknf)
+* Zigbee stack event queue enlarged from 2 to 8 entries: a burst of events no longer loses a received frame (#71, thanks @swknf)
+* LED: a single 50 ms flash at each pulse instead of staying on while awake (#72, thanks @swknf)
+* Build without traces: no more output on the serial port (driver messages kept the CPU awake) (#73, thanks @swknf)
+* Builds without warnings with MCUXpresso 25.6 / GCC 14 as well as MCUXpresso 11.2 (#67, thanks @swknf)
+* Fix pairing loop with some coordinators (seen with Z-Stack after a forced remove and a factory reset): when the Trust Center link key exchange fails, the device now stays on the network instead of leaving and joining again every 25 s
+* Fix coordinator configuration never completing (Z2M "bindRsp after 10000ms"): while the metering cluster is not bound, the device polls for 3 s after its periodic report so the coordinator's bind requests are received
+
 ### Version 0012
 
 * Fix missed pulses with long contacts (meter magnet, open collector): the contact is now tracked in both directions, each closure is counted once and the real level is checked before sleep (#62, thanks @swknf)
+* Fix link button release detection: a bounce while pressed could keep the button scan running and prevent sleep
 * Fix rejoin started twice: when the stack loses its parent, the recovery start is no longer handled as a failure (no second rejoin from a wake or a button press while one is running)
 * Safety net: a join / rejoin / polling phase longer than 5 min no longer blocks the forced sleep (a lost end event could keep the device awake and drain the battery)
 * Fix 10 s button press during a failing rejoin: the leave timeout is no longer cancelled, the device always erases its data and reboots

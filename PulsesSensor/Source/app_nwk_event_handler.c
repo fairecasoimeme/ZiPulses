@@ -94,6 +94,7 @@ PUBLIC bool_t bAppRejoinInProgress = FALSE;
 PRIVATE bool_t bAppLeaveAndResetPending = FALSE; /* appui 10 s : leave en cours puis factory reset */
 PRIVATE bool_t bReportAtWindowEnd = FALSE;      /* rapport complet à la fin de la fenêtre de poll */
 PRIVATE bool_t bIndexPollWindow = FALSE;        /* window opened for the index ACK: short extension */
+PRIVATE bool_t bBindPollWindow = FALSE;         /* window kept open for the coordinator configuration: not shortened */
 
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -161,6 +162,7 @@ PUBLIC void APP_cbTimerPoll( void * pvParam)
             DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent window elapsed, stopping");
             APP_bPersistantPolling = FALSE;
             bIndexPollWindow = FALSE;
+            bBindPollWindow = FALSE;
             vStopPollTimerTask();
             if (bAppLeaveAndResetPending)
             {
@@ -199,7 +201,51 @@ PUBLIC void vStartPersistentPollWindow(uint32 u32Count)
     u32countStart = u32Count;
     APP_bPersistantPolling = TRUE;
     bIndexPollWindow = FALSE;
+    bBindPollWindow = FALSE;
     vStartPollTimer(POLL_TIME_FAST);
+}
+
+/* Makes sure a persistent poll window of at least u32Count periods is open,
+ * without shortening a window already running (pairing). Used after the 2 h
+ * report while the coordinator has not configured the device: the window is
+ * not shortened by the index ACK, and a frame received extends it by 5 s. */
+PUBLIC void vEnsurePersistentPollWindow(uint32 u32Count)
+{
+    if (!APP_bPersistantPolling)
+    {
+        vStartPersistentPollWindow(u32Count);
+    }
+    else if (u32countStart < u32Count)
+    {
+        u32countStart = u32Count;
+    }
+    bIndexPollWindow = FALSE;
+    bBindPollWindow = TRUE;
+}
+
+/* TRUE if the binding table holds an entry for the Simple Metering cluster
+ * (0x0702), i.e. the coordinator has configured the device. */
+PUBLIC bool_t bAppMeteringIsBound(void)
+{
+    ZPS_tsAplAib *psAib = ZPS_psAplAibGetAib();
+    ZPS_tsAplApsmeBindingTable *psTable;
+    uint32 j;
+
+    if ((psAib == NULL) || (psAib->psAplApsmeAibBindingTable == NULL) ||
+        (psAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable == NULL))
+    {
+        return FALSE;
+    }
+    psTable = &psAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0];
+    for (j = 0; j < psTable->u32SizeOfBindingTable; j++)
+    {
+        if ((psTable->pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16ClusterId == 0x0702) &&
+            (psTable->pvAplApsmeBindingTableEntryForSpSrcAddr[j].u8DstAddrMode != 0))
+        {
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
 
 /* Window opened only to receive the index ACK: a received frame (zigbee2mqtt's
@@ -228,7 +274,7 @@ PUBLIC void vRequestReportAtPollWindowEnd(void)
  * awake). No effect during pairing or when a report is due at the end of the window. */
 PUBLIC void vShortenPersistentPollWindow(uint32 u32Count)
 {
-    if (APP_bPersistantPolling && !bReportAtWindowEnd && !bAppLeaveAndResetPending &&
+    if (APP_bPersistantPolling && !bReportAtWindowEnd && !bAppLeaveAndResetPending && !bBindPollWindow &&
         (sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_IN_PROGRESS) &&
         !bAppRejoinInProgress && (u32countStart > u32Count))
     {

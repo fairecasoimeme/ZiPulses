@@ -127,7 +127,7 @@
 #define   CLD_BAS_MODEL_ID_SIZE       (8)
 #define   CLD_BAS_DATE_SIZE           (8)
 #define   CLD_BAS_POWER_SOURCE        E_CLD_BAS_PS_BATTERY
-#define   CLD_BAS_SW_BUILD_SIZE       (9)
+#define   CLD_BAS_SW_BUILD_SIZE       (11)
 #define   CLD_BAS_URL_SIZE            (8)
 #define   CLD_BAS_PCODE_SIZE          (4)
 /****************************************************************************/

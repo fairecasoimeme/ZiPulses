@@ -754,6 +754,19 @@ PRIVATE void vNsLeaveNwk()
     of the NLME-LEAVE.confirm primitive, the node is notified of the status of
     the request to leave the network. The node SHALL then terminate the */
 
+#ifdef BDB_KEEP_NETWORK_ON_TCLK_FAILURE
+    /* LiXee: some coordinators (seen with Z-Stack after a forced remove and a
+     * factory reset of the device) never complete the TC link key exchange.
+     * Leaving makes the device join, fail and leave again in a loop, so it is
+     * never usable. Stay on the network with the key already in use (same
+     * behaviour as with a non-r21 Trust Center). */
+    ZTIMER_eStop(u8TimerBdbNs);
+    DBG_vPrintf(TRACE_BDB, "BDB: TCLK exchange failed, staying on the network\n");
+    eNS_State = E_NS_IDLE;
+    vNsAfterNwkJoin();
+    return;
+#endif
+
     eNS_State = E_NS_TCLK_WAIT_LEAVE_CFM;
     ZPS_eAplZdoLeaveNetwork(0, FALSE,FALSE);
 

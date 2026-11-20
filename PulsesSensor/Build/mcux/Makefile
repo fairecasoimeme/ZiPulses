@@ -117,6 +117,10 @@ OTA_ENCRYPTED ?= 0
 SINGLE_CHANNEL ?= 0
 CFLAGS         += -DSINGLE_CHANNEL=$(SINGLE_CHANNEL)
 
+# Stay on the network when the TC link key exchange fails (bdb_ns.c),
+# instead of leaving and joining again in a loop
+CFLAGS         += -DBDB_KEEP_NETWORK_ON_TCLK_FAILURE
+
 ###############################################################################
 # Default DK4 development kit target hardware
 
