@@ -142,6 +142,22 @@ PUBLIC void vAppMain(void)
 
     DBG_vPrintf(TRACE_START, "\r\nSTART: vAppMain() ENTER");
 
+    {
+        /* Cause of this cold start. The PMC bits accumulate until cleared: they are
+         * cleared below (after the watchdog check), so each boot shows its own cause. */
+        uint32 u32Cause = PMC->RESETCAUSE;
+        (void)u32Cause;
+        DBG_vPrintf(TRACE_START, "\r\nSTART: reset cause 0x%02x%s%s%s%s%s%s%s%s", u32Cause,
+                    (u32Cause & PMC_RESETCAUSE_POR_MASK)             ? " POR" : "",
+                    (u32Cause & PMC_RESETCAUSE_PADRESET_MASK)        ? " PAD" : "",
+                    (u32Cause & PMC_RESETCAUSE_BODRESET_MASK)        ? " BOD" : "",
+                    (u32Cause & PMC_RESETCAUSE_SYSTEMRESET_MASK)     ? " SYS" : "",
+                    (u32Cause & PMC_RESETCAUSE_WDTRESET_MASK)        ? " WDT" : "",
+                    (u32Cause & PMC_RESETCAUSE_WAKEUPIORESET_MASK)   ? " WAKE_IO" : "",
+                    (u32Cause & PMC_RESETCAUSE_WAKEUPPWDNRESET_MASK) ? " WAKE_PD" : "",
+                    (u32Cause & PMC_RESETCAUSE_SWRRESET_MASK)        ? " SW" : "");
+    }
+
     /* Initialise exception handlers for debugging */
     vDebugExceptionHandlersInitialise();
 
@@ -163,6 +179,10 @@ PUBLIC void vAppMain(void)
         PMC->RESETCAUSE = PMC_RESETCAUSE_WDTRESET_MASK;
 #endif
     }
+    /* hardware_init() has already read the wake bits: clear all causes so the
+     * next cold start reports only its own (the warm start needs only the wake
+     * bit, set again by the hardware at each wake) */
+    POWER_ClearResetCause();
 
     /* initialise ROM based software modules */
     #ifndef JENNIC_MAC_MiniMacShim

@@ -96,7 +96,7 @@
 #else
 #define TIMER_QUEUE_SIZE             8
 #endif
-#define MLME_QUEUE_SIZE              4
+#define MLME_QUEUE_SIZE              8   /* was 4: ZPS ERROR 3 (MLME_DCFM_IND overrun) during the coordinator interview */
 #define MCPS_QUEUE_SIZE              2
 #define MCPS_DCFM_QUEUE_SIZE         4
 #define ZPS_QUEUE_SIZE               1

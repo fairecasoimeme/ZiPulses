@@ -544,11 +544,28 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
     {
         ZPS_tsAfErrorEvent *psErr = &psZpsAfEvent->sStackEvent.uEvent.sAfErrorEvent;
         (void)psErr; /* used only by the traces (TRACE=0) */
-        DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nZPS ERROR %d (cluster 0x%04x, ep %d->%d)",
-                    psErr->eError,
-                    psErr->uErrorData.sAfErrorApdu.u16ClusterId,
-                    psErr->uErrorData.sAfErrorApdu.u8SrcEndpoint,
-                    psErr->uErrorData.sAfErrorApdu.u8DstEndpoint);
+        if (psErr->eError == ZPS_ERROR_OS_MESSAGE_QUEUE_OVERRUN)
+        {
+            /* The payload is the full queue, not an APDU: name it */
+            void *hQ = psErr->uErrorData.sAfErrorOsMessageOverrun.hMessage;
+            (void)hQ;
+            DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nZPS ERROR %d: queue overrun %s (%08x)",
+                        psErr->eError,
+                        (hQ == (void*)&zps_msgMcpsDcfmInd) ? "MCPS_DCFM_IND" :
+                        (hQ == (void*)&zps_msgMlmeDcfmInd) ? "MLME_DCFM_IND" :
+                        (hQ == (void*)&zps_msgMcpsDcfm)    ? "MCPS_DCFM" :
+                        (hQ == (void*)&zps_TimeEvents)     ? "TIME_EVENTS" :
+                        (hQ == (void*)&APP_msgBdbEvents)   ? "BDB" : "?",
+                        (uint32)hQ);
+        }
+        else
+        {
+            DBG_vPrintf(TRACE_SENSOR_NODE, "\r\nZPS ERROR %d (cluster 0x%04x, ep %d->%d)",
+                        psErr->eError,
+                        psErr->uErrorData.sAfErrorApdu.u16ClusterId,
+                        psErr->uErrorData.sAfErrorApdu.u8SrcEndpoint,
+                        psErr->uErrorData.sAfErrorApdu.u8DstEndpoint);
+        }
     }
     else if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
     {

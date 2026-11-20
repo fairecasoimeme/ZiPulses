@@ -348,6 +348,16 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 ## Changelog
 
+### Version 0012.2
+
+**Pre-release for testing.** Goal: a coordinator interview without lost messages, and less radio time at the end of pairing.
+
+* Zigbee MAC management queue (MLME) enlarged from 4 to 8 entries: during the coordinator interview, MAC confirms and indications were dropped (ZPS error 3, queue overrun)
+* Fix end of pairing / rejoin: the 1 s window opened after the full report no longer replaces the 2 s window waiting for the index acknowledgement (a coordinator reply then kept the radio on 5 s more)
+* Fix button press: the index acknowledgement no longer keeps the radio on 5 s more (about 0.5 s awake instead of 5.6 s)
+* Pairing with a coordinator that missed the Device Announce (no interview after a successful join): when the pairing or rejoin window ends and the metering cluster is not bound, the device re-sends its Device Announce once and listens 5 s more
+* Debug build: the ZPS error trace names the overrun queue, and the cause of each restart (power-on, reset pin, brown-out, watchdog, software) is printed at boot
+
 ### Version 0012.1
 
 **Pre-release for testing.** Goal: index sent during a flow and acknowledged by the coordinator, pairing that always completes, and lower battery use.

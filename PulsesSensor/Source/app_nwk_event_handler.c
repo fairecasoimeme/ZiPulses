@@ -95,6 +95,9 @@ PRIVATE bool_t bAppLeaveAndResetPending = FALSE; /* appui 10 s : leave en cours 
 PRIVATE bool_t bReportAtWindowEnd = FALSE;      /* rapport complet à la fin de la fenêtre de poll */
 PRIVATE bool_t bIndexPollWindow = FALSE;        /* window opened for the index ACK: short extension */
 PRIVATE bool_t bBindPollWindow = FALSE;         /* window kept open for the coordinator configuration: not shortened */
+PRIVATE bool_t bAnnounceResent = FALSE;         /* Device Announce already re-sent for this join / rejoin */
+
+PRIVATE bool_t bResendDeviceAnnounce(void);
 
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -170,14 +173,32 @@ PUBLIC void APP_cbTimerPoll( void * pvParam)
                 DBG_vPrintf(TRUE, "\r\nLEAVE: no confirm, forcing factory reset");
                 vAppFinishLeaveAndReset();
             }
+            if (bReportAtWindowEnd && !bAnnounceResent && !bAppLeaveAndResetPending && !bAppMeteringIsBound())
+            {
+                /* The coordinator did not configure the device during the whole window
+                 * (it may have missed the Device Announce sent after the join). Re-send
+                 * the Device Announce once and listen 5 s more (5 s more after each
+                 * frame received); the report goes out at the end of that window. */
+                bAnnounceResent = TRUE;
+                if (bResendDeviceAnnounce())
+                {
+                    vStartPersistentPollWindow(APP_ANNOUNCE_POLL_COUNT);
+                    return;
+                }
+            }
             if (bReportAtWindowEnd)
             {
                 /* Fin d'appairage / rejoin : interview et binds terminés,
                  * envoyer index, batterie et température pour montrer que ça marche */
                 bReportAtWindowEnd = FALSE;
                 vSendAllReportToCoordinator();
-                /* Rester éveillé 1 s le temps que les trames partent (et un éventuel retour) */
-                vStartPersistentPollWindow(APP_REPORT_POLL_COUNT);
+                /* Rester éveillé 1 s le temps que les trames partent (et un éventuel retour).
+                 * Sauf si l'envoi de l'index a déjà ouvert sa fenêtre d'ACK (2 s) : la
+                 * remplacer la raccourcissait et une réponse la prolongeait alors de 5 s. */
+                if (!APP_bPersistantPolling)
+                {
+                    vStartPersistentPollWindow(APP_REPORT_POLL_COUNT);
+                }
             }
             return;
         }
@@ -268,6 +289,43 @@ PUBLIC void vStartIndexPollWindow(void)
 PUBLIC void vRequestReportAtPollWindowEnd(void)
 {
     bReportAtWindowEnd = TRUE;
+    bAnnounceResent = FALSE;    /* new join / rejoin: one re-announce allowed */
+}
+
+/****************************************************************************
+ *
+ * NAME: bResendDeviceAnnounce
+ *
+ * DESCRIPTION:
+ * Broadcast a ZDO Device Announce again, as sent by the stack after a join,
+ * so that a coordinator that missed it starts its interview.
+ *
+ * RETURNS:
+ * TRUE if the frame was handed to the stack
+ *
+ ****************************************************************************/
+PRIVATE bool_t bResendDeviceAnnounce(void)
+{
+    ZPS_tsAplZdpDeviceAnnceReq sReq;
+    uint8 u8Seq;
+    ZPS_teStatus eStatus;
+    PDUM_thAPduInstance hAPduInst = PDUM_hAPduAllocateAPduInstance(apduZDP);
+
+    if (hAPduInst == PDUM_INVALID_HANDLE)
+    {
+        DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nANNOUNCE: no APDU");
+        return FALSE;
+    }
+    sReq.u16NwkAddr  = ZPS_u16AplZdoGetNwkAddr();
+    sReq.u64IeeeAddr = ZPS_u64AplZdoGetIeeeAddr();
+    sReq.u8Capability = 0x80;   /* sleepy end device on battery, address allocated */
+    eStatus = ZPS_eAplZdpDeviceAnnceRequest(hAPduInst, &u8Seq, &sReq);
+    if (eStatus != ZPS_E_SUCCESS)
+    {
+        PDUM_eAPduFreeAPduInstance(hAPduInst);
+    }
+    DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nANNOUNCE: not configured by the coordinator, Device Announce re-sent (%d)", eStatus);
+    return (eStatus == ZPS_E_SUCCESS);
 }
 
 /* Shortens the persistent poll window (index ACK received: no need to stay
@@ -279,6 +337,10 @@ PUBLIC void vShortenPersistentPollWindow(uint32 u32Count)
         !bAppRejoinInProgress && (u32countStart > u32Count))
     {
         u32countStart = u32Count;
+        /* From now on a received frame (the poll confirm that carried the ACK
+         * comes right after it) extends the window by APP_INDEX_POLL_EXTEND
+         * only, not by the 5 s of pairing (button window: ~5 s awake for nothing) */
+        bIndexPollWindow = TRUE;
     }
 }
 
