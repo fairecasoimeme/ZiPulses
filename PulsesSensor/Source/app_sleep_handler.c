@@ -851,6 +851,9 @@ PRIVATE void vWakeCallBack(void)
     /* Time elapsed since the last full report */
     u32SecondsSinceFullReport += u32CurrentPeriodS;
 
+    /* Index frame still pending after a sleep: give the stack a full wait again, awake */
+    vIndexAckWakeTick();
+
     /* Fast wakes while the index changes, for one minute after the last pulse */
     if (bAppIsMainsPowered() && (sDeviceCounter.counter != u32CounterAtLastWake))
     {

@@ -157,6 +157,13 @@ PUBLIC void APP_cbTimerPoll( void * pvParam)
      * pas par les poll confirm qui peuvent s'enchaîner très vite */
     if (APP_bPersistantPolling)
     {
+        if ((u32countStart == 0) && !bAppLeaveAndResetPending && bIndexAckWaitActive())
+        {
+            /* Index frame still in the stack (whatever window is ending: index
+             * ACK, full report, pairing): stay awake and polling, to receive
+             * the ACK, until its ACK/failure event or the cap */
+            u32countStart = 1;
+        }
         if (u32countStart == 0)
         {
             DBG_vPrintf(TRACE_NWK_EVENT_HANDLER, "\r\nPoll: Persistent window elapsed, stopping");
@@ -255,6 +262,12 @@ PUBLIC void vStartIndexPollWindow(void)
 {
     vStartPersistentPollWindow(APP_INDEX_POLL_COUNT);
     bIndexPollWindow = TRUE;
+}
+
+/* TRUE while the running persistent window is an index ACK window */
+PUBLIC bool_t bIsIndexPollWindow(void)
+{
+    return (APP_bPersistantPolling && bIndexPollWindow);
 }
 
 /****************************************************************************
