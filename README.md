@@ -352,6 +352,7 @@ Normalement, le nouveau coefficient doit s'appliquer correctement.
 
 **Pre-release for testing.** Goal: a coordinator interview without lost messages, and less radio time at the end of pairing.
 
+* Fix index going back by 1 to 3 in zigbee2mqtt during a flow (introduced in v12.1 by #66): only one index frame at a time in the Zigbee stack, the device stays awake until its acknowledgement or final failure (10 s at most), and an index that changed meanwhile goes out right after (#74, thanks @swknf)
 * Zigbee MAC management queue (MLME) enlarged from 4 to 8 entries: during the coordinator interview, MAC confirms and indications were dropped (ZPS error 3, queue overrun)
 * Fix end of pairing / rejoin: the 1 s window opened after the full report no longer replaces the 2 s window waiting for the index acknowledgement (a coordinator reply then kept the radio on 5 s more)
 * Fix button press: the index acknowledgement no longer keeps the radio on 5 s more (about 0.5 s awake instead of 5.6 s)
