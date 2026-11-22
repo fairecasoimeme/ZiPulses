@@ -64,6 +64,7 @@ PUBLIC void vStartPollTimer(uint32 u32PollInterval);
 PUBLIC void vStartPersistentPollWindow(uint32 u32Count);
 PUBLIC void vExtendPersistentPollWindow(void);
 PUBLIC void vStartIndexPollWindow(void);
+PUBLIC bool_t bIsIndexPollWindow(void);
 PUBLIC void vShortenPersistentPollWindow(uint32 u32Count);
 PUBLIC void vEnsurePersistentPollWindow(uint32 u32Count);
 PUBLIC bool_t bAppMeteringIsBound(void);

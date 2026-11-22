@@ -50,6 +50,7 @@
 #include "App_PulsesSensor.h"
 #include "app_zlo_sensor_node.h"
 #include "app_nwk_event_handler.h"
+#include "app_events.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
@@ -68,6 +69,7 @@
 /****************************************************************************/
 /***        Local Function Prototypes                                     ***/
 /****************************************************************************/
+PRIVATE void vQueueIndexReport(void);
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -239,6 +241,18 @@ PUBLIC void vSaveReportableRecord(  uint16 u16ClusterID,
 PUBLIC uint32 u32ConfirmedIndex = 0xFFFFFFFF;
 PRIVATE uint32 u32SentIndex = 0;
 PRIVATE bool_t bIndexAckPending = FALSE;
+/* Start (ms, awake time) of the wait for the pending index frame's ACK */
+PRIVATE uint32 u32IndexAckStartMs = 0;
+extern uint32_t OSA_TimeGetMsec(void);
+
+/* Only one index frame in the stack at a time. The stack retries an APS frame
+ * by itself (apscMaxFrameRetries) with its original payload; its retry timer is
+ * frozen while the device sleeps, so a retry could go out after a newer index
+ * sent at the next wake, and zigbee2mqtt then saw the index go back by 1 to 3.
+ * The device therefore stays awake (index poll window, no forced sleep) until
+ * the stack's ACK/failure event, at most INDEX_ACK_MAX_MS: longer than all the
+ * stack's attempts, so past it the frame is over and is given up. */
+#define INDEX_ACK_MAX_MS   10000UL
 
 /****************************************************************************
  *
@@ -259,6 +273,22 @@ PUBLIC void vSendImmediateIndexReport(void)
 	teZCL_Status eStatus;
 
 	DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: vSendImmediateIndexReport(%d)", (uint32)sDeviceCounter.counter);
+
+	/* Previous index frame still in the stack (waiting for its ACK or being
+	 * retried): sending now would let its retry, with an older index, arrive
+	 * after this one. The current index goes out when its ACK event arrives
+	 * (vIndexAckReceived) or when it is given up (vIndexAckWakeTick). */
+	if (bIndexAckPending)
+	{
+		DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: index %d deferred, index %d still waiting for ACK",
+		            (uint32)sDeviceCounter.counter, u32SentIndex);
+		/* Stay awake until the stack has finished with the previous frame */
+		if (!APP_bPersistantPolling)
+		{
+			vStartIndexPollWindow();
+		}
+		return;
+	}
 
 	/* get buffer to write the response in*/
 	myPDUM_thAPduInstance = hZCL_AllocateAPduInstance();
@@ -293,9 +323,11 @@ PUBLIC void vSendImmediateIndexReport(void)
 		{
 			DBG_vPrintf(TRACE_REPORT, ", SUCCESS (waiting for ACK)");
 			bIndexAckPending = TRUE;
+			u32IndexAckStartMs = OSA_TimeGetMsec();
 			/* Stay awake and poll the parent to receive the ACK,
-			 * unless a window (pairing, rejoin) is already open */
-			if (!APP_bPersistantPolling)
+			 * unless a window (pairing, rejoin) is already open; an index
+			 * window (previous index just confirmed) is restarted */
+			if (!APP_bPersistantPolling || bIsIndexPollWindow())
 			{
 				vStartIndexPollWindow();
 			}
@@ -332,14 +364,98 @@ PUBLIC void vIndexAckReceived(uint8 u8Status)
         u32ConfirmedIndex = u32SentIndex;
         u8NbFailedTransmit = 0;
         DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: index %d confirmed", u32ConfirmedIndex);
-        /* No need to stay awake any more */
-        vShortenPersistentPollWindow(1);
+        if (bIndexNotConfirmed() && APP_bNodeIsInRunningState() &&
+            !bBDBJoinFailed && !bAppRejoinInProgress)
+        {
+            /* The index changed while waiting (send deferred): send it now,
+             * the coordinator is reachable */
+            vQueueIndexReport();
+        }
+        else
+        {
+            /* No need to stay awake any more */
+            vShortenPersistentPollWindow(1);
+        }
     }
     else
     {
         u8NbFailedTransmit++;
         DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: no ACK for index %d (status 0x%02x, failures %d)",
                     u32SentIndex, u8Status, u8NbFailedTransmit);
+        /* Current index resent at the next wake (bIndexNotConfirmed) */
+        vShortenPersistentPollWindow(1);
+    }
+}
+
+/****************************************************************************
+ *
+ * NAME: bIndexAckWaitActive
+ *
+ * DESCRIPTION:
+ * Called when the index poll window ends: TRUE to keep it open because the
+ * stack still holds the index frame. Past INDEX_ACK_MAX_MS of awake time, the
+ * stack has finished its attempts: the frame is given up (counts as a failure)
+ * and the current index is resent at the next wake.
+ *
+ ****************************************************************************/
+PUBLIC bool_t bIndexAckWaitActive(void)
+{
+    if (!bIndexAckPending)
+    {
+        return FALSE;
+    }
+    if ((OSA_TimeGetMsec() - u32IndexAckStartMs) < INDEX_ACK_MAX_MS)
+    {
+        return TRUE;
+    }
+    bIndexAckPending = FALSE;
+    u8NbFailedTransmit++;
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: no ACK event for index %d after %d ms, given up (failures %d)",
+                u32SentIndex, INDEX_ACK_MAX_MS, u8NbFailedTransmit);
+    return FALSE;
+}
+
+/****************************************************************************
+ *
+ * NAME: vIndexAckWakeTick
+ *
+ * DESCRIPTION:
+ * Called at each wake. A frame still pending here means the device slept
+ * before the stack's event (window cut by a rejoin, or forced sleep after the
+ * 5 min safety net): the stack's timers were frozen, so give it a full wait
+ * again, awake, before anything newer is sent.
+ *
+ ****************************************************************************/
+PUBLIC void vIndexAckWakeTick(void)
+{
+    if (!bIndexAckPending)
+    {
+        return;
+    }
+    u32IndexAckStartMs = OSA_TimeGetMsec();
+    DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: index %d still waiting for ACK after sleep", u32SentIndex);
+    if (!APP_bPersistantPolling && APP_bNodeIsInRunningState() &&
+        !bBDBJoinFailed && !bAppRejoinInProgress)
+    {
+        vStartIndexPollWindow();
+    }
+}
+
+/****************************************************************************
+ *
+ * NAME: vQueueIndexReport
+ *
+ * DESCRIPTION:
+ * Queue a send of the current index (APP_E_EVENT_PERIODIC_REPORT).
+ *
+ ****************************************************************************/
+PRIVATE void vQueueIndexReport(void)
+{
+    APP_tsEvent sAppEvent;
+    sAppEvent.eType = APP_E_EVENT_PERIODIC_REPORT;
+    if (ZQ_bQueueSend(&APP_msgAppEvents, &sAppEvent) == FALSE)
+    {
+        DBG_vPrintf(TRACE_REPORT, "\r\nREPORT: index send not queued");
     }
 }
 
